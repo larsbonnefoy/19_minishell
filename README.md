@@ -1,1 +1,1 @@
-<div class="tenor-gif-embed" data-postid="15329743" data-share-method="host" data-aspect-ratio="1.5311" data-width="100%"><a href="https://tenor.com/view/surprised-pikachu-surprised-pikachu-face-face-gif-15329743">Surprised Pikachu GIF</a>from <a href="https://tenor.com/search/surprised-gifs">Surprised GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+https://tenor.com/view/surprised-pikachu-surprised-pikachu-face-face-gif-15329743
