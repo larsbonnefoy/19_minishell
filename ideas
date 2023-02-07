@@ -1,0 +1,20 @@
+typedef s_cmds
+{
+	char *cmd;
+	char *option; 
+	char **file;
+}
+
+typedef s_cmd_tb
+{
+	t_cmd **cmds;
+	char *infile;
+	char *outfile;
+	char *errfile;
+		
+}	t_cmb_tb;
+
+int main ()
+{
+	t_cmd_tb *tb;
+}	
