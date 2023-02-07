@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>URL</key>
-	<string>mailto:git@github.com:larsbonnefoy/19_minishell.git</string>
+	<string>https://github.com/maiadegraaf/minishell</string>
 </dict>
 </plist>
