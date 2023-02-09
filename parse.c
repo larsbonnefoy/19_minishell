@@ -1,4 +1,4 @@
-enum tokens
+enum metacharacter
 {
 	pipe = '|' ,
 	s_quote = 39,
@@ -9,6 +9,7 @@ enum tokens
 	
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 char	*ft_strldup(char *s, int max_len)
 {
 	int		len;
@@ -48,24 +49,33 @@ int	is_token(int c)
 	return (0);
 }
 
-char	*in_quotes(char *str, int quote)
+char	*in_d_quotes(char *str)
 {
 	char	*res;
-	int		len;
 	int		i;
+	int		nbr_d_quote;
 
-	len = -1;
+	i = -1;
 	if (!str)
 		return (NULL);
-	while (str[++len] != quote)
+	while (str[++i])
 	{
-		if (str[len] == '\0')
-			return (NULL);
+		if (str[i] == d_quote)
+			return (ft_strldup(&str[1], i));
 	}
-	return (ft_strldup(str, len));
+	if (i == strlen(str))
+		return (NULL);
+	res = ft_strldup(&str[1], i); 
+	return (NULL);
 }
 
 int main()
 {
-	printf("%s\n", in_quotes("test\"test", 34));
+	char sys_str[200] = "echo ";
+	char test[] = "\"\'\"4444\"\"";
+	
+	printf("%s\n", in_d_quotes(test));
+	strcat(sys_str, test);
+	system(sys_str);
+
 }
