@@ -59,7 +59,6 @@ char	*ft_strldup(char *s, int max_len)
 	res = malloc(sizeof(char) * (len));
 	if (!res)
 		return (NULL);
-	printf("len %d\n",len);
 	while (s[++i] && i < len - 1)
 	{
 		res[i] = s[i];
@@ -123,9 +122,9 @@ char	*cleaner(char *str)
 	cleaned = malloc(sizeof(char) + 1);
 	if (!cleaned)
 		return (NULL);
+	cleaned[0] = ' ';
 	while (str[++i])
 	{
-		printf("str[i] = %c\n", str[i]);
 		if (str[i] == d_quote)
 		{
 			to_join = in_quotes(&str[i], &i, d_quote);
@@ -148,7 +147,7 @@ char	*cleaner(char *str)
 int main()
 {
 	char sys_str[200] = "echo ";
-	char test[] = "\"$PATH\"";
+	char test[] = "'no quotes'";
 	
 	char *clean = cleaner(test);
 	printf("i prev = %d \n%s\n i = %d\n", 1, clean, 1);
