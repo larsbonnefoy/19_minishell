@@ -95,7 +95,7 @@ char	*in_quotes(char *str, int *i, int quote_type)
 	return (NULL);
 }
 
-char	*expender(char *str)
+char	*expander(char *str)
 {
 	return (str);
 	//TODO
@@ -120,15 +120,17 @@ char	*cleaner(char *str)
 	if (!str)
 		return (NULL);
 	i = -1;
-	cleaned = malloc(sizeof(char));
+	cleaned = malloc(sizeof(char) + 1);
 	if (!cleaned)
 		return (NULL);
-	cleaned =  "";
 	while (str[++i])
 	{
 		printf("str[i] = %c\n", str[i]);
 		if (str[i] == d_quote)
+		{
 			to_join = in_quotes(&str[i], &i, d_quote);
+			expander(to_join);
+		}
 		else if (str[i] == s_quote)
 			to_join = in_quotes(&str[i], &i, s_quote);
 		else
@@ -136,7 +138,7 @@ char	*cleaner(char *str)
 		if (!to_join)
 			return (NULL);
 		tmp = cleaned;
-		cleaned = ft_strjoin(tmp, to_join);
+		cleaned = ft_strjoin(cleaned, to_join);
 		free(tmp);
 		free(to_join);
 	}
@@ -146,10 +148,13 @@ char	*cleaner(char *str)
 int main()
 {
 	char sys_str[200] = "echo ";
-	char test[] = "'$PATH'";
+	char test[] = "\"$PATH\"";
 	
-	printf("i prev = %d \n%s\n i = %d\n", 1, cleaner(test), 1);
+	char *clean = cleaner(test);
+	printf("i prev = %d \n%s\n i = %d\n", 1, clean, 1);
+	free(clean);
 	strcat(sys_str, test);
 	system(sys_str);
+//	system("leaks a.out");
 
 }
