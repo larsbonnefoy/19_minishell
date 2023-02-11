@@ -44,6 +44,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (strjoin);
 }
 
+/*
+ * strdup but either stop at the EOS or at max_len
+ */
 char	*ft_strldup(char *s, int max_len)
 {
 	int		len;
@@ -67,6 +70,9 @@ char	*ft_strldup(char *s, int max_len)
 	return (res);
 }
 
+/* 
+ * returns the token ASCII value or 0 if its not a token
+ */
 int	is_token(int c)
 {
 	if (c == pipe)
@@ -82,6 +88,9 @@ int	is_token(int c)
 	return (0);
 }
 
+/*
+ *
+ */
 char	*in_quotes(char *str, int *i, int quote_type)
 {
 	char	*res;
