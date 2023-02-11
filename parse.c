@@ -100,15 +100,6 @@ char	*expander(char *str)
 	//TODO
 }
 
-/*
-* arg_parser take a string as input, following the argv syntax but as a long string. 
-* eg : CMD_NAME arg1 arg2 ...etc
-* The function divide the input string at every Space (" ") into smallers words, 
-* remove quotes characters and expand variables if needed using the funtion cleaner and expender
-* It returns the list of every new strings in order of appearance in the original string
-* eg : {"CMD_NAME", "arg1", "arg2", ...} 
-*
-*/ 
 char	*cleaner(char *str)
 {
 	int		i;
