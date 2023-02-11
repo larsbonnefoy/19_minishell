@@ -56,10 +56,10 @@ char	*ft_strldup(char *s, int max_len)
 		;
 	if (len > max_len)
 		len = max_len;
-	res = malloc(sizeof(char) * (len));
+	res = malloc(sizeof(char) * (len) + 1);
 	if (!res)
 		return (NULL);
-	while (s[++i] && i < len - 1)
+	while (s[++i] && i < len)
 	{
 		res[i] = s[i];
 	}
@@ -90,7 +90,7 @@ char	*in_quotes(char *str, int *i, int quote_type)
 		return (NULL);
 	while (str[++(*i)])
 		if (str[*i] == quote_type && *i != 0)
-			return (ft_strldup(&str[1], *i));
+			return (ft_strldup(&str[1], *i - 1));
 	return (NULL);
 }
 
@@ -122,13 +122,13 @@ char	*cleaner(char *str)
 	cleaned = malloc(sizeof(char) + 1);
 	if (!cleaned)
 		return (NULL);
-	cleaned[0] = ' ';
+	cleaned[0] = '\0';
 	while (str[++i])
 	{
 		if (str[i] == d_quote)
 		{
 			to_join = in_quotes(&str[i], &i, d_quote);
-			expander(to_join);
+			//expander(to_join);
 		}
 		else if (str[i] == s_quote)
 			to_join = in_quotes(&str[i], &i, s_quote);
@@ -147,13 +147,13 @@ char	*cleaner(char *str)
 int main()
 {
 	char sys_str[200] = "echo ";
-	char test[] = "'no quotes'";
+	char test[] = "\"ec\"ho";
 	
 	char *clean = cleaner(test);
-	printf("i prev = %d \n%s\n i = %d\n", 1, clean, 1);
+	printf("%s\n", clean);
 	free(clean);
 	strcat(sys_str, test);
-	system(sys_str);
-//	system("leaks a.out");
+	//system(sys_str);
+	//system("leaks a.out");
 
 }
