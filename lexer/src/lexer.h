@@ -1,36 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.c                                        :+:      :+:    :+:   */
+/*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 11:48:00 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/11 14:55:43 by lbonnefo         ###   ########.fr       */
+/*   Created: 2023/02/11 14:43:01 by lbonnefo          #+#    #+#             */
+/*   Updated: 2023/02/12 12:11:12 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef LEXER_H
+#define LEXER_H
 
-char *get_line(void)
+#define S_QUOTE 39
+#define D_QUOTE 34
+
+# include<stdlib.h>
+# include"../../libft/libft.h"
+
+/*
+	Ascii values of | < >
+*/
+
+typedef enum token
 {
-	char *line;
+	PIPE = 124,
+	GREATER = 62,
+	LOWER = 60,
 
-	line = readline("Sea-Shell>");
+}	e_token;
 
-	return (line);
-}
-
-int main(int argc, char **argv)
+typedef struct lexer
 {
-	char *line;
+	char			*str;
+	e_token			token;
+	struct lexer 	*next;
 
-	while (1)
-	{
-		line = get_line();
-		printf("%s\n", line);	
-		free(line);
-	}
-	return(0);
-}
+}	t_lexer;
 
+t_lexer  *tokenize(char *input_string);
+#endif
