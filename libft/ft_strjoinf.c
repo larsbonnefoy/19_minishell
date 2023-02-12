@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 08:19:34 by lbonnefo          #+#    #+#             */
-/*   Updated: 2022/11/28 09:13:54 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/12 11:12:14 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strjoinf(const char *s1, const char *s2)
 	int		b;
 	char	*str;
 
+	if (s1 == NULL)
+		return ((char *)s2);
 	a = -1;
 	b = -1;
 	size = ft_strlen(s1) + ft_strlen(s2);
