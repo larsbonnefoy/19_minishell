@@ -1,6 +1,6 @@
 enum metacharacter
 {
-	pipe = '|' ,
+//	pipe = '|' ,
 	s_quote = 39,
 	d_quote = 34,
 	greater = '<',
@@ -10,6 +10,9 @@ enum metacharacter
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 size_t	ft_strlen(char *str)
 {
@@ -18,6 +21,29 @@ size_t	ft_strlen(char *str)
 		return (-1);
 	while (str[++i]);
 	return (i);
+}
+
+char	*ft_strdup(char *s)
+{
+	int		len;
+	int		i;
+	char	*res;
+	
+	if (!s)
+		return (NULL);
+	len = -1;
+	i = -1;
+	while (s[++len])
+		;
+	res = malloc(sizeof(char) * (len + 1));
+	if (!res)
+		return (0);
+	while (s[++i])
+	{
+		res[i] = s[i];
+	}
+	res[i] = '\0';
+	return (res);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -71,12 +97,12 @@ char	*ft_strldup(char *s, int max_len)
 }
 
 /* 
- * returns the token ASCII value or 0 if its not a token
+ * returns the token ASCII value or 0 if it's not a token
  */
 int	is_token(int c)
 {
-	if (c == pipe)
-		return (pipe);
+//	if (c == pipe)
+//		return (pipe);
 	if (c == d_quote)
 		return (d_quote);
 	if (c == s_quote)
@@ -89,25 +115,110 @@ int	is_token(int c)
 }
 
 /*
- *
+ * str is a string in quotes, i is the address of the position 
+ * of the first character of str in the parent str.
+ * quote_type is either " or '
+ * the function returns the str without the enclosing quotes
+ * if quote_type = -1 the function returns a sub str that stops at the first quote in str or EOS
  */
 char	*in_quotes(char *str, int *i, int quote_type)
 {
 	char	*res;
+	int		tmp;
 
 	if (!str)
 		return (NULL);
-	while (str[++(*i)])
-		if (str[*i] == quote_type && *i != 0)
-			return (ft_strldup(&str[1], *i - 1));
+	tmp = *i;
+	if (quote_type > 0)
+	{
+		while (str[++(*i)])
+			if (str[*i] == quote_type && *i != tmp)
+				return (ft_strldup(&str[tmp + 1], *i - tmp - 1));
+	}
+	else
+	{
+		while (str[++(*i)])
+			if ((str[*i] == d_quote || str[*i] == s_quote))
+				return (ft_strldup(&str[tmp], *i - tmp - 1));
+		*i = *i - 1;
+		return (ft_strdup(str));
+	}
 	return (NULL);
 }
 
+/*
+ * expands $
+ * local variable suport to add
+ * $? suport to add 
+ * ~ idk if we need
+ */
 char	*expander(char *str)
 {
-	return (str);
-	//TODO
+	char	*expanded;
+	char	*to_join;
+	char	*tmp;
+	char	*var;
+	int		i;
+
+	if (!str)
+		return (NULL);
+	i  = 0;
+	expanded = malloc(sizeof(char) + 1);
+	if (!expanded)
+		return (NULL);
+	expanded[0] = '\0';
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			if (str[++i] == ' ')
+				to_join = ft_strldup(&str[i - 1], 1);
+			if (str[i] == '\0')
+				to_join = ft_strldup(&str[i - 1], 1);
+			else
+			{
+				var = malloc(sizeof(char) + 1);
+				if (!var)
+					return (NULL);
+				var[0] = '\0';
+				while (str[i] != ' ' && str[i] != '\0')
+				{
+					tmp = var;
+					to_join = ft_strldup(&str[i], 1);
+					var = ft_strjoin(var, to_join);
+					free(to_join);
+					free(tmp);
+					i++;
+				}
+				
+				to_join = ft_strdup(getenv(var));
+				free(var);
+				if (!to_join)
+					to_join =ft_strdup("");
+			}
+			tmp = expanded;
+			expanded = ft_strjoin(expanded, to_join);
+			free(tmp);
+			free(to_join);
+		}
+		else
+		{
+			tmp = expanded;
+			to_join = ft_strldup(&str[i], 1);
+			expanded = ft_strjoin(expanded, to_join);
+			free(tmp);
+			free(to_join);
+			i++;
+		}
+	}
+	return (expanded);
 }
+
+/*
+ * The cleaner function cleans str of every enclosing quote either " or '
+ * and expand the enclosed values if they're in "
+ * Cleaner returns the sanitized str
+ */
 
 char	*cleaner(char *str)
 {
@@ -127,13 +238,20 @@ char	*cleaner(char *str)
 	{
 		if (str[i] == d_quote)
 		{
-			to_join = in_quotes(&str[i], &i, d_quote);
-			//expander(to_join);
+			to_join = in_quotes(str, &i, d_quote);
+			tmp = to_join;
+			to_join = expander(to_join);
+			free(tmp);
 		}
 		else if (str[i] == s_quote)
-			to_join = in_quotes(&str[i], &i, s_quote);
+			to_join = in_quotes(str, &i, s_quote);
 		else
-			to_join = ft_strldup(&str[i], 1);
+		{
+			to_join = in_quotes(str, &i, -1);
+			tmp = to_join;
+			to_join = expander(to_join);
+			free(tmp);
+		}
 		if (!to_join)
 			return (NULL);
 		tmp = cleaned;
@@ -144,16 +262,37 @@ char	*cleaner(char *str)
 	return (cleaned);
 }
 
-int main()
+char *get_line(void)
 {
-	char sys_str[200] = "echo ";
-	char test[] = "\"ec\"ho";
-	
-	char *clean = cleaner(test);
-	printf("%s\n", clean);
-	free(clean);
-	strcat(sys_str, test);
-	//system(sys_str);
-	//system("leaks a.out");
+	char *line;
 
+	line = readline("Sea-Shell>");
+
+	return (line);
 }
+
+int main(int argc, char **argv, char **env)
+{
+	char *line;
+	char *clean;
+	(void) argc;
+	(void) argv;
+	int	i =-1;
+//	while (env[++i])
+//		printf("%s\n",env[i]);
+	//printf("%s\n",getenv("?"));
+	while (1)
+	{
+		char sys_str[200] = "echo echo :";
+		line = get_line();
+		clean = cleaner(line);
+		printf("input :%s\n", line);
+		printf("cleaned :%s\n", clean);
+		free(clean);
+		strcat(sys_str, line);
+		system(sys_str);
+		free(line);
+	}
+	return(0);
+}
+
