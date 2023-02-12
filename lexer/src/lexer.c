@@ -16,6 +16,7 @@
 int	find_quotes(char *str, char matching_q);
 char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length);
 char *remove_sub_quotes(char *str);
+int is_quote(char c);
 
 /*
 	Split the input string into words and tokens
@@ -30,7 +31,7 @@ t_lexer  *tokenize(char *input_string)
 
 	lexer = NULL;
 	clean_str = remove_sub_quotes(input_string);
-	printf("%s\n", clean_str);
+	printf("cleaned string = %s\n", clean_str);
 	return (lexer);
 }
 
@@ -50,11 +51,11 @@ char *remove_sub_quotes(char *str)
 	clean_str = NULL;
 	while (str[curr_pos])
 	{
-		while (str[curr_pos] != S_QUOTE || str[curr_pos] != D_QUOTE) //what happens if str begins with "" or '' ? 
+		while (!is_quote(str[curr_pos]) && str[curr_pos] != '\0') 
 			curr_pos++;
 		if (curr_pos != 0)
 			clean_str = join_substr(str, clean_str, beg_sub, curr_pos - beg_sub);
-		else if (str[curr_pos] == S_QUOTE || str[curr_pos] == D_QUOTE)
+		else if (is_quote(str[curr_pos]))
 		{
 			next_matching_q = find_quotes(str + curr_pos, str[curr_pos]);
 			if (!next_matching_q)
@@ -86,6 +87,13 @@ int	find_quotes(char *str, char matching_q)
 	return (0);
 }
 
+int is_quote(char c)
+{
+	if (c == S_QUOTE || c == D_QUOTE)
+		return (1);
+	return (0);
+}
+
 char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)
 {
 	char	*sub_str;
@@ -93,8 +101,7 @@ char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)
 
 	new_clean_str = NULL;
 	sub_str = ft_substr(main_str, beg_sub_str, length);
-	if (sub_str[0] != '\0') //add only if the substring is not empty
-		new_clean_str = ft_strjoinf(clean_str, sub_str);
-	free(sub_str);
+	printf("substr = %s\n", sub_str);
+	new_clean_str = ft_strjoinf(clean_str, sub_str);
 	return (new_clean_str);
 }

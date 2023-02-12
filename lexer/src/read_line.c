@@ -25,15 +25,16 @@ char *get_line(void)
 int main(int argc, char **argv)
 {
 	char *line;
-	t_lexer *lexer;
 	(void) argc;
 	(void) argv;
+	t_lexer *lexer;
 	while (1)
 	{
 		line = get_line();
-		printf("%s\n", line);	
+		printf("input line = %s\n", line);	
 		lexer = tokenize(line);
 		free(line);
+		free(lexer);
 	}
 	return(0);
 }
