@@ -10,3 +10,4 @@ echo -n ""
 ??? echo salut "" les "" amis : il faut garder 1 espace de chaque cote des quotes
 ech"o""salut/\n/\n"
 	->bah: echosalut/\n/\n: No such file or directory
+

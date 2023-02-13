@@ -6,16 +6,17 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/13 15:13:15 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:52:24 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include <stdio.h>
 
+int remove_quotes(char *main_str, char *sub_str, int beg_sub_str);
 int	find_quotes(char *str, char matching_q);
 char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length);
-char *remove_sub_quotes(char *str);
+char *handle_sub_quotes(char *str);
 int is_quote(char c);
 
 /*
@@ -30,7 +31,7 @@ t_lexer  *tokenize(char *input_string)
 	char	*clean_str;
 
 	lexer = NULL;
-	clean_str = remove_sub_quotes(input_string);
+	clean_str = handle_sub_quotes(input_string);
 	printf("cleaned string = %s\n", clean_str);
 	return (lexer);
 }
@@ -40,7 +41,7 @@ t_lexer  *tokenize(char *input_string)
 		->if they are empty && direclty next to char ! from space or ht
 	Send back every non-empty string enclosed by the same quotes
 */
-char *remove_sub_quotes(char *str)
+char *handle_sub_quotes(char *str)
 {
 	int		curr_pos;
 	int		beg_sub;
@@ -130,35 +131,48 @@ char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)
 	if (sub_str == NULL)
 		return (NULL);
 	printf("substr = %s\n", sub_str);
-	new_clean_str = ft_strjoinf(clean_str, sub_str);
+	if (!(remove_quotes(main_str, sub_str, beg_sub_str)))
+	{
+		new_clean_str = ft_strjoinf(clean_str, sub_str);
+		return (new_clean_str);
+	}
+	else
+	{
+		free(sub_str);
+		return (clean_str);
+	}
 	//free(sub_str);
-	return (new_clean_str);
+	//??
 }
 
 /*
-int leave_quotes(char *str, int beg_sub_str)
+ * Returns 1 the quotes have to removed
+ * Else retunrs 0
+ */
+int remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
 {
 	int len;
+	char elem_left;
+	char elem_right;
 
-	len = ft_strlen(str);
-	if (len == 2)
+	len = ft_strlen(sub_str);
+	if (len != 2 || !(is_quote(sub_str[0]) && is_quote(sub_str[1])))
+		return (0);
+	elem_right = main_str[beg_sub_str + len];
+	if (beg_sub_str != 0)
+		elem_left = main_str[beg_sub_str -1];
+	if (beg_sub_str == 0) 
 	{
-		if (is_quote(str[0]) && is_quote(str[1]))
-		{
-			if (beg_sub_str == 0) //just check to the right
-				
-			else if (str[beg_sub_str + 1] == '\0') //just check to the left
-
-			else
-								
-		
-		}
-	
+		if (is_space_or_ht(elem_right))	
+			return (0);
 	}
+	else if (main_str[beg_sub_str + len] == '\0') 
+	{
+		if (is_space_or_ht(elem_left))	
+			return (0);
+	}
+	else
+		if (is_space_or_ht(elem_left) && is_space_or_ht(elem_right))
+			return (0);
+	return (1);
 }
-/*
- *  if len = 2
- *		if str[0] et str[1] sont des quotes
- *			if left ou right char different de ht ou space 
- *				alors join pas
- */
