@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:51:12 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/13 08:51:13 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/13 10:06:52 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,5 @@
 # define S_QUOTE 39
 # define D_QUOTE 34
 
+char	*cleaner(char *str);
 #endif

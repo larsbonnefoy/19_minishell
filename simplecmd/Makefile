@@ -6,13 +6,19 @@
 
 NAME = smpcmd
 
-FILES = parse.c
+FILES = parse.c read_line.c
 
 SRCS = $(addprefix src/, $(FILES))
 
 OBJ = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror
+VAR = 0
+
+# ifeq ($(VAR), 0)
+	CFLAGS = -Wall -Wextra -Werror $(FFLAGS)
+# else
+# 	CFLAGS = -Wall -Wextra -Werror $(FFLAGS)
+# endif
 
 FFLAGS = -fsanitize=address -g
 
@@ -57,7 +63,10 @@ fclean: clean
 
 re :	fclean $(NAME)
 
-.PHONY: all clean fclean re
+# sanitize : all
+# 		VAR = 1
+
+.PHONY: all clean fclean re 
 
 ###################################################################################################
 ############################################MISC###################################################
