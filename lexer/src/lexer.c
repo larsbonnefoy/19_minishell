@@ -53,29 +53,22 @@ char *handle_sub_quotes(char *str)
 	clean_str = NULL;
 	while (str[curr_pos])
 	{
-		printf("-------------BEG---------------\n");
-		printf("main str  = %s\n", str);
-		printf("curr_pos  = %d\n", curr_pos);
 		next_matching_q = 0;
 		if (is_quote(str[curr_pos]))
 		{
 			next_matching_q = find_quotes(str + curr_pos, str[curr_pos]);
 			if (next_matching_q == 0) //Should check for non closed quotes
 				return (NULL);
-			printf("next_matching q = %d\n", next_matching_q);
 			clean_str = join_substr(str, clean_str, beg_sub, next_matching_q);
 		}
 		else
 		{
 			while (str[curr_pos] != '\0' && !is_quote(str[curr_pos]))
 				curr_pos++;
-			printf("copy %d char\n", curr_pos);	
 			clean_str = join_substr(str, clean_str, beg_sub, curr_pos - beg_sub);
 		}
 		curr_pos = curr_pos + next_matching_q;
 		beg_sub = curr_pos;
-		printf("cleaned str = %s\n", clean_str);
-		printf("-------------END---------------\n");
 	}
 	return (clean_str);
 }
@@ -90,7 +83,6 @@ int	find_quotes(char *str, char matching_q)
 	int i;
 
 	i = 1;
-	printf("str find_q = %s\n", str);
 	while (str[i] != '\0')	
 	{
 		if (str[i] == matching_q)
@@ -120,17 +112,12 @@ int is_space_or_ht(char c)
  */
 char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)
 {
-	printf("----------SUB------------\n");
 	char	*sub_str;
 	char	*new_clean_str;
 
-	printf("main str  = %s\n", main_str);
-	printf("beg_sub_str  = %d\n", beg_sub_str);
-	printf("length  = %d\n", length);
 	sub_str = ft_substr(main_str, beg_sub_str, length);
 	if (sub_str == NULL)
 		return (NULL);
-	printf("substr = %s\n", sub_str);
 	if (!(remove_quotes(main_str, sub_str, beg_sub_str)))
 	{
 		new_clean_str = ft_strjoinf(clean_str, sub_str);
@@ -148,6 +135,7 @@ char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)
 /*
  * Returns 1 the quotes have to removed
  * Else retunrs 0
+ * has to work with ""
  */
 int remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
 {
@@ -163,7 +151,7 @@ int remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
 		elem_left = main_str[beg_sub_str -1];
 	if (beg_sub_str == 0) 
 	{
-		if (is_space_or_ht(elem_right))	
+		if (is_space_or_ht(elem_right) || ft_strlen(main_str) == 2)	
 			return (0);
 	}
 	else if (main_str[beg_sub_str + len] == '\0') 
