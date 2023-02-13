@@ -4,26 +4,32 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-D_QUOTE	lexer.h	/^#define D_QUOTE /;"	d
-GREATER	lexer.h	/^	GREATER = 62,$/;"	e	enum:token
-LEXER_H	lexer.h	/^#define LEXER_H$/;"	d
-LOWER	lexer.h	/^	LOWER = 60,$/;"	e	enum:token
-MINISHELL_H	minishell.h	/^#define MINISHELL_H$/;"	d
-PIPE	lexer.h	/^	PIPE = 124,$/;"	e	enum:token
-S_QUOTE	lexer.h	/^#define S_QUOTE /;"	d
-e_token	lexer.h	/^}	e_token;$/;"	t	typeref:enum:token
-find_quotes	lexer.c	/^int	find_quotes(char *str, char matching_q)$/;"	f
-get_line	read_line.c	/^char *get_line(void)$/;"	f
-join_substr	lexer.c	/^char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)$/;"	f
-lexer	lexer.h	/^typedef struct lexer$/;"	s
-lexer_add_back	lexer_list_manager.c	/^void lexer_add_back(t_lexer **lexer_list, t_lexer *new_node)$/;"	f
-lexer_clear_list	lexer_list_manager.c	/^void lexer_clear_list(t_lexer **lexer_list)$/;"	f
-lexer_new_node	lexer_list_manager.c	/^t_lexer *lexer_new_node(char *str, e_token token)$/;"	f
-main	read_line.c	/^int main(int argc, char **argv)$/;"	f
-next	lexer.h	/^	struct lexer 	*next;$/;"	m	struct:lexer	typeref:struct:lexer::lexer
-remove_sub_quotes	lexer.c	/^char *remove_sub_quotes(char *str)$/;"	f
-str	lexer.h	/^	char			*str;$/;"	m	struct:lexer
-t_lexer	lexer.h	/^}	t_lexer;$/;"	t	typeref:struct:lexer
-token	lexer.h	/^	e_token			token;$/;"	m	struct:lexer
-token	lexer.h	/^typedef enum token$/;"	g
-tokenize	lexer.c	/^t_lexer  *tokenize(char *input_string)$/;"	f
+CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g$/;"	m
+D_QUOTE	src/lexer.h	/^#define D_QUOTE /;"	d
+FILES	Makefile	/^FILES = lexer.c \\$/;"	m
+GREATER	src/lexer.h	/^	GREATER = 62,$/;"	e	enum:token
+LEXER_H	src/lexer.h	/^#define LEXER_H$/;"	d
+LOWER	src/lexer.h	/^	LOWER = 60,$/;"	e	enum:token
+MINISHELL_H	src/minishell.h	/^#define MINISHELL_H$/;"	d
+NAME	Makefile	/^NAME = lexer $/;"	m
+OBJ	Makefile	/^OBJ = $(SRCS:.c=.o)$/;"	m
+PIPE	src/lexer.h	/^	PIPE = 124,$/;"	e	enum:token
+SRCS	Makefile	/^SRCS= $(addprefix src\/, $(FILES))$/;"	m
+S_QUOTE	src/lexer.h	/^#define S_QUOTE /;"	d
+e_token	src/lexer.h	/^}	e_token;$/;"	t	typeref:enum:token
+find_quotes	src/lexer.c	/^int	find_quotes(char *str, char matching_q)$/;"	f
+get_line	src/read_line.c	/^char *get_line(void)$/;"	f
+is_quote	src/lexer.c	/^int is_quote(char c)$/;"	f
+join_substr	src/lexer.c	/^char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)$/;"	f
+lexer	src/lexer.h	/^typedef struct lexer$/;"	s
+lexer_add_back	src/lexer_list_manager.c	/^void lexer_add_back(t_lexer **lexer_list, t_lexer *new_node)$/;"	f
+lexer_clear_list	src/lexer_list_manager.c	/^void lexer_clear_list(t_lexer **lexer_list)$/;"	f
+lexer_new_node	src/lexer_list_manager.c	/^t_lexer *lexer_new_node(char *str, e_token token)$/;"	f
+main	src/read_line.c	/^int main(int argc, char **argv)$/;"	f
+next	src/lexer.h	/^	struct lexer 	*next;$/;"	m	struct:lexer	typeref:struct:lexer::lexer
+remove_sub_quotes	src/lexer.c	/^char *remove_sub_quotes(char *str)$/;"	f
+str	src/lexer.h	/^	char			*str;$/;"	m	struct:lexer
+t_lexer	src/lexer.h	/^}	t_lexer;$/;"	t	typeref:struct:lexer
+token	src/lexer.h	/^	e_token			token;$/;"	m	struct:lexer
+token	src/lexer.h	/^typedef enum token$/;"	g
+tokenize	src/lexer.c	/^t_lexer  *tokenize(char *input_string)$/;"	f
