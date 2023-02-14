@@ -6,23 +6,22 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/13 17:52:24 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/14 14:52:47 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include <stdio.h>
 
-int remove_quotes(char *main_str, char *sub_str, int beg_sub_str);
-int	find_quotes(char *str, char matching_q);
-char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length);
-char *handle_sub_quotes(char *str);
-int is_quote(char c);
+void	add_to_lexer(char *str, t_lexer **lexer);
+void	set_lexer(char *str, t_lexer **lexer);
+int		is_token(char *str_to_add);
 
 /*
 	Split the input string into words and tokens
 		->Need to remove subsequent quotes of the same type first (that are directly adjacent to a word)
 		->Check for alone standing quote and returns if quote error.
+	Add to the linked list t_lexer every elem of the string without white spaces except if between quotes
 	Replace every whitespace that is not between strings to space
 */
 t_lexer  *tokenize(char *input_string)
@@ -32,135 +31,76 @@ t_lexer  *tokenize(char *input_string)
 
 	lexer = NULL;
 	clean_str = handle_sub_quotes(input_string);
+	if (clean_str == NULL)
+		return (NULL);
 	printf("cleaned string = %s\n", clean_str);
+	set_lexer(clean_str, &lexer);
+	free(clean_str);
 	return (lexer);
 }
 
 /*
-	Remove subsequent quotes that are not alone-standing 
-		->if they are empty && direclty next to char ! from space or ht
-	Send back every non-empty string enclosed by the same quotes
-*/
-char *handle_sub_quotes(char *str)
+ * checking for whitespaces, if quotes, jump to the next matching quote
+ */
+void set_lexer(char *str, t_lexer **lexer)
 {
-	int		curr_pos;
-	int		beg_sub;
-	int		next_matching_q;
-	char	*clean_str;
-	
+	int curr_pos;
+	int beg_of_substr;
+	char *str_to_add;
+	(void) lexer;
+
 	curr_pos = 0;
-	beg_sub = curr_pos;
-	clean_str = NULL;
 	while (str[curr_pos])
 	{
-		next_matching_q = 0;
-		if (is_quote(str[curr_pos]))
+		while(is_space_or_ht(str[curr_pos]))
+			curr_pos++;
+		beg_of_substr = curr_pos; 
+		while(!is_space_or_ht(str[curr_pos]) && str[curr_pos] != '\0')
 		{
-			next_matching_q = find_quotes(str + curr_pos, str[curr_pos]);
-			if (next_matching_q == 0) //Should check for non closed quotes
-				return (NULL);
-			clean_str = join_substr(str, clean_str, beg_sub, next_matching_q);
-		}
-		else
-		{
-			while (str[curr_pos] != '\0' && !is_quote(str[curr_pos]))
+			if (is_quote(str[curr_pos]))
+				curr_pos += find_quotes(str + curr_pos, str[curr_pos]);
+			else
 				curr_pos++;
-			clean_str = join_substr(str, clean_str, beg_sub, curr_pos - beg_sub);
 		}
-		curr_pos = curr_pos + next_matching_q;
-		beg_sub = curr_pos;
+		str_to_add = ft_substr(str, beg_of_substr, curr_pos - beg_of_substr);
+		if (str_to_add[0] != '\0')
+			add_to_lexer(str_to_add, lexer);
 	}
-	return (clean_str);
+	lexer_print_list(lexer);
 }
 
-/*
-	returns index of first matching quote found
-	Increment by 1 by default to avoir checking the same quote
-	Else returns 0
-*/
-int	find_quotes(char *str, char matching_q)
+void add_to_lexer(char *str_to_add, t_lexer **lexer)
 {
-	int i;
+	t_lexer *new_node;
+	e_token	token_value;
 
-	i = 1;
-	while (str[i] != '\0')	
+	token_value = is_token(str_to_add);
+	if (token_value != 0)
 	{
-		if (str[i] == matching_q)
-			return (i + 1);	
-		i++;
-	}
-	return (0);
-}
-
-int is_quote(char c)
-{
-	if (c == S_QUOTE || c == D_QUOTE)
-		return (1);
-	return (0);
-}
-
-int is_space_or_ht(char c)
-{
-	if (c == ' ' || c == '	')
-		return (1);
-	return (0);
+		free(str_to_add);
+		str_to_add = NULL;	
+	}	
+	new_node = lexer_new_node(str_to_add, token_value);
+	lexer_add_back(lexer, new_node);	
 }
 
 /*
- *	Joins in clean_str chars from main_str[beg_sub_str; beg_sub_str + length] 
- *
+ * Tokens can be set next to directly next to words
  */
-char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)
+int is_token(char *str_to_add)
 {
-	char	*sub_str;
-	char	*new_clean_str;
-
-	sub_str = ft_substr(main_str, beg_sub_str, length);
-	if (sub_str == NULL)
-		return (NULL);
-	if (!(remove_quotes(main_str, sub_str, beg_sub_str)))
+	if (ft_strlen(str_to_add) == 2)
 	{
-		new_clean_str = ft_strjoinf(clean_str, sub_str);
-		return (new_clean_str);
+		if (str_to_add[0] == '>' && str_to_add[1] == '>')
+			return (D_GREATER);
+		if (str_to_add[0] == '<' && str_to_add[1] == '<')
+			return (D_GREATER);
 	}
-	else
-	{
-		free(sub_str);
-		return (clean_str);
-	}
-	//free(sub_str);
-	//??
-}
-
-/*
- * Returns 1 the quotes have to removed
- * Else retunrs 0
- * has to work with ""
- */
-int remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
-{
-	int len;
-	char elem_left;
-	char elem_right;
-
-	len = ft_strlen(sub_str);
-	if (len != 2 || !(is_quote(sub_str[0]) && is_quote(sub_str[1])))
-		return (0);
-	elem_right = main_str[beg_sub_str + len];
-	if (beg_sub_str != 0)
-		elem_left = main_str[beg_sub_str -1];
-	if (beg_sub_str == 0) 
-	{
-		if (is_space_or_ht(elem_right) || ft_strlen(main_str) == 2)	
-			return (0);
-	}
-	else if (main_str[beg_sub_str + len] == '\0') 
-	{
-		if (is_space_or_ht(elem_left))	
-			return (0);
-	}
-	else
-		if (is_space_or_ht(elem_left) && is_space_or_ht(elem_right))
-			return (0);
-	return (1);
+	else if (str_to_add[0] == '|')
+		return (PIPE);
+	else if (str_to_add[0] == '>')
+		return (GREATER);
+	else if (str_to_add[0] == '<')
+		return (LOWER);
+	return (NOT_A_TOKEN);
 }
