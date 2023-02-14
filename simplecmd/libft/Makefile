@@ -35,6 +35,8 @@ SRCS = 	ft_isascii.c\
 		ft_putstr_fd.c\
 		ft_putendl_fd.c\
 		ft_putnbr_fd.c\
+		ft_malloc.c\
+		ft_calloc_exit.c\
 		
 BONUS = ft_lstnew_bonus.c\
 		ft_lstadd_front_bonus.c\
@@ -52,7 +54,9 @@ BONUSOBJ = $(BONUS:.c=.o)
 
 AR = ar -rcs
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror $(FFLAGS)
+
+FFLAGS = -fsanitize=address -g
 
 CC = cc
 

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 16:07:48 by hdelmas           #+#    #+#             */
-/*   Updated: 2022/10/14 10:00:24 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/14 15:50:41 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	res_len = 0;
 	words_start = 0;
 	words_end = 0;
-	if (!s1 || !set || (!s1 && !set))
+	if (!s1 || !set)
 		return (NULL);
 	if (ft_strlen(s1) > 1)
 		res_len = words_len(s1, set, &words_start, &words_end);

@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_calloc_exit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 15:13:22 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 14:49:51 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/14 11:40:46 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/02/14 11:40:52 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(char *s)
+void	*ft_calloc_exit(size_t count, size_t size)
 {
-	int		len;
-	int		i;
-	char	*res;
+	void	*ptr;
 
-	if (!s)
-		exit(EXIT_FAILURE);
-	len = -1;
-	i = -1;
-	while (s[++len])
-		;
-	res = ft_malloc(sizeof(char) * (len + 1));
-	while (s[++i])
-	{
-		res[i] = s[i];
-	}
-	res[i] = '\0';
-	return (res);
+	ptr = ft_malloc(size * count);
+	ft_bzero(ptr, size * count);
+	return (ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 09:04:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2022/10/19 15:24:43 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/14 15:52:28 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	**put_word(char const *s, char c, char **res, size_t nbr_words)
 	{
 		j = end;
 		end = word_pos(&start, j, s, c);
-		res[i] = malloc(sizeof(char) * ((end - start) + 1));
+		res[i] = ft_malloc(sizeof(char) * ((end - start) + 1));
 		if (!res[i])
 			return (free_all(res, i));
 		res[i][end - start] = '\0';
@@ -85,13 +85,9 @@ char	**ft_split(char const *s, char c)
 	size_t	nbr_words;
 
 	if (!s)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	nbr_words = word_count(s, c);
-	res = malloc(sizeof(char *) * (nbr_words + 1));
-	if (!res)
-	{
-		return (NULL);
-	}
+	res = ft_malloc(sizeof(char *) * (nbr_words + 1));
 	res[nbr_words] = NULL;
 	res = put_word(s, c, res, nbr_words);
 	return (res);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   smpcmd_cleaner.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:32:14 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/13 14:50:40 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/14 12:01:52 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,19 @@
 // 	return (0);
 // }
 
+static char	*strcpy_in_quotes(char *str, int *i, int quote_type)
+{
+	int	tmp;
+
+	if (!str || !i)
+		return (NULL);
+	tmp = *i;
+	while (str[++(*i)])
+		if (str[*i] == quote_type)
+			return (ft_strldup(&str[tmp + 1], *i - tmp - 1));
+	return (NULL);
+}
+
 /*
  * str is a string in quotes, i is the address of the position 
  * of the first character of str in the parent str.
@@ -37,29 +50,17 @@
  * if quote_type = -1 the function returns a sub str that stops
  * at the first quote in str or EOS
  */
-
-static char	*strcpy_in_quotes(char *str, int *i, int quote_type)
-{
-	int	tmp;
-
-	tmp = *i;
-	while (str[++(*i)])
-		if (str[*i] == quote_type)
-			return (ft_strldup(&str[tmp + 1], *i - tmp - 1));
-	return (NULL);
-}
-
 static char	*in_quotes(char *str, int *i, int quote_type)
 {
 	char	*res;
 	int		tmp;
 
-	if (!str)
+	if (!str || !i)
 		return (NULL);
 	tmp = *i;
 	if (quote_type > 0)
 	{
-		strcpy_in_quotes(str, i, quote_type);
+		return (strcpy_in_quotes(str, i, quote_type));
 	}
 	else
 	{
@@ -77,74 +78,7 @@ static char	*in_quotes(char *str, int *i, int quote_type)
 	return (NULL);
 }
 
-/*
- * expands $
- * local variable suport to add
- * $? suport to add 
- * ~ idk if we need
- */
-char	*expander(char *str)
-{
-	char	*expanded;
-	char	*to_join;
-	char	*tmp;
-	char	*var;
-	int		i;
-
-	if (!str)
-		return (NULL);
-	i = 0;
-	expanded = malloc(sizeof(char) + 1);
-	if (!expanded)
-		return (NULL);
-	expanded[0] = '\0';
-	while (str[i])
-	{
-		if (str[i] == '$')
-		{
-			if (str[++i] == ' ')
-				to_join = ft_strldup(&str[i - 1], 1);
-			if (str[i] == '\0')
-				to_join = ft_strldup(&str[i - 1], 1);
-			else
-			{
-				var = malloc(sizeof(char) + 1);
-				if (!var)
-					return (NULL);
-				var[0] = '\0';
-				while (str[i] != ' ' && str[i] != '\0')
-				{
-					tmp = var;
-					to_join = ft_strldup(&str[i], 1);
-					var = ft_strjoin(var, to_join);
-					free(to_join);
-					free(tmp);
-					i++;
-				}
-				to_join = ft_strdup(getenv(var));
-				free(var);
-				if (!to_join)
-					to_join = ft_strdup("");
-			}
-			tmp = expanded;
-			expanded = ft_strjoin(expanded, to_join);
-			free(tmp);
-			free(to_join);
-		}
-		else
-		{
-			tmp = expanded;
-			to_join = ft_strldup(&str[i], 1);
-			expanded = ft_strjoin(expanded, to_join);
-			free(tmp);
-			free(to_join);
-			i++;
-		}
-	}
-	return (expanded);
-}
-
-char	*expand(char *str, int *i, int quote_type)
+static char	*expand(char *str, int *i, int quote_type)
 {
 	char	*to_join;
 	char	*tmp;
@@ -171,10 +105,7 @@ char	*cleaner(char *str)
 	if (!str)
 		return (NULL);
 	i = -1;
-	cleaned = malloc(sizeof(char) + 1);
-	if (!cleaned)
-		return (NULL);
-	cleaned[0] = '\0';
+	cleaned = ft_calloc_exit(sizeof(char), 1);
 	while (str[++i])
 	{
 		if (str[i] == D_QUOTE)

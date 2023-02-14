@@ -6,7 +6,7 @@
 
 NAME = smpcmd
 
-FILES = parse.c read_line.c
+FILES = smpcmd_cleaner.c smpcmd_expander.c read_line.c
 
 SRCS = $(addprefix src/, $(FILES))
 
@@ -23,6 +23,7 @@ VAR = 0
 FFLAGS = -fsanitize=address -g
 
 RLINE = -lreadline
+
 CC = @cc
 
 RM = @rm -f

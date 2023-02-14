@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
+/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/05 15:13:22 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 14:49:51 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/11 16:09:19 by lbonnefo          #+#    #+#             */
+/*   Updated: 2023/02/11 16:11:29 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
-char	*ft_strdup(char *s)
+void	*ft_malloc(size_t bytes)
 {
-	int		len;
-	int		i;
-	char	*res;
+	void	*mem;
 
-	if (!s)
+	mem = malloc(bytes);
+	if (!mem)
 		exit(EXIT_FAILURE);
-	len = -1;
-	i = -1;
-	while (s[++len])
-		;
-	res = ft_malloc(sizeof(char) * (len + 1));
-	while (s[++i])
-	{
-		res[i] = s[i];
-	}
-	res[i] = '\0';
-	return (res);
+	return (mem);
 }
