@@ -6,19 +6,22 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:01:36 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 12:01:51 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/14 21:37:13 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "smpcmd.h"
 
-static char	*expand(char *str)
+static char	*expand(char *str, t_local **local_env)
 {
 	char	*var;
 	char	*to_join;
 
 	if (!str)
 		exit(EXIT_FAILURE);
+	var = ft_get_local_env(str, local_env);
+	if (var)
+		return (ft_strdup(var));
 	var = getenv(str);
 	if (var)
 		to_join = ft_strdup(var);
@@ -27,7 +30,7 @@ static char	*expand(char *str)
 	return (to_join);
 }
 
-static char	*handle_dollar(char *str, int *i)
+static char	*handle_dollar(char *str, int *i, t_local **local_env)
 {
 	int		save_i;
 	char	*tmp;
@@ -43,7 +46,7 @@ static char	*handle_dollar(char *str, int *i)
 		while (str[*i] != ' ' && str[*i] != '\0' && str[*i] != '$')
 			(*i)++;
 		tmp = ft_strldup(&str[save_i], *i - save_i);
-		to_join = expand(tmp);
+		to_join = expand(tmp, local_env);
 		free(tmp);
 	}
 	return (to_join);
@@ -63,11 +66,12 @@ static char	*ft_strjoin_free(char *str1, char *str2)
 
 /*
  * expands $
- * local variable suport to add
- * $? suport to add 
+ * TODO
+ * local variable support
+ * $? support
  * ~ idk if we need
  */
-char	*expander(char *str)
+char	*expander(char *str, t_local **local_env)
 {
 	char	*expanded;
 	char	*to_join;
@@ -88,7 +92,7 @@ char	*expander(char *str)
 		expanded = ft_strjoin_free(expanded, to_join);
 		if (str[i] == '$')
 		{
-			to_join = handle_dollar(str, &i);
+			to_join = handle_dollar(str, &i, local_env);
 			expanded = ft_strjoin_free(expanded, to_join);
 		}
 	}

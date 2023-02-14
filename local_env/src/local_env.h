@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   smpcmd.h                                           :+:      :+:    :+:   */
+/*   local_env.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 08:51:12 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 22:42:48 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/14 16:51:30 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/02/14 18:35:55 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SMPCMD_H
-# define SMPCMD_H
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-
-# include <readline/readline.h>
-# include <readline/history.h>
+#ifndef LOCAL_ENV_H
+# define LOCAL_ENV_H
 
 # include "../../libft/libft.h"
-# include "../../local_env/src/local_env.h"
 
-# define S_QUOTE 39
-# define D_QUOTE 34
+typedef struct s_local
+{
+	char			*name;
+	char			*value;
+	struct s_local	*next;
+}	t_local;
 
-char	*cleaner(char *str, t_local **local_env);
-char	*expander(char *str, t_local **local_env);
+char	*ft_get_local_env(char *var_name, t_local **local);
+
 #endif

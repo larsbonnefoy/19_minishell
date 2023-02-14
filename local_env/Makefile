@@ -1,16 +1,15 @@
 .SILENT:
-
 ###__MAIN PROGRAM__###
 
-NAME = clean_n_expand.a
+NAME = local.a
 
-FILES = smpcmd_cleaner.c smpcmd_expander.c\
+FILES = ft_get_local_env.c local_env_list_manager.c\
 
 SRCS = $(addprefix src/, $(FILES))
 
 OBJ = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror $(FFLAGS)  
+CFLAGS = -Wall -Wextra -Werror $(FFLAGS)
 
 FFLAGS = -fsanitize=address -g
 

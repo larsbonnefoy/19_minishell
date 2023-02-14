@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.c                                        :+:      :+:    :+:   */
+/*   test_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/13 09:16:48 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/14 23:33:55 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "smpcmd.h"
+#include "test.h"
 
 char *get_line(void)
 {
@@ -28,6 +28,7 @@ int main(int argc, char **argv, char **env)
 	(void) argc;
 	(void) argv;
 	int	i =-1;
+	t_local	**local;
 //	while (env[++i])
 //		printf("%s\n",env[i]);
 	//printf("%s\n",getenv("?"));
@@ -35,7 +36,7 @@ int main(int argc, char **argv, char **env)
 	{
 		char sys_str[200] = "echo echo :";
 		line = get_line();
-		clean = cleaner(line);
+		clean = cleaner(line, NULL);
 		printf("input :%s\n", line);
 		printf("cleaned :%s\n", clean);
 		free(clean);

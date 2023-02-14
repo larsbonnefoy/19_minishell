@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:32:14 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 12:01:52 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/14 22:05:04 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ static char	*in_quotes(char *str, int *i, int quote_type)
 	return (NULL);
 }
 
-static char	*expand(char *str, int *i, int quote_type)
+static char	*expand(char *str, int *i, int quote_type, t_local **local_env)
 {
 	char	*to_join;
 	char	*tmp;
 
 	to_join = in_quotes(str, i, quote_type);
 	tmp = to_join;
-	to_join = expander(to_join);
+	to_join = expander(to_join, local_env);
 	free(tmp);
 	return (to_join);
 }
@@ -95,7 +95,7 @@ static char	*expand(char *str, int *i, int quote_type)
  * and expand the enclosed values if they're in "
  * Cleaner returns the sanitized str
  */
-char	*cleaner(char *str)
+char	*cleaner(char *str, t_local **local_env)
 {
 	int		i;
 	char	*cleaned;
@@ -109,11 +109,11 @@ char	*cleaner(char *str)
 	while (str[++i])
 	{
 		if (str[i] == D_QUOTE)
-			to_join = expand(str, &i, D_QUOTE);
+			to_join = expand(str, &i, D_QUOTE, local_env);
 		else if (str[i] == S_QUOTE)
 			to_join = in_quotes(str, &i, S_QUOTE);
 		else
-			to_join = expand(str, &i, -1);
+			to_join = expand(str, &i, -1, local_env);
 		if (!to_join)
 			return (NULL);
 		tmp = cleaned;
