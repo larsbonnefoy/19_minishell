@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 23:33:55 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:31:54 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ int main(int argc, char **argv, char **env)
 	(void) argv;
 	int	i =-1;
 	t_local	**local;
+
+	local = local_env_init();
+	*local = local_new("TEST", "test_value");
 //	while (env[++i])
 //		printf("%s\n",env[i]);
 	//printf("%s\n",getenv("?"));
@@ -36,7 +39,7 @@ int main(int argc, char **argv, char **env)
 	{
 		char sys_str[200] = "echo echo :";
 		line = get_line();
-		clean = cleaner(line, NULL);
+		clean = cleaner(line, local);
 		printf("input :%s\n", line);
 		printf("cleaned :%s\n", clean);
 		free(clean);

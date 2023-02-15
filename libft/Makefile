@@ -39,7 +39,7 @@ $(NAME): $(OBJ)
 		$(AR) $(NAME) $(OBJ)
 		$(PRINT) "$(GREEN)done:\t$(NOCOLOR)$(NAME)"
 .c.o:
-		$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+		$(CC) $(CFLAGS) -g -c $< -g -o $(<:.c=.o)
 
 all: $(NAME)
 

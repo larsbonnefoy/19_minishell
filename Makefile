@@ -17,7 +17,7 @@ RLINE = -lreadline
 
 CC = @cc
 
-AR = ar -rcsT
+AR = ar -rcs
 
 RM = @rm -f
 
@@ -43,9 +43,15 @@ LOCAL_DIR = ./local_env
 
 LOCAL = $(LOCAL_DIR)/local.a
 
-###__LIB__###
+###__DEPENDENCIES__###
 
-LIB = $(LIBFT) $(LOCAL) $(CLNR)
+LIBFTO = $(LIBFT_DIR)/*.o
+CLNRO = $(CLNR_DIR)/src/*.o
+LOCALO = $(LOCAL_DIR)/src/*.o
+
+DEP = $(LIBFTO) $(LOCALO) $(CLNRO)
+
+BIN = compiled_dependencies.a
 
 ###__COMPILATION__###
 $(NAME): $(OBJ)
@@ -54,10 +60,10 @@ $(NAME): $(OBJ)
 		@make --no-print-directory -C $(LOCAL_DIR)
 		@make --no-print-directory -C $(CLNR_DIR)
 		$(PRINT) "$(YELLOW)linking $(NOCOLOR)libraries\t"
-		$(AR) test.a $(LIB)
+		$(AR) $(BIN) $(DEP)
 		$(PRINT) "$(GREEN)done\t$(NOCOLOR)"
 		$(PRINT) "$(CYAN)making:\t$(NOCOLOR)$(NAME)"
-		$(CC) $(CFLAGS) $(OBJ) test.a $(RLINE) -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJ) -g $(BIN) -g $(RLINE) -g -o $(NAME)
 		$(PRINT) "$(GREEN)done:\t$(NOCOLOR)$(NAME)"
 
 .c.o:
@@ -71,6 +77,7 @@ clean:
 		@make --no-print-directory clean -C $(LIBFT_DIR)
 		@make --no-print-directory clean -C $(CLNR_DIR)
 		@make --no-print-directory clean -C $(LOCAL_DIR)
+		$(RM) $(BIN)
 		$(RM) $(OBJ)
 
 fclean: clean

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:04:37 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 21:15:30 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:38:05 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*ft_get_local_env(char *var_name, t_local **local)
 	
 	if (!local || !var_name)
 		exit(EXIT_FAILURE);
+	head = *local;
 	len_var_name = ft_strlen(var_name);
 	while (*local)
 	{
@@ -33,6 +34,7 @@ char	*ft_get_local_env(char *var_name, t_local **local)
 			*local = head;
 			return (value);
 		}
+		*local = (*local)->next;
 	}
 	*local = head;
 	return (NULL);

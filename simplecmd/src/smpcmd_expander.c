@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:01:36 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 21:37:13 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:20:57 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,13 @@ static char	*handle_dollar(char *str, int *i, t_local **local_env)
 	if (!str || !i)
 		exit(EXIT_FAILURE);
 	if (str[++(*i)] == ' ' || str[*i] == '\0')
+	{
+		// printf("hamdle i %d\t", *i);
 		to_join = ft_strldup(&str[*i - 1], 1);
+		// printf("to_j :%s\n", to_join);
+	}
+	// else if (str[*i] == 34 || str[*i] == 39)
+	// 	to_join = ft_strdup("");
 	else
 	{
 		save_i = *i;
@@ -75,7 +81,6 @@ char	*expander(char *str, t_local **local_env)
 {
 	char	*expanded;
 	char	*to_join;
-	char	*tmp;
 	int		save_i;
 	int		i;
 
@@ -86,13 +91,16 @@ char	*expander(char *str, t_local **local_env)
 	while (str[i])
 	{
 		save_i = i;
+		// printf("> %d\n", i);
 		while (str[i] && str[i] != '$')
 			i++;
 		to_join = ft_strldup(&str[save_i], i - save_i);
 		expanded = ft_strjoin_free(expanded, to_join);
 		if (str[i] == '$')
 		{
+			// printf("before handle :%s\n", expanded);
 			to_join = handle_dollar(str, &i, local_env);
+			// printf("after handle :%s\n", to_join);
 			expanded = ft_strjoin_free(expanded, to_join);
 		}
 	}

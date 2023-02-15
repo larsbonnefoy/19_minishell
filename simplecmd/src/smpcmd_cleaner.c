@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:32:14 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 22:05:04 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:30:38 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 // 	return (0);
 // }
 
-static char	*strcpy_in_quotes(char *str, int *i, int quote_type)
+static char	*strdup_in_quotes(char *str, int *i, int quote_type)
 {
 	int	tmp;
 
@@ -52,7 +52,6 @@ static char	*strcpy_in_quotes(char *str, int *i, int quote_type)
  */
 static char	*in_quotes(char *str, int *i, int quote_type)
 {
-	char	*res;
 	int		tmp;
 
 	if (!str || !i)
@@ -60,13 +59,18 @@ static char	*in_quotes(char *str, int *i, int quote_type)
 	tmp = *i;
 	if (quote_type > 0)
 	{
-		return (strcpy_in_quotes(str, i, quote_type));
+		return (strdup_in_quotes(str, i, quote_type));
 	}
 	else
 	{
 		while (str[++(*i)])
 		{
-			if ((str[*i] == D_QUOTE || str[*i] == S_QUOTE))
+			if (!ft_isalnum(str[*i]) && *i != tmp) 
+			{
+				*i = *i - 1;
+				return (ft_strldup(&str[tmp], *i - tmp + 1));
+			}
+			else if ((ft_isdigit(str[*i]) || str[*i] != '?') && *i == tmp)
 			{
 				*i = *i - 1;
 				return (ft_strldup(&str[tmp], *i - tmp + 1));
@@ -78,15 +82,19 @@ static char	*in_quotes(char *str, int *i, int quote_type)
 	return (NULL);
 }
 
-static char	*expand(char *str, int *i, int quote_type, t_local **local_env)
+static char	*to_expand(char *str, int *i, int quote_type, t_local **local_env)
 {
 	char	*to_join;
-	char	*tmp;
-
-	to_join = in_quotes(str, i, quote_type);
-	tmp = to_join;
-	to_join = expander(to_join, local_env);
-	free(tmp);
+	(void)quote_type;
+	(void)i;
+	// char	*tmp;
+	// if (str[*i] == '$' && (str[*i + 1] == 34 || str[*i + 1] == 39))
+	// 	return ft_strdup("");
+	// to_join = strdup_in_quotes(str, i, quote_type);
+	// printf("to_join: [%s]\n", to_join);
+	// tmp = to_join;
+	to_join = expander(str, local_env);
+	// free(tmp);
 	return (to_join);
 }
 
@@ -106,16 +114,26 @@ char	*cleaner(char *str, t_local **local_env)
 		return (NULL);
 	i = -1;
 	cleaned = ft_calloc_exit(sizeof(char), 1);
+	printf("str :%s\n", str);
 	while (str[++i])
 	{
+		// printf("i=%d\n", i);
 		if (str[i] == D_QUOTE)
-			to_join = expand(str, &i, D_QUOTE, local_env);
+		{
+			to_join = in_quotes(str, &i, D_QUOTE);
+			tmp = to_join;
+			int	j;
+			j = 0;
+			to_join = to_expand(to_join, &j, -1, local_env);
+			free(tmp);
+		}
 		else if (str[i] == S_QUOTE)
 			to_join = in_quotes(str, &i, S_QUOTE);
 		else
-			to_join = expand(str, &i, -1, local_env);
+			to_join = to_expand(str, &i, -1, local_env);
 		if (!to_join)
 			return (NULL);
+		// printf("to_join :%s\n", to_join);
 		tmp = cleaned;
 		cleaned = ft_strjoin(cleaned, to_join);
 		free(tmp);
