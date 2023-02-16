@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:51:12 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 22:42:48 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/16 16:03:57 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@
 # define D_QUOTE 34
 
 char	*cleaner(char *str, t_local **local_env);
-char	*expander(char *str, t_local **local_env);
+char	*expander(char *str, int quote_type, t_local **local_env);
 #endif
