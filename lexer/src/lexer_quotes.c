@@ -54,12 +54,14 @@ char	*join_substr(char *main_str, char *clean_str, int beg_sub_str, int len)
 	char	*sub_str;
 	char	*new_clean_str;
 
+	//leak ici
 	sub_str = ft_substr(main_str, beg_sub_str, len);
 	if (sub_str == NULL)
 		return (NULL);
 	if (!(remove_quotes(main_str, sub_str, beg_sub_str)))
 	{
 		new_clean_str = ft_strjoinf(clean_str, sub_str);
+		free(sub_str); //double free ici
 		return (new_clean_str);
 	}
 	else

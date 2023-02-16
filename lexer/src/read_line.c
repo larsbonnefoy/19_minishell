@@ -28,14 +28,15 @@ int main(int argc, char **argv)
 	(void) argc;
 	(void) argv;
 	t_lexer *lexer;
-	while (1)
-	{
+	//while (1)
+	//{
 		line = get_line();
 		printf("input line = %s\n", line);	
 		lexer = tokenize(line);
 		free(line);
 		free(lexer);
-	}
+	//}
+	system("leaks lexer");
 	return(0);
 }
 

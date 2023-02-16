@@ -66,6 +66,7 @@ void	set_lexer(char *str, t_lexer **lexer)
 		}
 		while (!is_space_or_ht(str[i]) && !is_token(&str[i]) && str[i] != '\0')
 			i += add_to_pos(str, i);
+		//memory leak
 		str_to_add = ft_substr(str, beg_substr, i - beg_substr);
 		if (str_to_add[0] != '\0')
 			add_to_lexer(str_to_add, lexer);
