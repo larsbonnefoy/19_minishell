@@ -6,24 +6,24 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:12:23 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/14 14:52:43 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/16 16:38:10 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_lexer *lexer_new_node(char *str, e_token token)
+t_lexer	*lexer_new_node(char *str, e_token token)
 {
 	t_lexer	*new_node;
 
 	new_node = ft_malloc(sizeof(t_lexer));
 	new_node->str = str;
-	new_node->token = token;	
+	new_node->token = token;
 	new_node->next = NULL;
 	return (new_node);
 }
 
-void lexer_add_back(t_lexer **lexer_list, t_lexer *new_node)
+void	lexer_add_back(t_lexer **lexer_list, t_lexer *new_node)
 {
 	t_lexer	*tmp;
 
@@ -40,13 +40,13 @@ void lexer_add_back(t_lexer **lexer_list, t_lexer *new_node)
 
 void	lexer_print_list(t_lexer **lexer_list)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
 	tmp = *lexer_list;
 	while (tmp)
 	{
 		if (tmp->str)
-			printf("[%s] [%d]\n", tmp->str, tmp->token);	
+			printf("[%s] [%d]\n", tmp->str, tmp->token);
 		else
 			printf("[null] [%d]\n", tmp->token);
 		tmp = tmp->next;
@@ -55,7 +55,7 @@ void	lexer_print_list(t_lexer **lexer_list)
 
 void	lexer_clear_list(t_lexer **lexer_list)
 {
-	t_lexer *buffer;
+	t_lexer	*buffer;
 
 	while (*lexer_list)
 	{

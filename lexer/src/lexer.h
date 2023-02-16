@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:43:01 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/14 14:52:45 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/16 15:47:08 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 	Ascii values of | < >
 	>> and << are double the ascii value of > and <
 */
-
 typedef enum token
 {
 	NOT_A_TOKEN = 0,

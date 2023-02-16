@@ -12,3 +12,6 @@ ech"o""salut/\n/\n"
 	->bah: echosalut/\n/\n: No such file or directory
 
 cat lexer.c | grep a
+rwgsfv|rwgsfdv
+wrg | grsdfv
+echo|<>grep a

@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 09:39:40 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/14 09:59:49 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:58:03 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,56 +14,56 @@
 
 /*
 	Remove subsequent quotes that are not alone-standing 
-		->if they are empty && direclty next to char ! from space or ht
-	Send back every non-empty string enclosed by the same quotes
+		->if they are empty && direclty next to char != from space or ht
+	Sends back every non-empty string enclosed by the same quotes
 */
-char *handle_sub_quotes(char *str)
+char	*handle_sub_quotes(char *str)
 {
-	int		curr_pos;
+	int		i;
 	int		beg_sub;
 	int		next_matching_q;
 	char	*clean_str;
-	
-	curr_pos = 0;
-	beg_sub = curr_pos;
+
+	i = 0;
+	beg_sub = i;
 	clean_str = NULL;
-	while (str[curr_pos])
+	while (str[i])
 	{
 		next_matching_q = 0;
-		if (is_quote(str[curr_pos]))
+		if (is_quote(str[i]))
 		{
-			next_matching_q = find_quotes(str + curr_pos, str[curr_pos]);
-			if (next_matching_q == 0) //Should check for non closed quotes
+			next_matching_q = find_quotes(str + i, str[i]);
+			if (next_matching_q == 0)
 				return (NULL);
 			clean_str = join_substr(str, clean_str, beg_sub, next_matching_q);
 		}
 		else
 		{
-			while (str[curr_pos] != '\0' && !is_quote(str[curr_pos]))
-				curr_pos++;
-			clean_str = join_substr(str, clean_str, beg_sub, curr_pos - beg_sub);
+			while (str[i] != '\0' && !is_quote(str[i]))
+				i++;
+			clean_str = join_substr(str, clean_str, beg_sub, i - beg_sub);
 		}
-		curr_pos = curr_pos + next_matching_q;
-		beg_sub = curr_pos;
+		i = i + next_matching_q;
+		beg_sub = i;
 	}
 	return (clean_str);
 }
 
 /*
- *	Joins in clean_str chars from main_str[beg_sub_str; beg_sub_str + length] 
- *
+ *	Joins in clean_str chars from main_str[beg_sub_str; beg_sub_str + len] 
+ *	FREE SUBSTR ? or leaks?
  */
-char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)
+char	*join_substr(char *main_str, char *clean_str, int beg_sub_str, int len)
 {
 	char	*sub_str;
 	char	*new_clean_str;
 
-	sub_str = ft_substr(main_str, beg_sub_str, length);
+	sub_str = ft_substr(main_str, beg_sub_str, len);
 	if (sub_str == NULL)
 		return (NULL);
 	if (!(remove_quotes(main_str, sub_str, beg_sub_str)))
 	{
-		new_clean_str = ft_strjoinf(clean_str, sub_str); //malloc protec
+		new_clean_str = ft_strjoinf(clean_str, sub_str);
 		return (new_clean_str);
 	}
 	else
@@ -71,8 +71,6 @@ char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)
 		free(sub_str);
 		return (clean_str);
 	}
-	//free(sub_str);
-	//??
 }
 
 /*
@@ -80,11 +78,11 @@ char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)
  * Else retunrs 0
  * has to work with ""
  */
-int remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
+int	remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
 {
-	int len;
-	char elem_left;
-	char elem_right;
+	int		len;
+	char	elem_left;
+	char	elem_right;
 
 	len = ft_strlen(sub_str);
 	if (len != 2 || !(is_quote(sub_str[0]) && is_quote(sub_str[1])))
@@ -92,14 +90,14 @@ int remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
 	elem_right = main_str[beg_sub_str + len];
 	if (beg_sub_str != 0)
 		elem_left = main_str[beg_sub_str -1];
-	if (beg_sub_str == 0) 
+	if (beg_sub_str == 0)
 	{
-		if (is_space_or_ht(elem_right) || ft_strlen(main_str) == 2)	
+		if (is_space_or_ht(elem_right) || ft_strlen(main_str) == 2)
 			return (0);
 	}
-	else if (main_str[beg_sub_str + len] == '\0') 
+	else if (main_str[beg_sub_str + len] == '\0')
 	{
-		if (is_space_or_ht(elem_left))	
+		if (is_space_or_ht(elem_left))
 			return (0);
 	}
 	else
