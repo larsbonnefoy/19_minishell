@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 09:39:40 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/16 18:35:32 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:34:22 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ char	*handle_sub_quotes(char *str)
 	{
 		prev_i = i;
 		if (is_quote(str[i]))
-		{
 			i += find_quotes(str + i, str[i]);
 			if (i == prev_i)
 				return (NULL);
-		}
 		else
+		{
 			while (str[i] != '\0' && !is_quote(str[i]))
 				i++;
+		}
 		clean_str = join_substr(str, clean_str, beg_sub, i - beg_sub);
 		beg_sub = i;
 	}
