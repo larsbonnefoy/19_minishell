@@ -52,6 +52,7 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	*ft_calloc_exit(size_t count, size_t size);
 void	*ft_malloc(size_t bytes);
+char	*ft_strjoinf(const char *s1, const char *s2);
 char	*ft_strjoin_ff(char *str1, char *str2);
 
 typedef struct s_list
