@@ -1,0 +1,77 @@
+echo ideas "" test
+
+echo ideas""test
+
+echo ideas"" test
+
+echo ideas  "" test
+
+echo ideas""test
+
+echo ideas"" test
+
+echo ideas""  test
+
+echo ideas ""  test
+
+echo ideas  ""  test
+
+echo ideas""test
+
+echo ideas""test
+
+echo ideas""test
+
+echo ideas"" test
+
+echo ideas""  test
+
+echo ideas "" test
+
+echo ideas "q" test
+
+echo ideas  test
+
+echo ideas "" test
+
+echo ideas  test
+
+echo ideas  v test
+
+echo ideas "" test
+
+echo ideas ""  test
+
+echo ideas """"  testideas  test
+echo ideas ""  test^C
+ARG="test" | echo $ARG
+
+echo $ARG
+
+ARG="test" > echo $ARG
+
+ARG="test" < echo $ARG
+
+ARG="test" >>test echo $ARG
+cat test
+
+
+echo $ARG
+
+ARG="test" >>test echo $ARG
+
+"echo test |" 
+
+ echo "test |" 
+
+ echo 'test |' 
+
+ "echo 'test |'"
+
+ "echo " "'test |'"
+
+ "echo" "'test |'"
+
+ "echo -n" "'test |'"
+
+ "echo -n"^C'test |'"
