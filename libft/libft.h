@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:13:31 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/13 08:46:57 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/17 09:46:16 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void    *ft_calloc_exit(size_t count, size_t size);
-void    *ft_malloc(size_t bytes);
+void	*ft_calloc_exit(size_t count, size_t size);
+void	*ft_malloc(size_t bytes);
+char	*ft_strjoin_ff(char *str1, char *str2);
 
 typedef struct s_list
 {
