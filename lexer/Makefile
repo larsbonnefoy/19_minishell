@@ -22,7 +22,7 @@ SRCS= $(addprefix src/, $(FILES))
 
 OBJ = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 
 $(NAME): $(OBJ)
 				cc $(CFLAGS) $(OBJ) -o $(NAME) ../libft/libft.a -lreadline
