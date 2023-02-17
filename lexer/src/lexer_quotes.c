@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 09:39:40 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/16 18:35:32 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/17 12:43:06 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*handle_sub_quotes(char *str)
 
 	i = 0;
 	beg_sub = i;
-	clean_str = NULL;
+	clean_str = ft_calloc_exit(1, sizeof(char));
 	while (str[i])
 	{
 		prev_i = i;
@@ -60,8 +60,7 @@ char	*join_substr(char *main_str, char *clean_str, int beg_sub_str, int len)
 		return (NULL);
 	if (!(remove_quotes(main_str, sub_str, beg_sub_str)))
 	{
-		new_clean_str = ft_strjoinf(clean_str, sub_str);
-		free(sub_str); //double free ici
+		new_clean_str = ft_strjoin_ff(clean_str, sub_str);
 		return (new_clean_str);
 	}
 	else
@@ -74,7 +73,6 @@ char	*join_substr(char *main_str, char *clean_str, int beg_sub_str, int len)
 /*
  * Returns 1 the quotes have to removed
  * Else retunrs 0
- * has to work with ""
  */
 int	remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
 {

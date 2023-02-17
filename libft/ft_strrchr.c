@@ -1,41 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 11:48:00 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 12:43:56 by lbonnefo         ###   ########.fr       */
+/*   Created: 2022/10/05 21:32:08 by hdelmas           #+#    #+#             */
+/*   Updated: 2022/10/14 10:00:04 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
+#include "libft.h"
 
-char *get_line(void)
+char	*ft_strrchr(const char *s, int c)
 {
-	char *line;
+	int		i;
+	char	*res;
 
-	line = readline("\033[0;36mSea-Shell>\033[0m");
-
-	return (line);
+	i = -1;
+	res = (char *)s;
+	while (s[++i])
+		;
+	if ((char)c == s[i])
+		return (&res[i]);
+	while (--i >= 0)
+		if ((char)c == s[i])
+			return (&res[i]);
+	return (NULL);
 }
-
-int main(int argc, char **argv)
-{
-	char *line;
-	(void) argc;
-	(void) argv;
-	t_lexer *lexer;
-	//while (1)
-	//{
-		line = get_line();
-		printf("input line = %s\n", line);	
-		lexer = tokenize(line);
-		free(line);
-		free(lexer);
-	//}
-	return(0);
-}
-

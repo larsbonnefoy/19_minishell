@@ -1,41 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 11:48:00 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 12:43:56 by lbonnefo         ###   ########.fr       */
+/*   Created: 2022/10/04 11:23:43 by hdelmas           #+#    #+#             */
+/*   Updated: 2022/10/14 09:59:30 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
+#include "libft.h"
 
-char *get_line(void)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	char *line;
+	size_t	i;
+	size_t	srclen;
 
-	line = readline("\033[0;36mSea-Shell>\033[0m");
-
-	return (line);
+	i = -1;
+	srclen = -1;
+	while (src[++srclen])
+		;
+	if (dstsize == 0)
+		return (srclen);
+	while (++i < dstsize - 1 && src[i])
+		dst[i] = src[i];
+	dst[i] = '\0';
+	return (srclen);
 }
-
-int main(int argc, char **argv)
-{
-	char *line;
-	(void) argc;
-	(void) argv;
-	t_lexer *lexer;
-	//while (1)
-	//{
-		line = get_line();
-		printf("input line = %s\n", line);	
-		lexer = tokenize(line);
-		free(line);
-		free(lexer);
-	//}
-	return(0);
-}
-

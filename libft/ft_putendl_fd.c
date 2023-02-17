@@ -1,41 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.c                                        :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 11:48:00 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 12:43:56 by lbonnefo         ###   ########.fr       */
+/*   Created: 2022/10/10 18:13:35 by hdelmas           #+#    #+#             */
+/*   Updated: 2022/10/14 10:14:09 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
+#include "libft.h"
 
-char *get_line(void)
+void	ft_putendl_fd(char *s, int fd)
 {
-	char *line;
-
-	line = readline("\033[0;36mSea-Shell>\033[0m");
-
-	return (line);
+	if (!s)
+		return ;
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }
-
-int main(int argc, char **argv)
-{
-	char *line;
-	(void) argc;
-	(void) argv;
-	t_lexer *lexer;
-	//while (1)
-	//{
-		line = get_line();
-		printf("input line = %s\n", line);	
-		lexer = tokenize(line);
-		free(line);
-		free(lexer);
-	//}
-	return(0);
-}
-

@@ -1,41 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin_ff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 11:48:00 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 12:43:56 by lbonnefo         ###   ########.fr       */
+/*   Created: 2023/02/17 09:40:47 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/02/17 09:41:28 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
+#include "libft.h"
 
-char *get_line(void)
+char	*ft_strjoin_ff(char *str1, char *str2)
 {
-	char *line;
+	char	*res;
 
-	line = readline("\033[0;36mSea-Shell>\033[0m");
-
-	return (line);
+	if (!str1 || !str2)
+		exit(EXIT_FAILURE);
+	res = ft_strjoin(str1, str2);
+	free(str1);
+	free(str2);
+	return (res);
 }
-
-int main(int argc, char **argv)
-{
-	char *line;
-	(void) argc;
-	(void) argv;
-	t_lexer *lexer;
-	//while (1)
-	//{
-		line = get_line();
-		printf("input line = %s\n", line);	
-		lexer = tokenize(line);
-		free(line);
-		free(lexer);
-	//}
-	return(0);
-}
-

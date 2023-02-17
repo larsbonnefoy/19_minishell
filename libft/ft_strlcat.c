@@ -1,41 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.c                                        :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 11:48:00 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 12:43:56 by lbonnefo         ###   ########.fr       */
+/*   Created: 2022/10/04 16:49:39 by hdelmas           #+#    #+#             */
+/*   Updated: 2022/10/14 09:59:18 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
+#include "libft.h"
 
-char *get_line(void)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char *line;
+	size_t	i;
+	size_t	dstlen;
 
-	line = readline("\033[0;36mSea-Shell>\033[0m");
-
-	return (line);
+	i = -1;
+	if ((!dst || !src) && dstsize == 0)
+		return (0);
+	dstlen = ft_strlen(dst);
+	if (dstsize <= dstlen || !dst || !src)
+		return (ft_strlen(src) + dstsize);
+	while (++i + dstlen < dstsize - 1 && src[i])
+		dst[dstlen + i] = src[i];
+	dst[dstlen + i] = '\0';
+	return (dstlen + ft_strlen(src));
 }
-
-int main(int argc, char **argv)
-{
-	char *line;
-	(void) argc;
-	(void) argv;
-	t_lexer *lexer;
-	//while (1)
-	//{
-		line = get_line();
-		printf("input line = %s\n", line);	
-		lexer = tokenize(line);
-		free(line);
-		free(lexer);
-	//}
-	return(0);
-}
-

@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 11:48:00 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 12:43:56 by lbonnefo         ###   ########.fr       */
+/*   Created: 2022/10/05 15:13:22 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/02/14 14:49:51 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
+#include "libft.h"
 
-char *get_line(void)
+char	*ft_strdup(char *s)
 {
-	char *line;
+	int		len;
+	int		i;
+	char	*res;
 
-	line = readline("\033[0;36mSea-Shell>\033[0m");
-
-	return (line);
+	if (!s)
+		exit(EXIT_FAILURE);
+	len = -1;
+	i = -1;
+	while (s[++len])
+		;
+	res = ft_malloc(sizeof(char) * (len + 1));
+	while (s[++i])
+	{
+		res[i] = s[i];
+	}
+	res[i] = '\0';
+	return (res);
 }
-
-int main(int argc, char **argv)
-{
-	char *line;
-	(void) argc;
-	(void) argv;
-	t_lexer *lexer;
-	//while (1)
-	//{
-		line = get_line();
-		printf("input line = %s\n", line);	
-		lexer = tokenize(line);
-		free(line);
-		free(lexer);
-	//}
-	return(0);
-}
-

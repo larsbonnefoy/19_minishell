@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/16 17:53:39 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/17 11:31:50 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_lexer	*tokenize(char *input_string)
 	clean_str = handle_sub_quotes(input_string);
 	if (clean_str == NULL)
 		return (NULL);
-	printf("cleaned string = %s\n", clean_str);
+	//printf("cleaned string = %s\n", clean_str);
 	set_lexer(clean_str, &lexer);
 	free(clean_str);
 	return (lexer);

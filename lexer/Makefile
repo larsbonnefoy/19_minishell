@@ -6,7 +6,7 @@
 #    By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/12 12:01:38 by lbonnefo          #+#    #+#              #
-#    Updated: 2023/02/14 10:10:47 by lbonnefo         ###   ########.fr        #
+#    Updated: 2023/02/17 11:25:38 by lbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS= $(addprefix src/, $(FILES))
 
 OBJ = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 
 $(NAME): $(OBJ)
 				cc $(CFLAGS) $(OBJ) -o $(NAME) ../libft/libft.a -lreadline
