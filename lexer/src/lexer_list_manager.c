@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:12:23 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/16 16:38:10 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/17 13:05:38 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	lexer_clear_list(t_lexer **lexer_list)
 	while (*lexer_list)
 	{
 		buffer = *lexer_list;
+		if (buffer->str != NULL)
+			free(buffer->str);
 		*lexer_list = (*lexer_list)->next;
 		free(buffer);
 	}
