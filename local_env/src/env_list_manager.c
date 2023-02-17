@@ -1,40 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   local_env_list_manager.c                           :+:      :+:    :+:   */
+/*   env_list_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 17:08:48 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/17 08:48:39 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/17 15:25:39 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "local_env.h"
+#include "env.h"
 //TODO SUPPORT FOR REASSIGNING
-t_local	**local_env_init(void)
+t_env	**env_init(void)
 {
-	t_local	**res;
+	t_env	**res;
 
-	res = ft_malloc(sizeof(t_local *));
+	res = ft_malloc(sizeof(t_env *));
 	res[0] = NULL;
 	return (res);
 }
 
-t_local	*local_new(char *name, char *new_value)
+t_env	*env_new(char *name, char *new_value, int export_value)
 {
-	t_local	*res;
+	t_env	*res;
 
 	if (!new_value)
 		exit(EXIT_FAILURE);
-	res = ft_malloc(sizeof(t_local));
+	res = ft_malloc(sizeof(t_env));
 	res->value = new_value;
 	res->name = name;
+	res->export = export_value;
 	res->next = NULL;
 	return (res);
 }
 
-void	local_addfront(t_local *new_node, t_local **list)
+void	env_addfront(t_env *new_node, t_env **list)
 {
 	if (!new_node || !list)
 		exit(EXIT_FAILURE);
@@ -42,23 +43,23 @@ void	local_addfront(t_local *new_node, t_local **list)
 	*list = new_node;
 }
 
-void	local_free_node(t_local *node)
+void	env_free_node(t_env *node)
 {
 	free(node->name);
 	free(node->value);
 	free(node);
 }
 
-void	local_free_all_node(t_local **list)
+void	env_free_all_node(t_env **list)
 {
-	t_local	*next;
+	t_env	*next;
 
 	if (!list)
 		exit(EXIT_FAILURE);
 	while (*list)
 	{
 		next = (*list)->next;
-		local_free_node(*list);
+		env_free_node(*list);
 		*list = next;
 	}
 	free(list);

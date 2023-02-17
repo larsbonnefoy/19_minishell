@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   local_env.h                                        :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 16:51:30 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/15 10:30:26 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/17 15:22:09 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 # define LOCAL_ENV_H
 
 # include "../../libft/libft.h"
+# define TRUE 1
+# define FASLE 0
 
-typedef struct s_local
+typedef struct s_env
 {
 	char			*name;
 	char			*value;
-	struct s_local	*next;
-}	t_local;
+	int				export;
+	struct s_env	*next;
+}	t_env;
 
-char	*ft_get_local_env(char *var_name, t_local **local);
-t_local	**local_env_init(void);
-t_local	*local_new(char *name, char *new_value);
-void	local_addfront(t_local *new_node, t_local **list);
-void	local_free_node(t_local *node);
-void	local_free_all_node(t_local **list);
+char	*ft_getenv(char *var_name, t_env **list);
+t_env	**env_init(void);
+t_env	*env_new(char *name, char *new_value, int export_value);
+t_env	**env_to_list(char **env);
+void	env_addfront(t_env *new_node, t_env **list);
+void	env_free_node(t_env *node);
+void	env_free_all_node(t_env **list);
+t_env	**env_to_list(char **env);
 #endif

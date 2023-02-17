@@ -6,23 +6,20 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:01:36 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/17 09:50:08 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/17 15:21:08 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "smpcmd.h"
 
-static char	*expand(char *str, t_local **local_env)
+static char	*expand(char *str, t_env **local_env)
 {
 	char	*var;
 	char	*to_join;
 
 	if (!str)
 		exit(EXIT_FAILURE);
-	var = ft_get_local_env(str, local_env);
-	if (var)
-		return (ft_strdup(var));
-	var = getenv(str);
+	var = ft_getenv(str, local_env);
 	if (var)
 		to_join = ft_strdup(var);
 	else
@@ -30,7 +27,7 @@ static char	*expand(char *str, t_local **local_env)
 	return (to_join);
 }
 
-static char	*handle_dollar(char *str, int *i, t_local **local_env)
+static char	*handle_dollar(char *str, int *i, t_env **local_env)
 {
 	int		save_i;
 	char	*tmp;
@@ -38,7 +35,6 @@ static char	*handle_dollar(char *str, int *i, t_local **local_env)
 
 	if (!str || !i)
 		exit(EXIT_FAILURE);
-	printf("in handle str = [%s]\n", str);
 	if (str[++(*i)] == ' ' || str[*i] == '\0')
 		to_join = ft_strldup(&str[*i - 1], 1);
 	else if (ft_isdigit(str[*i]) || str[*i] == '?')
@@ -62,11 +58,9 @@ static char	*handle_dollar(char *str, int *i, t_local **local_env)
 /*
  * expands $
  * TODO
- * local variable support
- * $? support
  * ~ idk if we need
  */
-char	*expander(char *str, int quote_type, t_local **local_env)
+char	*expander(char *str, int quote_type, t_env **local_env)
 {
 	char	*expanded;
 	char	*to_join;

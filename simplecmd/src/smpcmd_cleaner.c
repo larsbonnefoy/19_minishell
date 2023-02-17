@@ -6,28 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:32:14 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/17 09:49:12 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:55:27 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "smpcmd.h"
-/* 
- * returns the token ASCII value or 0 if it's not a token
- */
-// int	is_token(int c)
-// {
-// //	if (c == pipe)
-// //		return (pipe);
-// 	if (c == D_QUOTE)
-// 		return (D_QUOTE);
-// 	if (c == S_QUOTE)
-// 		return (S_QUOTE);
-// 	if (c == greater)
-// 		return (greater);
-// 	if (c == lower)
-// 		return (lower);
-// 	return (0);
-// }
 
 /*
  * str is a string in quotes, i is the address of the position 
@@ -43,12 +26,8 @@ static char	*strdup_in_quotes(char *str, int *i, int quote_type)
 		return (NULL);
 	tmp = *i;
 	while (str[++(*i)])
-	{
 		if (str[*i] == quote_type)
-		{
 			return (ft_strldup(&str[tmp + 1], *i - tmp - 1));
-		}
-	}
 	return (NULL);
 }
 
@@ -76,7 +55,7 @@ static char	*dup_word(char *str, int *i)
 	return (ft_strdup(&str[tmp]));
 }
 
-static char	*to_expand(char *str, int *i, int quote_type, t_local **local_env)
+static char	*to_expand(char *str, int *i, int quote_type, t_env **local_env)
 {
 	char	*to_join;
 	char	*tmp;
@@ -97,7 +76,7 @@ static char	*to_expand(char *str, int *i, int quote_type, t_local **local_env)
  * and expand the enclosed values if they're in "
  * Cleaner returns the sanitized str
  */
-char	*cleaner(char *str, t_local **local_env)
+char	*cleaner(char *str, t_env **local_env)
 {
 	int		i;
 	char	*cleaned;
