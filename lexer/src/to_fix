@@ -1,4 +1,1 @@
-free substr to avoid leaks
-norm
-protect mallocs
-replace malloc by ft_malloc to avoid protecting everything
+echo $ 

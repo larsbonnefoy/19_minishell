@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 09:39:40 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 12:43:06 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/17 15:45:28 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
 	}
 	else if (main_str[beg_sub_str + len] == '\0')
 	{
-		if (is_space_or_ht(elem_left))
+		if (is_space_or_ht(elem_left) || elem_left == '$')
 			return (0);
 	}
 	else

@@ -6,12 +6,12 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:40:47 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/17 09:41:28 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/17 12:42:26 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+#include <stdio.h>
 char	*ft_strjoin_ff(char *str1, char *str2)
 {
 	char	*res;

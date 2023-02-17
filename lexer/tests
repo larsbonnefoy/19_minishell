@@ -15,3 +15,5 @@ cat lexer.c | grep a
 rwgsfv|rwgsfdv
 wrg | grsdfv
 echo|<>grep a
+echo $
+echo $

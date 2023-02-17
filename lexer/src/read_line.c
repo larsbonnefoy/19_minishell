@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:48:00 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 13:06:14 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/17 13:42:02 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,13 @@ int main(int argc, char **argv)
 	(void) argc;
 	(void) argv;
 	t_lexer *lexer;
-	//while (1)
-	//{
+	while (1)
+	{
 		line = get_line();
-		printf("input line = %s\n", line);	
 		lexer = tokenize(line);
 		free(line);
 		lexer_clear_list(&lexer);
-	//}
+	}
 	return(0);
 }
 
