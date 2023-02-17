@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 17:08:48 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 18:36:32 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/17 08:48:39 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ void	local_free_all_node(t_local **list)
 	}
 	free(list);
 }
-

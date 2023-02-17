@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 18:04:37 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/15 10:38:05 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/17 08:48:30 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_get_local_env(char *var_name, t_local **local)
 	t_local	*head;
 	char	*value;
 	int		len_var_name;
-	
+
 	if (!local || !var_name)
 		exit(EXIT_FAILURE);
 	head = *local;
