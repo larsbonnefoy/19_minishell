@@ -4,6 +4,7 @@
 NAME = local.a
 
 FILES = ft_getenv.c env_list_manager.c env_to_list.c env_to_list.c\
+		env_reassign.c\
 
 SRCS = $(addprefix src/, $(FILES))
 

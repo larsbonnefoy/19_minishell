@@ -27,13 +27,15 @@ int main(int argc, char **argv, char **env)
 	char *clean;
 	(void) argc;
 	(void) argv;
-	int	i =-1;
+	int	i = 0;
 	t_env	**local;
+	t_env	*node2;
+	t_env	*node3;
 
 	local = env_to_list(env);
-	*local = env_new("TEST", "test_value", 0);
-	t_env *node2;
-	node2 = env_new("?", "hihi workey", 0);
+	//*local = env_new("TEST", "test_value", 0);
+	node2 = env_new(ft_strdup("?"), ft_strdup("hihi workey"), 0);
+	node3 = env_new(ft_strdup("?"), ft_strdup("POG"), 0);
 	env_addfront(node2, local);
 	while (1)
 	{
@@ -46,6 +48,9 @@ int main(int argc, char **argv, char **env)
 		strcat(sys_str, line);
 		system(sys_str);
 		free(line);
+		if (i == 0)
+			env_reassign(node3, local);
+		i++;
 	}
 	env_free_all_node(local);
 	return(0);

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOCAL_ENV_H
-# define LOCAL_ENV_H
+#ifndef ENV_H
+# define ENV_H
 
 # include "../../libft/libft.h"
 # define TRUE 1
@@ -33,4 +33,6 @@ void	env_addfront(t_env *new_node, t_env **list);
 void	env_free_node(t_env *node);
 void	env_free_all_node(t_env **list);
 t_env	**env_to_list(char **env);
+void	env_reassign(t_env *to_add, t_env **l_env);
+
 #endif

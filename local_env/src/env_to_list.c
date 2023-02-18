@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "env.h"
-#include "stdio.h"
+
 static char	*getname(char *str)
 {
 	int	i;
@@ -52,7 +52,6 @@ t_env	**env_to_list(char **env)
 	{
 		name = getname(env[i]);
 		value = getval(env[i]);
-		printf("debug\t name = [%s], value = [%s]\n", name, value);
 		new = env_new(name, value, TRUE);
 		env_addfront(new, list);
 	}

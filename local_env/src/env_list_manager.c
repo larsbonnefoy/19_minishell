@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "env.h"
-//TODO SUPPORT FOR REASSIGNING
+//fix free_node
 t_env	**env_init(void)
 {
 	t_env	**res;
