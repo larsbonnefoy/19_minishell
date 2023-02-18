@@ -21,8 +21,7 @@
 # include"../../libft/libft.h"
 
 /*
-	Ascii values of | < >
-	>> and << are double the ascii value of > and <
+	token have a value between 1 and 5
 */
 typedef enum token
 {
