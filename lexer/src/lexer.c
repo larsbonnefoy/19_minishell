@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/20 16:05:18 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:43:16 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	set_lexer(char *str, t_lexer **lexer)
 void	add_to_lexer(char *str_to_add, t_lexer **lexer)
 {
 	t_lexer	*new_node;
-	e_token	token_value;
+	t_token	token_value;
 
 	token_value = is_token(str_to_add);
 	if (token_value != 0)
@@ -119,7 +119,7 @@ int	is_token(char *str_to_add)
 int	add_to_pos(char *str, int start_pos)
 {
 	int		i;
-	e_token	token;
+	t_token	token;
 
 	if (str[start_pos] == '\0' || is_space_or_ht(str[start_pos]))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:43:01 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/20 16:10:37 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:43:57 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ typedef enum e_token
 typedef struct s_lexer
 {
 	char			*str;
-	e_token			token;
-	struct lexer	*next;
+	t_token			token;
+	struct s_lexer	*next;
 }	t_lexer;
 
 t_lexer	*tokenize(char *input_string);
@@ -53,7 +53,7 @@ int		is_space_or_ht(char c);
 int		is_quote(char c);
 
 //lexer_list_management
-t_lexer	*lexer_new_node(char *str, e_token token);
+t_lexer	*lexer_new_node(char *str, t_token token);
 void	lexer_add_back(t_lexer **lexer_list, t_lexer *new_node);
 void	lexer_print_list(t_lexer **lexer_list);
 void	lexer_clear_list(t_lexer **lexer_list);

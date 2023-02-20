@@ -6,13 +6,13 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:12:23 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 13:05:38 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:44:32 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_lexer	*lexer_new_node(char *str, e_token token)
+t_lexer	*lexer_new_node(char *str, t_token token)
 {
 	t_lexer	*new_node;
 
