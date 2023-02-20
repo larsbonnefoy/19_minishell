@@ -1,0 +1,29 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+D_QUOTE	lexer.h	/^#define D_QUOTE /;"	d
+GREATER	lexer.h	/^	GREATER = 62,$/;"	e	enum:token
+LEXER_H	lexer.h	/^#define LEXER_H$/;"	d
+LOWER	lexer.h	/^	LOWER = 60,$/;"	e	enum:token
+MINISHELL_H	minishell.h	/^#define MINISHELL_H$/;"	d
+PIPE	lexer.h	/^	PIPE = 124,$/;"	e	enum:token
+S_QUOTE	lexer.h	/^#define S_QUOTE /;"	d
+e_token	lexer.h	/^}	e_token;$/;"	t	typeref:enum:token
+find_quotes	lexer.c	/^int	find_quotes(char *str, char matching_q)$/;"	f
+get_line	read_line.c	/^char *get_line(void)$/;"	f
+join_substr	lexer.c	/^char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)$/;"	f
+lexer	lexer.h	/^typedef struct lexer$/;"	s
+lexer_add_back	lexer_list_manager.c	/^void lexer_add_back(t_lexer **lexer_list, t_lexer *new_node)$/;"	f
+lexer_clear_list	lexer_list_manager.c	/^void lexer_clear_list(t_lexer **lexer_list)$/;"	f
+lexer_new_node	lexer_list_manager.c	/^t_lexer *lexer_new_node(char *str, e_token token)$/;"	f
+main	read_line.c	/^int main(int argc, char **argv)$/;"	f
+next	lexer.h	/^	struct lexer 	*next;$/;"	m	struct:lexer	typeref:struct:lexer::lexer
+remove_sub_quotes	lexer.c	/^char *remove_sub_quotes(char *str)$/;"	f
+str	lexer.h	/^	char			*str;$/;"	m	struct:lexer
+t_lexer	lexer.h	/^}	t_lexer;$/;"	t	typeref:struct:lexer
+token	lexer.h	/^	e_token			token;$/;"	m	struct:lexer
+token	lexer.h	/^typedef enum token$/;"	g
+tokenize	lexer.c	/^t_lexer  *tokenize(char *input_string)$/;"	f
