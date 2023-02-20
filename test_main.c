@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/20 09:58:19 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/20 16:16:40 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,24 @@ void	expand_lexer(t_lexer *lexer, t_env **env)
 {
 	char	*clean;
 	t_lexer	*head;
-	char	sys_str[200] = "echo echo : ";
+	// char	sys_str[200] = "echo echo : ";
 
 	head = lexer;
-	while (lexer && lexer->str)
+	while (lexer)
 	{
-		clean = cleaner(lexer->str, env);
-		printf("input :%s\n", lexer->str);
-		printf("cleaned :%s\n", clean);
-		free(clean);
-		strcat(sys_str, lexer->str);//
-		system(sys_str);
+		if (lexer->str)
+		{ 
+			clean = cleaner(lexer->str, env);
+			// printf("input :%s\n", lexer->str);
+			// printf("cleaned :%s\n", clean);
+			free(lexer->str);
+			lexer->str = clean;
+			// strcat(sys_str, lexer->str);//
+			// system(sys_str);
+			
+		}
+		// else 
+		// 	printf("token : %d\n", lexer->token);
 		lexer = lexer->next;
 	}
 	lexer = head;
@@ -62,11 +69,12 @@ int main(int argc, char **argv, char **env)
 		line = get_line();
 		printf("input line = %s\n", line);	
 		lexer = tokenize(line);
+		free(line);
 		lexer_print_list(&lexer);
+		printf("\n\n");
 		expand_lexer(lexer, local);
 		lexer_print_list(&lexer);
 		
-		free(line);
 		lexer_clear_list(&lexer);
 		if (i == 3)
 			env_reassign(node3, local);
