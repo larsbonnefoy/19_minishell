@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/20 09:33:25 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/20 16:46:49 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,10 @@ void	set_lexer(char *str, t_lexer **lexer)
 		}
 		while (!is_space_or_ht(str[i]) && !is_token(&str[i]) && str[i] != '\0')
 			i += add_to_pos(str, i);
-		//memory leak
 		str_to_add = ft_substr(str, beg_substr, i - beg_substr);
 		if (str_to_add[0] != '\0')
 			add_to_lexer(str_to_add, lexer);
 	}
-	//lexer_print_list(lexer);
 }
 
 /*
@@ -81,7 +79,7 @@ void	set_lexer(char *str, t_lexer **lexer)
 void	add_to_lexer(char *str_to_add, t_lexer **lexer)
 {
 	t_lexer	*new_node;
-	e_token	token_value;
+	t_token	token_value;
 
 	token_value = is_token(str_to_add);
 	if (token_value != 0)
@@ -120,7 +118,7 @@ int	is_token(char *str_to_add)
 int	add_to_pos(char *str, int start_pos)
 {
 	int		i;
-	e_token	token;
+	t_token	token;
 
 	if (str[start_pos] == '\0' || is_space_or_ht(str[start_pos]))
 		return (0);

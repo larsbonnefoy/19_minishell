@@ -1,9 +1,9 @@
 .SILENT:
 ###__MAIN PROGRAM__###
 
-NAME = smpcmd
+NAME = minishell
 
-FILES = test_main.c
+FILES = lexer_to_expender.c test_main.c 
 
 SRCS = $(addprefix src/, $(FILES))
 

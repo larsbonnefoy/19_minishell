@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"env.h": "c"
+		"env.h": "c",
+		"expander.h": "c"
 	}
 }
