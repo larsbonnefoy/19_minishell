@@ -68,7 +68,7 @@ ENV_O = 	$(addprefix $(ENV_DIR)/src/, $(ENV_SRC))
 ENV_SRC =	ft_getenv.o env_list_manager.o env_to_list.o env_to_list.o\
 			env_reassign.o\
 
-LEXER_SRC = lexer.o lexer_list_manager.o\
+LEXER_SRC = lexer.o lexer_list_manager.o lexer_quotes.o lexer_quotes_utils.o\
 
 LEXER_O = $(addprefix $(LEXER_DIR)/src/, $(LEXER_SRC))
 
@@ -105,7 +105,7 @@ clean:
 		$(PRINT) "$(BLUE)cleaning\t$(NOCOLOR)"
 		@make --no-print-directory clean -C $(LIBFT_DIR)
 		@make --no-print-directory clean -C $(EXP_DIR)
-		@make --no-print-directory -C $(LEXER_DIR)
+		@make --no-print-directory clean -C $(LEXER_DIR)
 		@make --no-print-directory clean -C $(ENV_DIR)
 		$(RM) $(BIN)
 		$(RM) $(OBJ)
@@ -114,7 +114,7 @@ fclean: clean
 		$(PRINT) "$(BLUE)all\t$(NOCOLOR)"
 		@make --no-print-directory fclean -C $(LIBFT_DIR)
 		@make --no-print-directory fclean -C $(EXP_DIR)
-		@make --no-print-directory -C $(LEXER_DIR)
+		@make --no-print-directory fclean -C $(LEXER_DIR)
 		@make --no-print-directory fclean -C $(ENV_DIR)
 		$(RM) $(NAME)
 

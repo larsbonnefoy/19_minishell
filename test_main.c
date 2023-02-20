@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/20 09:22:21 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/20 09:58:19 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,26 @@ char *get_line(void)
 	line = readline("\033[0;36mSea-Shell>\033[0m");
 
 	return (line);
+}
+
+void	expand_lexer(t_lexer *lexer, t_env **env)
+{
+	char	*clean;
+	t_lexer	*head;
+	char	sys_str[200] = "echo echo : ";
+
+	head = lexer;
+	while (lexer && lexer->str)
+	{
+		clean = cleaner(lexer->str, env);
+		printf("input :%s\n", lexer->str);
+		printf("cleaned :%s\n", clean);
+		free(clean);
+		strcat(sys_str, lexer->str);//
+		system(sys_str);
+		lexer = lexer->next;
+	}
+	lexer = head;
 }
 
 int main(int argc, char **argv, char **env)
@@ -39,20 +59,16 @@ int main(int argc, char **argv, char **env)
 	env_addfront(node2, local);
 	while (1)
 	{
-		char sys_str[200] = "echo echo : ";
 		line = get_line();
 		printf("input line = %s\n", line);	
 		lexer = tokenize(line);
+		lexer_print_list(&lexer);
+		expand_lexer(lexer, local);
+		lexer_print_list(&lexer);
 		
-		// clean = cleaner(line, local);
-		// printf("input :%s\n", line);
-		// printf("cleaned :%s\n", clean);
-		// free(clean);
-		// strcat(sys_str, line);
-		// system(sys_str);
 		free(line);
-		free(lexer);
-		if (i == 0)
+		lexer_clear_list(&lexer);
+		if (i == 3)
 			env_reassign(node3, local);
 		i++;
 	}

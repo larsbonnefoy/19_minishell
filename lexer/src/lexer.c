@@ -6,102 +6,135 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/20 09:22:50 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/20 09:33:25 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include <stdio.h>
 
-int	find_quotes(char *str, char matching_q);
-char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length);
-char *remove_sub_quotes(char *str);
-int is_quote(char c);
+void	add_to_lexer(char *str, t_lexer **lexer);
+void	set_lexer(char *str, t_lexer **lexer);
+int		is_token(char *str_to_add);
+int		add_to_pos(char *str, int start_pos);
 
 /*
 	Split the input string into words and tokens
 		->Need to remove subsequent quotes of the same type first 
-		->Check for alone standing quote and returns if quote error.
-	Replace every whitespace that is not between strings to space
+			(that are directly adjacent to a word)
+		->Check for alone standing quote and returns quote error.
 */
-t_lexer  *tokenize(char *input_string)
+t_lexer	*tokenize(char *input_string)
 {
-	t_lexer *lexer;
+	t_lexer	*lexer;
 	char	*clean_str;
 
 	lexer = NULL;
-	clean_str = remove_sub_quotes(input_string);
-	printf("string after lexer = %s\n", clean_str);
+	clean_str = handle_sub_quotes(input_string);
+	if (clean_str == NULL)
+		return (NULL);
+	set_lexer(clean_str, &lexer);
+	free(clean_str);
 	return (lexer);
 }
 
 /*
-	Remove subsequent quotes
-	Send back every non-empty string enclosed by the same quotes
-*/
-char *remove_sub_quotes(char *str)
+ * Returns linked list lexer where each node is a word or a token
+ * Skip withespaces
+ * If quotes, jump to the next matching quote
+ * If token, creates new substr with token
+ */
+void	set_lexer(char *str, t_lexer **lexer)
 {
-	int		curr_pos;
-	int		beg_sub;
-	int		next_matching_q;
-	char	*clean_str;
-	
-	curr_pos = 0;
-	beg_sub = curr_pos;
-	clean_str = NULL;
-	while (str[curr_pos])
+	int		i;
+	int		beg_substr;
+	char	*str_to_add;
+
+	i = 0;
+	while (str[i])
 	{
-		while (!is_quote(str[curr_pos]) && str[curr_pos] != '\0') 
-			curr_pos++;
-		if (curr_pos != 0)
-			clean_str = join_substr(str, clean_str, beg_sub, curr_pos - beg_sub);
-		else if (is_quote(str[curr_pos]))
+		while (is_space_or_ht(str[i]))
+			i++;
+		beg_substr = i;
+		if (is_token(&str[i]))
 		{
-			next_matching_q = find_quotes(str + curr_pos, str[curr_pos]);
-			if (!next_matching_q)
-				return (NULL);
-			curr_pos += next_matching_q;
-			clean_str = join_substr(str, clean_str, beg_sub, curr_pos - beg_sub);
+			i += add_to_pos(str, i);
+			str_to_add = ft_substr(str, beg_substr, i - beg_substr);
+			add_to_lexer(str_to_add, lexer);
+			beg_substr = i;
 		}
-		curr_pos++;
-		beg_sub = curr_pos;
+		while (!is_space_or_ht(str[i]) && !is_token(&str[i]) && str[i] != '\0')
+			i += add_to_pos(str, i);
+		//memory leak
+		str_to_add = ft_substr(str, beg_substr, i - beg_substr);
+		if (str_to_add[0] != '\0')
+			add_to_lexer(str_to_add, lexer);
 	}
-	return (clean_str);
+	//lexer_print_list(lexer);
 }
 
 /*
-	returns index of first matching quote found
-	else returns 0
-*/
-int	find_quotes(char *str, char matching_q)
+ * Adds the substr to the lexer list
+ * If the substr is a token, adds its enum value in the list,
+ * frees the substring and sets the string to be added to null
+ */
+void	add_to_lexer(char *str_to_add, t_lexer **lexer)
 {
-	int i;
+	t_lexer	*new_node;
+	e_token	token_value;
 
-	i = 1;
-	while (str[i] != '\0')	
+	token_value = is_token(str_to_add);
+	if (token_value != 0)
 	{
-		if (str[i] == matching_q)
-			return (i);	
-		i++;
+		free(str_to_add);
+		str_to_add = NULL;
+	}	
+	new_node = lexer_new_node(str_to_add, token_value);
+	lexer_add_back(lexer, new_node);
+}
+
+/*
+ * Tokens can be set next to directly next to words
+ * Returns enum value of token when one is found, else returns 0;
+ */
+int	is_token(char *str_to_add)
+{	
+	if (str_to_add[0] == '\0')
+		return (NOT_A_TOKEN);
+	if (str_to_add[0] == '>' && str_to_add[1] == '>')
+		return (D_GREATER);
+	else if (str_to_add[0] == '<' && str_to_add[1] == '<')
+		return (D_GREATER);
+	else if (str_to_add[0] == '|')
+		return (PIPE);
+	else if (str_to_add[0] == '>')
+		return (GREATER);
+	else if (str_to_add[0] == '<')
+		return (LOWER);
+	return (NOT_A_TOKEN);
+}
+
+/*
+ * Retuns the increment to add to the current_position
+ */
+int	add_to_pos(char *str, int start_pos)
+{
+	int		i;
+	e_token	token;
+
+	if (str[start_pos] == '\0' || is_space_or_ht(str[start_pos]))
+		return (0);
+	i = 0;
+	if (is_quote(str[start_pos]))
+		return (i += find_quotes(str + start_pos, str[start_pos]));
+	token = is_token(&str[start_pos]);
+	if (token)
+	{
+		if (token == D_GREATER || token == D_LOWER)
+			return (i += 2);
+		else
+			return (i + 1);
 	}
-	return (0);
-}
-
-int is_quote(char c)
-{
-	if (c == S_QUOTE || c == D_QUOTE)
-		return (1);
-	return (0);
-}
-
-char *join_substr(char *main_str, char *clean_str, int beg_sub_str, int length)
-{
-	char	*sub_str;
-	char	*new_clean_str;
-
-	new_clean_str = NULL;
-	sub_str = ft_substr(main_str, beg_sub_str, length);
-	printf("substr = %s\n", sub_str);
-	new_clean_str = ft_strjoinf(clean_str, sub_str);
-	return (new_clean_str);
+	else
+		return (i + 1);
 }

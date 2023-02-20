@@ -3,29 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_list_manager.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
+/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:12:23 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/20 09:15:21 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:05:38 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_lexer *lexer_new_node(char *str, e_token token)
+t_lexer	*lexer_new_node(char *str, e_token token)
 {
 	t_lexer	*new_node;
 
 	new_node = ft_malloc(sizeof(t_lexer));
-	if (!new_node)
-		return (NULL);
 	new_node->str = str;
-	new_node->token = token;	
+	new_node->token = token;
 	new_node->next = NULL;
 	return (new_node);
 }
 
-void lexer_add_back(t_lexer **lexer_list, t_lexer *new_node)
+void	lexer_add_back(t_lexer **lexer_list, t_lexer *new_node)
 {
 	t_lexer	*tmp;
 
@@ -40,13 +38,30 @@ void lexer_add_back(t_lexer **lexer_list, t_lexer *new_node)
 		*lexer_list = new_node;
 }
 
-void lexer_clear_list(t_lexer **lexer_list)
+void	lexer_print_list(t_lexer **lexer_list)
 {
-	t_lexer *buffer;
+	t_lexer	*tmp;
+
+	tmp = *lexer_list;
+	while (tmp)
+	{
+		if (tmp->str)
+			printf("[%s] [%d]\n", tmp->str, tmp->token);
+		else
+			printf("[null] [%d]\n", tmp->token);
+		tmp = tmp->next;
+	}
+}
+
+void	lexer_clear_list(t_lexer **lexer_list)
+{
+	t_lexer	*buffer;
 
 	while (*lexer_list)
 	{
 		buffer = *lexer_list;
+		if (buffer->str != NULL)
+			free(buffer->str);
 		*lexer_list = (*lexer_list)->next;
 		free(buffer);
 	}
