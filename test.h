@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 22:53:09 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/20 08:53:42 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/20 09:11:28 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@
 # include "libft/libft.h"
 # include "env/src/env.h"
 # include "expander/src/expander.h"
+# include "lexer/src/lexer.h"
 
 #endif

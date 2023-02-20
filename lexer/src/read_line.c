@@ -6,11 +6,10 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:48:00 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/13 09:05:31 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/20 09:05:12 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "lexer.h"
 
 char *get_line(void)

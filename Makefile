@@ -31,17 +31,23 @@ LIBFT_DIR = ./libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-###__CLEANER_N_EXPAND__###
+###__EXPANDER__###
 
 EXP_DIR = ./expander
 
 EXP = $(EXP_DIR)/expander.a
 
-###__LOCAL__###
+###__ENV__###
 
 ENV_DIR = ./env
 
 ENV = $(ENV_DIR)/env.a
+
+###__LEXER__###
+
+LEXER_DIR = ./lexer
+
+LEXER = $(LEXER_DIR)/lexer.a
 
 ###__DEPENDENCIES__###
 
@@ -62,10 +68,16 @@ ENV_O = 	$(addprefix $(ENV_DIR)/src/, $(ENV_SRC))
 ENV_SRC =	ft_getenv.o env_list_manager.o env_to_list.o env_to_list.o\
 			env_reassign.o\
 
+LEXER_SRC = lexer.o lexer_list_manager.o\
+
+LEXER_O = $(addprefix $(LEXER_DIR)/src/, $(LEXER_SRC))
+
+
 LIBFT_O = $(LIBFT_DIR)/*.o
 EXP_O = $(EXP_DIR)/src/*.o
 ENV_O = $(ENV_DIR)/src/*.o
-DEP = $(LIBFT_O) $(ENV_O) $(EXP_O)
+
+DEP = $(LIBFT_O) $(ENV_O) $(EXP_O) $(LEXER_O)
 
 BIN = compiled_dependencies.a
 
@@ -75,6 +87,7 @@ $(NAME): $(OBJ)
 		@make --no-print-directory -C $(LIBFT_DIR)
 		@make --no-print-directory -C $(ENV_DIR)
 		@make --no-print-directory -C $(EXP_DIR)
+		@make --no-print-directory -C $(LEXER_DIR)
 		$(PRINT) "$(YELLOW)linking $(NOCOLOR)libraries\t"
 		$(AR) $(BIN) $(DEP)
 		$(PRINT) "$(GREEN)done\t$(NOCOLOR)"
@@ -92,6 +105,7 @@ clean:
 		$(PRINT) "$(BLUE)cleaning\t$(NOCOLOR)"
 		@make --no-print-directory clean -C $(LIBFT_DIR)
 		@make --no-print-directory clean -C $(EXP_DIR)
+		@make --no-print-directory -C $(LEXER_DIR)
 		@make --no-print-directory clean -C $(ENV_DIR)
 		$(RM) $(BIN)
 		$(RM) $(OBJ)
@@ -100,6 +114,7 @@ fclean: clean
 		$(PRINT) "$(BLUE)all\t$(NOCOLOR)"
 		@make --no-print-directory fclean -C $(LIBFT_DIR)
 		@make --no-print-directory fclean -C $(EXP_DIR)
+		@make --no-print-directory -C $(LEXER_DIR)
 		@make --no-print-directory fclean -C $(ENV_DIR)
 		$(RM) $(NAME)
 

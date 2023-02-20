@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/17 15:48:10 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/20 09:22:21 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int main(int argc, char **argv, char **env)
 	t_env	**local;
 	t_env	*node2;
 	t_env	*node3;
+	t_lexer *lexer;
 
 	local = env_to_list(env);
-	//*local = env_new("TEST", "test_value", 0);
 	node2 = env_new(ft_strdup("?"), ft_strdup("hihi workey"), 0);
 	node3 = env_new(ft_strdup("?"), ft_strdup("POG"), 0);
 	env_addfront(node2, local);
@@ -41,13 +41,17 @@ int main(int argc, char **argv, char **env)
 	{
 		char sys_str[200] = "echo echo : ";
 		line = get_line();
-		clean = cleaner(line, local);
-		printf("input :%s\n", line);
-		printf("cleaned :%s\n", clean);
-		free(clean);
-		strcat(sys_str, line);
-		system(sys_str);
+		printf("input line = %s\n", line);	
+		lexer = tokenize(line);
+		
+		// clean = cleaner(line, local);
+		// printf("input :%s\n", line);
+		// printf("cleaned :%s\n", clean);
+		// free(clean);
+		// strcat(sys_str, line);
+		// system(sys_str);
 		free(line);
+		free(lexer);
 		if (i == 0)
 			env_reassign(node3, local);
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/12 12:14:07 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/20 09:22:50 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_lexer  *tokenize(char *input_string)
 
 	lexer = NULL;
 	clean_str = remove_sub_quotes(input_string);
-	printf("cleaned string = %s\n", clean_str);
+	printf("string after lexer = %s\n", clean_str);
 	return (lexer);
 }
 

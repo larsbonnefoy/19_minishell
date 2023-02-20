@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_list_manager.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:12:23 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/11 16:12:41 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/20 09:15:21 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lexer.h>
+#include "lexer.h"
 
 t_lexer *lexer_new_node(char *str, e_token token)
 {
