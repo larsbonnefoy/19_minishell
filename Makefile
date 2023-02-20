@@ -7,7 +7,7 @@ FILES = lexer_to_expender.c test_main.c
 
 SRCS = $(addprefix src/, $(FILES))
 
-OBJ = $(FILES:.c=.o)
+OBJ = $(SRCS:.c=.o)
 
 CFLAGS = -Wall -Wextra -Werror -Ilibft/ -Ienv/src/ -Iexpander/src/ $(FFLAGS)
 
