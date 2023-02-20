@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 09:39:40 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 15:45:28 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:10:50 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char	*join_substr(char *main_str, char *clean_str, int beg_sub_str, int len)
 	char	*sub_str;
 	char	*new_clean_str;
 
-	//leak ici
 	sub_str = ft_substr(main_str, beg_sub_str, len);
 	if (sub_str == NULL)
 		return (NULL);

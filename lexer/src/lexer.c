@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/17 13:05:35 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:05:18 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	set_lexer(char *str, t_lexer **lexer)
 		}
 		while (!is_space_or_ht(str[i]) && !is_token(&str[i]) && str[i] != '\0')
 			i += add_to_pos(str, i);
-		//memory leak
 		str_to_add = ft_substr(str, beg_substr, i - beg_substr);
 		if (str_to_add[0] != '\0')
 			add_to_lexer(str_to_add, lexer);
