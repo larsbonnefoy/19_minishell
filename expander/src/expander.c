@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   smpcmd_expander.c                                  :+:      :+:    :+:   */
+/*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:01:36 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/17 15:21:08 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/20 08:29:46 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "smpcmd.h"
+#include "expander.h"
 
 static char	*expand(char *str, t_env **local_env)
 {
@@ -57,8 +57,6 @@ static char	*handle_dollar(char *str, int *i, t_env **local_env)
 
 /*
  * expands $
- * TODO
- * ~ idk if we need
  */
 char	*expander(char *str, int quote_type, t_env **local_env)
 {

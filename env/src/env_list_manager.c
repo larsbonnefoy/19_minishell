@@ -6,12 +6,12 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 17:08:48 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/17 15:25:39 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/20 08:15:59 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-//fix free_node
+
 t_env	**env_init(void)
 {
 	t_env	**res;

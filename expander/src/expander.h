@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 10:59:27 by hdelmas           #+#    #+#             */
-/*   Updated: 2022/10/19 15:08:50 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/13 08:51:12 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/02/20 08:30:20 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef EXPANDER_H
+# define EXPANDER_H
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
-{
-	t_list	*temp;
+# include "../../libft/libft.h"
+# include "../../env/src/env.h"
 
-	if (!lst || !del)
-		return ;
-	if (!*lst)
-	{
-		free(*lst);
-		lst = NULL;
-		return ;
-	}
-	temp = *lst;
-	*lst = temp->next;
-	ft_lstdelone(temp, del);
-	ft_lstclear(lst, del);
-}
+# define S_QUOTE 39
+# define D_QUOTE 34
+
+char	*cleaner(char *str, t_env **local_env);
+char	*expander(char *str, int quote_type, t_env **local_env);
+#endif

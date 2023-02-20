@@ -9,7 +9,7 @@ SRCS = $(addprefix src/, $(FILES))
 
 OBJ = $(FILES:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -Ilibft/ -Ilocal_env/src/ -Isimplecmd/src/ $(FFLAGS)
+CFLAGS = -Wall -Wextra -Werror -Ilibft/ -Ienv/src/ -Iexpander/src/ $(FFLAGS)
 
 FFLAGS = -fsanitize=address -g
 
@@ -33,23 +33,39 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 ###__CLEANER_N_EXPAND__###
 
-CLNR_DIR = ./simplecmd
+EXP_DIR = ./expander
 
-CLNR = $(CLNR_DIR)/clean_n_expand.a
+EXP = $(EXP_DIR)/expander.a
 
 ###__LOCAL__###
 
-LOCAL_DIR = ./local_env
+ENV_DIR = ./env
 
-LOCAL = $(LOCAL_DIR)/local.a
+ENV = $(ENV_DIR)/env.a
 
 ###__DEPENDENCIES__###
 
-LIBFTO = $(LIBFT_DIR)/*.o
-CLNRO = $(CLNR_DIR)/src/*.o
-LOCALO = $(LOCAL_DIR)/src/*.o
+LIBFT_O = $(addprefix $(LIBFT_DIR)/, $(LIBFT_SRC))
 
-DEP = $(LIBFTO) $(LOCALO) $(CLNRO)
+LIBFT_SRC = ft_isascii.o ft_isalnum.o ft_isalpha.o ft_isdigit.o ft_isprint.o\
+			ft_strlen.o ft_strlcpy.o ft_strlcat.o ft_strncmp.o ft_atoi.o\
+			ft_strdup.o ft_strldup.o ft_tolower.o ft_toupper.o ft_strchr.o\
+			ft_strrchr.o ft_strnstr.o ft_memset.o ft_bzero.o ft_memcpy.o\
+			ft_memmove.o ft_memchr.o ft_memcmp.o ft_calloc.o ft_substr.o\
+			ft_strjoin.o ft_strtrim.o ft_split.o ft_itoa.o ft_strmapi.o\
+			ft_striteri.o ft_putchar_fd.o ft_putstr_fd.o ft_putendl_fd.o\
+			ft_putnbr_fd.o ft_malloc.o ft_calloc_exit.o ft_strjoinf.o ft_strjoin_ff.o\
+
+EXP_O = 	$(EXP_DIR)/src/cleaner.o $(EXP_DIR)/src/expander.o\
+
+ENV_O = 	$(addprefix $(ENV_DIR)/src/, $(ENV_SRC))
+ENV_SRC =	ft_getenv.o env_list_manager.o env_to_list.o env_to_list.o\
+			env_reassign.o\
+
+LIBFT_O = $(LIBFT_DIR)/*.o
+EXP_O = $(EXP_DIR)/src/*.o
+ENV_O = $(ENV_DIR)/src/*.o
+DEP = $(LIBFT_O) $(ENV_O) $(EXP_O)
 
 BIN = compiled_dependencies.a
 
@@ -57,8 +73,8 @@ BIN = compiled_dependencies.a
 $(NAME): $(OBJ)
 		$(PRINT_OS)
 		@make --no-print-directory -C $(LIBFT_DIR)
-		@make --no-print-directory -C $(LOCAL_DIR)
-		@make --no-print-directory -C $(CLNR_DIR)
+		@make --no-print-directory -C $(ENV_DIR)
+		@make --no-print-directory -C $(EXP_DIR)
 		$(PRINT) "$(YELLOW)linking $(NOCOLOR)libraries\t"
 		$(AR) $(BIN) $(DEP)
 		$(PRINT) "$(GREEN)done\t$(NOCOLOR)"
@@ -75,16 +91,16 @@ all: $(NAME)
 clean:
 		$(PRINT) "$(BLUE)cleaning\t$(NOCOLOR)"
 		@make --no-print-directory clean -C $(LIBFT_DIR)
-		@make --no-print-directory clean -C $(CLNR_DIR)
-		@make --no-print-directory clean -C $(LOCAL_DIR)
+		@make --no-print-directory clean -C $(EXP_DIR)
+		@make --no-print-directory clean -C $(ENV_DIR)
 		$(RM) $(BIN)
 		$(RM) $(OBJ)
 
 fclean: clean
 		$(PRINT) "$(BLUE)all\t$(NOCOLOR)"
 		@make --no-print-directory fclean -C $(LIBFT_DIR)
-		@make --no-print-directory fclean -C $(CLNR_DIR)
-		@make --no-print-directory fclean -C $(LOCAL_DIR)
+		@make --no-print-directory fclean -C $(EXP_DIR)
+		@make --no-print-directory fclean -C $(ENV_DIR)
 		$(RM) $(NAME)
 
 re :	fclean $(NAME)

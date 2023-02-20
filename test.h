@@ -6,15 +6,21 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 22:53:09 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/17 14:00:57 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/20 08:53:42 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEST_H
 # define TEST_H
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # include "libft/libft.h"
-# include "local_env/src/env.h"
-# include "simplecmd/src/smpcmd.h"
+# include "env/src/env.h"
+# include "expander/src/expander.h"
 
 #endif
