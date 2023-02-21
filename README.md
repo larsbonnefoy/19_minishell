@@ -1,1 +1,1 @@
-![](https://github.com/larsbonnefoy/19_minishell/blob/main/surprised-pikachu.gif)
+![](https://github.com/larsbonnefoy/19_minishell/blob/main/gif/surprised-pikachu.gif)
