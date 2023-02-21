@@ -49,6 +49,10 @@ LEXER_DIR = ./lexer
 
 LEXER = $(LEXER_DIR)/lexer.a
 
+PARSER_DIR = ./parser
+
+PARSER = $(PARSER_DIR)/parser.a
+
 ###__DEPENDENCIES__###
 
 LIBFT_O = $(addprefix $(LIBFT_DIR)/, $(LIBFT_SRC))
@@ -61,6 +65,7 @@ LIBFT_SRC = ft_isascii.o ft_isalnum.o ft_isalpha.o ft_isdigit.o ft_isprint.o\
 			ft_strjoin.o ft_strtrim.o ft_split.o ft_itoa.o ft_strmapi.o\
 			ft_striteri.o ft_putchar_fd.o ft_putstr_fd.o ft_putendl_fd.o\
 			ft_putnbr_fd.o ft_malloc.o ft_calloc_exit.o ft_strjoinf.o ft_strjoin_ff.o\
+			ft_realloc.o\
 
 EXP_O = 	$(EXP_DIR)/src/cleaner.o $(EXP_DIR)/src/expander.o\
 
@@ -72,12 +77,11 @@ LEXER_SRC = lexer.o lexer_list_manager.o lexer_quotes.o lexer_quotes_utils.o\
 
 LEXER_O = $(addprefix $(LEXER_DIR)/src/, $(LEXER_SRC))
 
+PARSER_SRC = simple_cmd.o
 
-LIBFT_O = $(LIBFT_DIR)/*.o
-EXP_O = $(EXP_DIR)/src/*.o
-ENV_O = $(ENV_DIR)/src/*.o
+PARSER_O = $(addprefix $(PARSER_DIR)/src/, $(PARSER_SRC))
 
-DEP = $(LIBFT_O) $(ENV_O) $(EXP_O) $(LEXER_O)
+DEP = $(LIBFT_O) $(ENV_O) $(EXP_O) $(LEXER_O) $(PARSER_O)
 
 BIN = compiled_dependencies.a
 
@@ -88,6 +92,7 @@ $(NAME): $(OBJ)
 		@make --no-print-directory -C $(ENV_DIR)
 		@make --no-print-directory -C $(EXP_DIR)
 		@make --no-print-directory -C $(LEXER_DIR)
+		@make --no-print-directory -C $(PARSER_DIR)
 		$(PRINT) "$(YELLOW)linking $(NOCOLOR)libraries\t"
 		$(AR) $(BIN) $(DEP)
 		$(PRINT) "$(GREEN)done\t$(NOCOLOR)"
@@ -107,6 +112,7 @@ clean:
 		@make --no-print-directory clean -C $(EXP_DIR)
 		@make --no-print-directory clean -C $(LEXER_DIR)
 		@make --no-print-directory clean -C $(ENV_DIR)
+		@make --no-print-directory clean -C $(PARSER_DIR)
 		$(RM) $(BIN)
 		$(RM) $(OBJ)
 
@@ -116,6 +122,7 @@ fclean: clean
 		@make --no-print-directory fclean -C $(EXP_DIR)
 		@make --no-print-directory fclean -C $(LEXER_DIR)
 		@make --no-print-directory fclean -C $(ENV_DIR)
+		@make --no-print-directory fclean -C $(PARSER_DIR)
 		$(RM) $(NAME)
 
 re :	fclean $(NAME)
