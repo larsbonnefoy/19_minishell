@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:22:06 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/21 10:29:41 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/21 10:39:02 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,3 +23,4 @@ void	*ft_realloc(void *p, size_t size_of, size_t size)
 	ft_memmove(res, p, size -1);
 	free(p);
 	return (res);
+}

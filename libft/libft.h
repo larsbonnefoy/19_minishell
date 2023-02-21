@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:13:31 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/20 08:46:56 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/21 10:37:58 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ void	*ft_calloc_exit(size_t count, size_t size);
 void	*ft_malloc(size_t bytes);
 char	*ft_strjoinf(const char *s1, const char *s2);
 char	*ft_strjoin_ff(char *str1, char *str2);
+void	*ft_realloc(void *p, size_t size_of, size_t size);
 
 #endif
