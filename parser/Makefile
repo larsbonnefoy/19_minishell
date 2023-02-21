@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/12 12:01:38 by lbonnefo          #+#    #+#              #
-#    Updated: 2023/02/21 11:44:38 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/02/21 11:44:43 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@
 
 ###__MAIN PROGRAM__###
 
-NAME = lexer.a
+NAME = parser.a
 
-FILES = lexer.c lexer_quotes.c lexer_quotes_utils.c lexer_list_manager.c \
+FILES = simple_cmd.c\
 
 SRCS = $(addprefix src/, $(FILES))
 

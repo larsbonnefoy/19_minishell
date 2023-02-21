@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/20 17:44:58 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:39:12 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ char *get_line(void)
 
 int main(int argc, char **argv, char **env)
 {
-	char	*line;
-	char	*clean;
-	int		i;
-	t_env	**l_env;
-	t_env	*node2;
-	t_env	*node3;
-	t_lexer	*lexer;
+	char			*line;
+	char			*clean;
+	int				i;
+	int				j;
+	t_env			**l_env;
+	t_env			*node2;
+	t_env			*node3;
+	t_lexer			*lexer;
+	t_simple_cmds	*cmd;
 
 	(void)argc;
 	(void)argv;
@@ -48,11 +50,22 @@ int main(int argc, char **argv, char **env)
 		lexer = tokenize(line);
 		free(line);
 		lexer_print_list(&lexer);
-		printf("\n\n");
+		printf("-----------------------\n");
 		lexer_to_expander(lexer, l_env);
 		lexer_print_list(&lexer);
-
-		lexer_clear_list(&lexer);
+		cmd = create_simple_cmd(lexer);
+		j = -1;
+		printf("cmd av : [");
+		while (cmd->av[++j])
+		{
+			if (cmd->av[j+1])
+				printf("%s, ", cmd->av[j]);
+			else 
+				printf("%s]\n", cmd->av[j]);
+		}
+		if (cmd->redirections)
+			printf("redirection : token = [%d], file = [%s]\n", cmd->redirections->token, cmd->redirections->str);
+		// lexer_clear_list(&lexer);
 		if (i == 3)
 			env_reassign(node3, l_env);
 		i++;

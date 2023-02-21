@@ -65,7 +65,7 @@ LIBFT_SRC = ft_isascii.o ft_isalnum.o ft_isalpha.o ft_isdigit.o ft_isprint.o\
 			ft_strjoin.o ft_strtrim.o ft_split.o ft_itoa.o ft_strmapi.o\
 			ft_striteri.o ft_putchar_fd.o ft_putstr_fd.o ft_putendl_fd.o\
 			ft_putnbr_fd.o ft_malloc.o ft_calloc_exit.o ft_strjoinf.o ft_strjoin_ff.o\
-			ft_realloc.o\
+			ft_realloc_tab.o\
 
 EXP_O = 	$(EXP_DIR)/src/cleaner.o $(EXP_DIR)/src/expander.o\
 
