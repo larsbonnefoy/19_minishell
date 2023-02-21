@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/07 11:54:57 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/17 11:02:05 by lbonnefo         ###   ########.fr       */
+/*   Created: 2022/10/12 14:38:27 by hdelmas           #+#    #+#             */
+/*   Updated: 2022/10/19 15:09:55 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	char	*res;
-	size_t	i;
-	size_t	len_to_check;
+	t_list	*res;
+	t_list	*new;
 
-	i = 0;
-	len_to_check = 0;
-	if (!s)
+	if (!lst || !f || !del)
 		return (NULL);
-	while (start < ft_strlen(s)
-		&& s[start + len_to_check] && len_to_check < len)
-		len_to_check++;
-	res = ft_malloc(sizeof(char) * (len_to_check + 1));
-	if (start < ft_strlen(s))
+	res = NULL;
+	while (lst)
 	{
-		while (s[start + i] && i < len_to_check)
+		new = ft_lstnew(f(lst->content));
+		if (!new)
 		{
-			res[i] = s[start + i];
-			i++;
+			ft_lstclear(&res, del);
+			return (NULL);
 		}
+		ft_lstadd_back(&res, new);
+		lst = lst->next;
 	}
-	res[i] = '\0';
 	return (res);
 }
