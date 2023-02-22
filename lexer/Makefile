@@ -3,41 +3,65 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+         #
+#    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/12 12:01:38 by lbonnefo          #+#    #+#              #
-#    Updated: 2023/02/17 11:25:38 by lbonnefo         ###   ########.fr        #
+#    Updated: 2023/02/21 11:44:38 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = lexer 
+.SILENT:
 
-FILES = lexer.c \
-		read_line.c \
-		lexer_quotes.c \
-		lexer_quotes_utils.c \
-		lexer_list_manager.c \
-		
-SRCS= $(addprefix src/, $(FILES))
+###__MAIN PROGRAM__###
+
+NAME = lexer.a
+
+FILES = lexer.c lexer_quotes.c lexer_quotes_utils.c lexer_list_manager.c \
+
+SRCS = $(addprefix src/, $(FILES))
 
 OBJ = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror $(FFLAGS)  
 
+FFLAGS = -fsanitize=address -g
+
+CC = @cc
+
+AR = ar -rcs
+
+RM = @rm -f
+
+###__COMPILATION__###
 $(NAME): $(OBJ)
-				cc $(CFLAGS) $(OBJ) -o $(NAME) ../libft/libft.a -lreadline
+		$(PRINT) "$(RED)making:\t$(NOCOLOR)$(NAME)"
+		$(AR) $(NAME) $(OBJ)
+		$(PRINT) "$(GREEN)done:\t$(NOCOLOR)$(NAME)"
 
 .c.o:
-		cc $(CFLAGS) -c $< -o $(<:.c=.o)
+		$(CC) $(CFLAGS) -g -c $< -g -o $(<:.c=.o)
 
-all: $(NAME) 
+###__RULES__###
+all: $(NAME)
 
 clean:
-		rm -rf $(OBJ)
+		$(RM) $(OBJ)
 
 fclean: clean
-		rm -rf $(NAME)
+		$(RM) $(NAME)
 
-re: fclean all
+re :	fclean $(NAME)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re 
+
+###__PRINT__###
+
+PRINT = echo
+
+###__COLORS__###
+NOCOLOR = \033[0m
+RED = \033[0;31m
+GREEN = \033[0;32m
+YELLOW = \033[0;32m
+BLUE = \033[0;34m
+CYAN = \033[0;36m
