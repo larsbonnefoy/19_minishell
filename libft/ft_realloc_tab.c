@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+
 static void	*ft_tab_memcpy(void *dst, const void *src, size_t n)
 {
 	char	**cpy;
@@ -26,10 +27,10 @@ static void	*ft_tab_memcpy(void *dst, const void *src, size_t n)
 		cpy[i] = temp_src[i];
 	return (dst);
 }
+
 void	**ft_realloc_tab(void **p, size_t size_of, size_t size)
 {
 	void	*res;
-
 
 	res = ft_malloc(size_of * (size + 1));
 	if (!p)
