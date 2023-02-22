@@ -3,65 +3,41 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
+#    By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/12 12:01:38 by lbonnefo          #+#    #+#              #
-#    Updated: 2023/02/21 11:44:38 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/02/17 11:25:38 by lbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.SILENT:
+NAME = lexer 
 
-###__MAIN PROGRAM__###
-
-NAME = lexer.a
-
-FILES = lexer.c lexer_quotes.c lexer_quotes_utils.c lexer_list_manager.c \
-
-SRCS = $(addprefix src/, $(FILES))
+FILES = lexer.c \
+		read_line.c \
+		lexer_quotes.c \
+		lexer_quotes_utils.c \
+		lexer_list_manager.c \
+		
+SRCS= $(addprefix src/, $(FILES))
 
 OBJ = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror $(FFLAGS)  
+CFLAGS = -Wall -Wextra -Werror
 
-FFLAGS = -fsanitize=address -g
-
-CC = @cc
-
-AR = ar -rcs
-
-RM = @rm -f
-
-###__COMPILATION__###
 $(NAME): $(OBJ)
-		$(PRINT) "$(RED)making:\t$(NOCOLOR)$(NAME)"
-		$(AR) $(NAME) $(OBJ)
-		$(PRINT) "$(GREEN)done:\t$(NOCOLOR)$(NAME)"
+				cc $(CFLAGS) $(OBJ) -o $(NAME) ../libft/libft.a -lreadline
 
 .c.o:
-		$(CC) $(CFLAGS) -g -c $< -g -o $(<:.c=.o)
+		cc $(CFLAGS) -c $< -o $(<:.c=.o)
 
-###__RULES__###
-all: $(NAME)
+all: $(NAME) 
 
 clean:
-		$(RM) $(OBJ)
+		rm -rf $(OBJ)
 
 fclean: clean
-		$(RM) $(NAME)
+		rm -rf $(NAME)
 
-re :	fclean $(NAME)
+re: fclean all
 
-.PHONY: all clean fclean re 
-
-###__PRINT__###
-
-PRINT = echo
-
-###__COLORS__###
-NOCOLOR = \033[0m
-RED = \033[0;31m
-GREEN = \033[0;32m
-YELLOW = \033[0;32m
-BLUE = \033[0;34m
-CYAN = \033[0;36m
+.PHONY: all clean fclean re
