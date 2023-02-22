@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:10:26 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/22 11:14:54 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/22 15:45:16 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define EXECUTOR_H
 
 # include"../../libft/libft.h"
+
 typedef struct s_simple_cmds
 {
     char                    **av;
@@ -24,4 +25,6 @@ typedef struct s_simple_cmds
     struct s_simple_cmds    *next;
     //struct s_simple_cmds    *prev;
 }    t_simple_cmds;
+
+void executor(t_simple_cmds *cmd);
 #endif
