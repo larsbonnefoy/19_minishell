@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:37:38 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/21 18:09:48 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/22 13:31:30 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_simple_cmds	*create_simple_cmd(t_lexer *lexer)
 	res = ft_malloc(sizeof(t_simple_cmds));
 	res->av = NULL;
 	res->redirections = NULL;
+	res->next = NULL;
 	while (lexer && lexer->token != PIPE)
 	{
 		if (lexer->str)
@@ -50,4 +51,23 @@ t_simple_cmds	*create_simple_cmd(t_lexer *lexer)
 	free(tmp);
 	}
 	return (res);
+}
+
+void	destroy_simple_cmd(t_simple_cmds *cmd)
+{
+	int				i;
+	t_simple_cmds	*tmp;
+
+	i = -1;
+	while (cmd)
+	{
+		while (cmd->av && cmd->av[++i])
+			free(cmd->av[i]);
+		if (cmd->av)
+			free(cmd->av);
+		lexer_clear_list(&cmd->redirections);
+		tmp = cmd;
+		cmd = cmd->next;
+		free(tmp);
+	}
 }

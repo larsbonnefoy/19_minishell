@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/21 16:39:12 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/22 13:35:47 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int main(int argc, char **argv, char **env)
 		cmd = create_simple_cmd(lexer);
 		j = -1;
 		printf("cmd av : [");
-		while (cmd->av[++j])
+		while (cmd->av && cmd->av[++j])
 		{
 			if (cmd->av[j+1])
 				printf("%s, ", cmd->av[j]);
@@ -66,10 +66,14 @@ int main(int argc, char **argv, char **env)
 		if (cmd->redirections)
 			printf("redirection : token = [%d], file = [%s]\n", cmd->redirections->token, cmd->redirections->str);
 		// lexer_clear_list(&lexer);
+		destroy_simple_cmd(cmd);
+		break ;
 		if (i == 3)
 			env_reassign(node3, l_env);
 		i++;
 	}
+	if (i < 3 )
+		env_free_node(node3);
 	env_free_all_node(l_env);
 	return (0);
 }

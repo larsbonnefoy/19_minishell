@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/20 16:46:49 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/22 14:05:00 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	set_lexer(char *str, t_lexer **lexer)
 		str_to_add = ft_substr(str, beg_substr, i - beg_substr);
 		if (str_to_add[0] != '\0')
 			add_to_lexer(str_to_add, lexer);
+		else
+			free(str_to_add);
 	}
 }
 
