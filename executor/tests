@@ -1,0 +1,33 @@
+Valid
+echo a |<< out1
+echo a | << out1
+echo a >| out1
+
+bash-3.2$ echo a | cat
+a
+bash-3.2$ echo a > out1|<<out2> | cat
+	bash: syntax error near unexpected token `|'
+	> test
+> out2
+bash-3.2$ echo a > out1| <<out2> | cat
+	bash: syntax error near unexpected token `|'
+	> test
+	> out2
+bash-3.2$ echo a > out1| <<out2 >>| cat
+	bash: syntax error near unexpected token `|'
+	> test
+	> out2
+bash-3.2$ echo a > out1| <<out2 >| cat
+	> test
+	> out2
+bash-3.2$ echo a > out1|<<out2 >| cat
+	>
+bash-3.2$ echo a > out1|<<out2 > | cat
+	bash: syntax error near unexpected token `|'
+	>
+bash-3.2$ echo a > out1|<<out2 > | cat
+
+bash-3.2$ echo a <<salut|> qwerty
+	> sdasdasd	
+	> salut
+	bash: echo: write error: Broken pipe
