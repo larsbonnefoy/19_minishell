@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:20:13 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/22 13:21:20 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/22 15:12:39 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_simple_cmds
 	struct s_simple_cmds	*next;
 }	t_simple_cmds;
 
-t_simple_cmds	*create_simple_cmd(t_lexer *lexer);
-void			destroy_simple_cmd(t_simple_cmds *cmd);
+t_simple_cmds	*create_simple_cmds(t_lexer *lexer);
+void			destroy_simple_cmds(t_simple_cmds *cmd);
 
 #endif

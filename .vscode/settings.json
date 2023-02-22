@@ -1,7 +1,9 @@
 {
 	"files.associations": {
 		"env.h": "c",
-		"expander.h": "c"
+		"expander.h": "c",
+		"lexer.h": "c",
+		"parser.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/22 13:35:47 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:59:00 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@ int main(int argc, char **argv, char **env)
 	char			*clean;
 	int				i;
 	int				j;
+	int				k;
 	t_env			**l_env;
 	t_env			*node2;
 	t_env			*node3;
 	t_lexer			*lexer;
 	t_simple_cmds	*cmd;
+	t_simple_cmds	*tmp;
 
 	(void)argc;
 	(void)argv;
@@ -53,21 +55,35 @@ int main(int argc, char **argv, char **env)
 		printf("-----------------------\n");
 		lexer_to_expander(lexer, l_env);
 		lexer_print_list(&lexer);
-		cmd = create_simple_cmd(lexer);
+		printf("-----------------------\n");
+		cmd = create_simple_cmds(lexer);
+		lexer_clear_list(&lexer);
 		j = -1;
-		printf("cmd av : [");
-		while (cmd->av && cmd->av[++j])
+		printf("-----------------------\n");
+		tmp = cmd;
+		k = 0;
+		while (cmd)
 		{
-			if (cmd->av[j+1])
-				printf("%s, ", cmd->av[j]);
-			else 
-				printf("%s]\n", cmd->av[j]);
+			j = -1;
+			printf("cmd%d av : [", ++k);
+			while (cmd->av && cmd->av[++j])
+			{
+				if (cmd->av[j + 1])
+					printf("%s, ", cmd->av[j]);
+				else 
+					printf("%s]\n", cmd->av[j]);
+			}
+			if (cmd->redirections)
+			{
+				printf("-----------------------\n");
+				printf("redirection : \n");
+				lexer_print_list(&cmd->redirections);
+			}
+			printf("-----------------------\n");
+			cmd = cmd->next;			
 		}
-		if (cmd->redirections)
-			printf("redirection : token = [%d], file = [%s]\n", cmd->redirections->token, cmd->redirections->str);
-		// lexer_clear_list(&lexer);
-		destroy_simple_cmd(cmd);
-		break ;
+		if (tmp)
+			destroy_simple_cmds(tmp);
 		if (i == 3)
 			env_reassign(node3, l_env);
 		i++;
