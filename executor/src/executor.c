@@ -30,7 +30,7 @@ void executor(t_simple_cmds *cmd, char **env)
 
 	print_input_cmd_line(cmd->av);
 	in_fd = STDIN_FILENO;
-	while (cmd->next) //if cmd->next we have to pipe
+	while (cmd) //if cmd->next we have to pipe
 	{ 
 		if (pipe(fd) == -1)
 			return ;
@@ -38,7 +38,9 @@ void executor(t_simple_cmds *cmd, char **env)
 		pid = fork();
 		if (pid == 0)
 			yeet_child(fd, in_fd, cmd, env);
-		in_fd = fd[0]; //read access of pipe will be stdin of the next pipe
+		waitpid(pid, NULL, 0);
+		in_fd = dup(in_fd); //read access of pipe will be stdin of the next pipe
+		close(fd[0]);
 		close(fd[1]);
 		cmd = cmd->next;
 		printf("------------------------\n");
@@ -60,9 +62,9 @@ void executor(t_simple_cmds *cmd, char **env)
  */
 void 	yeet_child(int *fd, int fd_in, t_simple_cmds *cmd, char **env)
 {
-	printf("	child executing %s\n", cmd->av[0]);
+	printf(" ->child executing %s\n", cmd->av[0]);
+	printf(" ->read from fd_in  = %d\n", fd_in);
 	dup2(fd_in, STDIN_FILENO);
-	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
 	ft_execve(cmd->av, env);
