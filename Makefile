@@ -1,141 +1,137 @@
-.SILENT:
-###__MAIN PROGRAM__###
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
+#    Updated: 2023/02/23 11:33:01 by hdelmas          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
+.SILENT:
 NAME = minishell
 
 FILES = lexer_to_expender.c test_main.c 
 
-SRCS = $(addprefix src/, $(FILES))
+SRC = $(addprefix src/, $(FILES))
+
+SRCS = $(SRC) $(ALL)
 
 OBJ = $(SRCS:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -Ilibft/ -Ienv/src/ -Iexpander/src/ $(FFLAGS)
+AR = ar -rcs
+
+CFLAGS = -Wall -Wextra -Werror $(FFLAGS)
 
 FFLAGS = -fsanitize=address -g
 
 RLINE = -lreadline
 
-CC = @cc
+CC = cc
 
-AR = ar -rcs
+RM = rm -f
 
-RM = @rm -f
 
-###__OS DETECTION__###
-
-DETECTED_OS = $(shell uname)
-
-###__LIBFT__##
-
-LIBFT_DIR = ./libft
+###__LIBFT__###
+LIBFT_DIR =	./libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-###__EXPANDER__###
 
-EXP_DIR = ./expander
+###__EXP__###
+EXP_NAME = expander.a
 
-EXP = $(EXP_DIR)/expander.a
+EXP_DIR = 	./expander
+
+EXP_SRC = 	$(EXP_DIR)/src/cleaner.c $(EXP_DIR)/src/expander.c\
+
+EXP_OBJ = $(EXP_SRC:.c=.o)
+
 
 ###__ENV__###
+ENV = env.a
 
-ENV_DIR = ./env
+ENV_DIR = 	./env
 
-ENV = $(ENV_DIR)/env.a
+ENV_SRC = 	$(addprefix $(ENV_DIR)/src/, $(ENV_FILE))
+
+ENV_FILE =	ft_getenv.c env_list_manager.c env_to_list.c\
+			env_reassign.c\
+
+ENV_OBJ  = $(ENV_SRC:.c=.o)
+
 
 ###__LEXER__###
+LEXER_NAME = lexer.a
 
-LEXER_DIR = ./lexer
+LEXER_DIR = 	./lexer
 
-LEXER = $(LEXER_DIR)/lexer.a
+LEXER_FILE = 	lexer.c lexer_list_manager.c lexer_quotes.c lexer_quotes_utils.c\
 
-###__DEPENDENCIES__###
+LEXER_SRC = $(addprefix $(LEXER_DIR)/src/, $(LEXER_FILE))
 
-LIBFT_O = $(addprefix $(LIBFT_DIR)/, $(LIBFT_SRC))
-
-LIBFT_SRC = ft_isascii.o ft_isalnum.o ft_isalpha.o ft_isdigit.o ft_isprint.o\
-			ft_strlen.o ft_strlcpy.o ft_strlcat.o ft_strncmp.o ft_atoi.o\
-			ft_strdup.o ft_strldup.o ft_tolower.o ft_toupper.o ft_strchr.o\
-			ft_strrchr.o ft_strnstr.o ft_memset.o ft_bzero.o ft_memcpy.o\
-			ft_memmove.o ft_memchr.o ft_memcmp.o ft_calloc.o ft_substr.o\
-			ft_strjoin.o ft_strtrim.o ft_split.o ft_itoa.o ft_strmapi.o\
-			ft_striteri.o ft_putchar_fd.o ft_putstr_fd.o ft_putendl_fd.o\
-			ft_putnbr_fd.o ft_malloc.o ft_calloc_exit.o ft_strjoinf.o ft_strjoin_ff.o\
-
-EXP_O = 	$(EXP_DIR)/src/cleaner.o $(EXP_DIR)/src/expander.o\
-
-ENV_O = 	$(addprefix $(ENV_DIR)/src/, $(ENV_SRC))
-ENV_SRC =	ft_getenv.o env_list_manager.o env_to_list.o env_to_list.o\
-			env_reassign.o\
-
-LEXER_SRC = lexer.o lexer_list_manager.o lexer_quotes.o lexer_quotes_utils.o\
-
-LEXER_O = $(addprefix $(LEXER_DIR)/src/, $(LEXER_SRC))
+LEXER_OBJ = $(LEXER_SRC:.c=.o)
 
 
-LIBFT_O = $(LIBFT_DIR)/*.o
-EXP_O = $(EXP_DIR)/src/*.o
-ENV_O = $(ENV_DIR)/src/*.o
+###__PARSER__###
+PARSER_NAME = parser.a
 
-DEP = $(LIBFT_O) $(ENV_O) $(EXP_O) $(LEXER_O)
+PARSER_DIR = 	./parser
 
-BIN = compiled_dependencies.a
+PARSER_FILE = 	simple_cmd.c
 
-###__COMPILATION__###
+PARSER_SRC = $(addprefix $(PARSER_DIR)/src/, $(PARSER_FILE))
+
+PARSER_OBJ = $(PARSER_SRC:.c=.o)
+
+
+###__ALL__###
+ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC)
+
+ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME)
+
+
+
 $(NAME): $(OBJ)
-		$(PRINT_OS)
 		@make --no-print-directory -C $(LIBFT_DIR)
-		@make --no-print-directory -C $(ENV_DIR)
-		@make --no-print-directory -C $(EXP_DIR)
-		@make --no-print-directory -C $(LEXER_DIR)
-		$(PRINT) "$(YELLOW)linking $(NOCOLOR)libraries\t"
-		$(AR) $(BIN) $(DEP)
-		$(PRINT) "$(GREEN)done\t$(NOCOLOR)"
-		$(PRINT) "$(CYAN)making:\t$(NOCOLOR)$(NAME)"
-		$(CC) $(CFLAGS) $(OBJ) -g $(BIN) -g $(RLINE) -g -o $(NAME)
-		$(PRINT) "$(GREEN)done:\t$(NOCOLOR)$(NAME)"
+		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -g $(RLINE) -g -o $(NAME)
 
 .c.o:
 		$(CC) $(CLFAGS) -c -g $< -g -o $(<:.c=.o)
 
-###__RULES__###
 all: $(NAME)
+	
 
 clean:
-		$(PRINT) "$(BLUE)cleaning\t$(NOCOLOR)"
-		@make --no-print-directory clean -C $(LIBFT_DIR)
-		@make --no-print-directory clean -C $(EXP_DIR)
-		@make --no-print-directory clean -C $(LEXER_DIR)
-		@make --no-print-directory clean -C $(ENV_DIR)
-		$(RM) $(BIN)
+		@make --no-print-directory clean -C $(LIBFT_DIR)	
 		$(RM) $(OBJ)
 
 fclean: clean
-		$(PRINT) "$(BLUE)all\t$(NOCOLOR)"
 		@make --no-print-directory fclean -C $(LIBFT_DIR)
-		@make --no-print-directory fclean -C $(EXP_DIR)
-		@make --no-print-directory fclean -C $(LEXER_DIR)
-		@make --no-print-directory fclean -C $(ENV_DIR)
-		$(RM) $(NAME)
+		$(RM) $(NAME) $(ALL_NAME)
 
 re :	fclean $(NAME)
 
-# sanitize : all
-# 		VAR = 1
+env : $(ENV_OBJ)
+		@make --no-print-directory -C $(LIBFT_DIR)
+		$(AR) $(ENV_NAME) $(ENV_OBJ)
 
-.PHONY: all clean fclean re 
+parser : $(PARSER_OBJ) $(LEXER_OBJ)
+		@make --no-print-directory -C $(LIBFT_DIR)
+		$(AR) $(PARSER_NAME) $(LEXER_OBJ) $(PARSER_OBJ)
 
-###__PRINT__###
+lexer : $(LEXER_OBJ)
+		@make --no-print-directory -C $(LIBFT_DIR)
+		$(AR) $(LEXER_NAME) $(LEXER_OBJ)
 
-PRINT = echo
+expander : $(EXP_OBJ) $(ENV_OBJ)
+		@make --no-print-directory -C $(LIBFT_DIR)
+		$(AR) $(EXP_NAME) $(ENV_OBJ) $(EXP_OBJ)
+
+
+
+.PHONY: all clean fclean re env lexer expander parser
 
 # endif
-PRINT_OS = echo "$(CYAN)OS:\t$(NOCOLOR)$(DETECTED_OS)"
-
-###__COLORS__###
-NOCOLOR = \033[0m
-RED = \033[0;31m
-GREEN = \033[0;32m
-YELLOW = \033[0;33m
-BLUE = \033[0;34m
-CYAN = \033[0;36m
