@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/23 10:57:37 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/23 20:07:05 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int main(int argc, char **argv, char **env)
 		if (tmp)
 			destroy_simple_cmds(tmp);
 		i++;
+		lexer_clear_list(&lexer);
 	}
 	env_free_all_node(l_env);
 	return (0);
