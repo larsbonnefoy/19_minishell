@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 08:49:56 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/22 10:34:17 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/23 11:41:48 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,3 +50,5 @@ int main(int argc, char **argv)
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 }
+
+
