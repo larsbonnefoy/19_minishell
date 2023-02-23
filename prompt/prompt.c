@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 08:20:13 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/23 10:44:12 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/23 10:07:34 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/02/23 10:10:29 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "prompt.h"
 
-# include "../../src/minishell.h"
-
-typedef struct s_simple_cmds
+char	*get_line(void)
 {
-	char					**av;
-	t_lexer					*redirections;
-	struct s_simple_cmds	*next;
-}	t_simple_cmds;
+	char	*line;
 
-t_simple_cmds	*create_simple_cmds(t_lexer *lexer);
-void			destroy_simple_cmds(t_simple_cmds *cmd);
+	line = readline("\033[0;36mSea-Shell>\033[0m");
+	return (line);
+}
 
-#endif
+char	*shell_history(void)
+{
+	
+}

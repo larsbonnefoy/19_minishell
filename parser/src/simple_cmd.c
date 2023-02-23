@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:37:38 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/22 18:40:49 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/23 08:50:15 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	lexer_to_cmd(t_lexer **lexer, t_simple_cmds *res, int i)
 {
 	t_lexer			*tmp;
 
+	if (!lexer)
+		exit(EXIT_FAILURE);
 	if ((*lexer)->str)
 	{
 		res->av = (char **)ft_realloc_tab((void *)res->av,
@@ -32,8 +34,6 @@ static int	lexer_to_cmd(t_lexer **lexer, t_simple_cmds *res, int i)
 			return (i);
 		if ((*lexer)->str)
 			tmp->str = ft_strdup((*lexer)->str);
-		else
-			printf("TODO : multiple token next to each other");
 	}
 	return (i);
 }
@@ -43,6 +43,8 @@ static t_simple_cmds	*create_single_cmd(t_lexer **lexer)
 	t_simple_cmds	*res;
 	int				i;
 
+	if (!lexer)
+		exit(EXIT_FAILURE);
 	i = 0;
 	res = ft_malloc(sizeof(t_simple_cmds));
 	res->av = NULL;

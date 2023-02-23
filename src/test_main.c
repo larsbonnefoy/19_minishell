@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/22 17:59:00 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:57:37 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	i = 0;
 	l_env = env_to_list(env);
-	node2 = env_new(ft_strdup("?"), ft_strdup("hihi workey"), 0);
-	node3 = env_new(ft_strdup("?"), ft_strdup("POG"), 0);
+	node2 = env_new(ft_strdup("?"), ft_strdup("0"), 0);
 	env_addfront(node2, l_env);
 	line = "";
 	while (1)
@@ -49,6 +48,7 @@ int main(int argc, char **argv, char **env)
 		if (ft_strncmp("exit", line, 4) == 0)
 			break ;
 		printf("input line = %s\n", line);
+		printf("-----------------------\n");
 		lexer = tokenize(line);
 		free(line);
 		lexer_print_list(&lexer);
@@ -84,12 +84,8 @@ int main(int argc, char **argv, char **env)
 		}
 		if (tmp)
 			destroy_simple_cmds(tmp);
-		if (i == 3)
-			env_reassign(node3, l_env);
 		i++;
 	}
-	if (i < 3 )
-		env_free_node(node3);
 	env_free_all_node(l_env);
 	return (0);
 }
