@@ -6,7 +6,12 @@
 		"parser.h": "c",
 		"history.h": "c",
 		"readline.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"stdio.h": "c",
+		"prompt.h": "c",
+		"unistd.h": "c",
+		"stdlib.h": "c",
+		"bitset": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

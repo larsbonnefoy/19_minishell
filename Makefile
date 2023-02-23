@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/02/23 11:33:01 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/02/23 14:19:49 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJ = $(SRCS:.c=.o)
 
 AR = ar -rcs
 
-CFLAGS = -Wall -Wextra -Werror $(FFLAGS)
+CFLAGS = -Wall -Wextra -Werror -Isrc/ $(FFLAGS)
 
 FFLAGS = -fsanitize=address -g
 
@@ -87,10 +87,20 @@ PARSER_SRC = $(addprefix $(PARSER_DIR)/src/, $(PARSER_FILE))
 PARSER_OBJ = $(PARSER_SRC:.c=.o)
 
 
-###__ALL__###
-ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC)
+###__PROMPT__###
+PROMPT_NAME = prompt.a
 
-ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME)
+PROMPT_DIR = ./prompt
+
+PROMPT_SRC = ./prompt/prompt.c
+
+PROMPT_OBJ = $(PROMPT_SRC:.c=.o)
+
+
+###__ALL__###
+ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC) $(PROMPT_SRC)
+
+ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME)
 
 
 
@@ -130,7 +140,9 @@ expander : $(EXP_OBJ) $(ENV_OBJ)
 		@make --no-print-directory -C $(LIBFT_DIR)
 		$(AR) $(EXP_NAME) $(ENV_OBJ) $(EXP_OBJ)
 
-
+prompt : $(PROMPT_OBJ) 
+		@make --no-print-directory -C $(LIBFT_DIR)
+		$(AR) $(PROMPT_NAME) $(PROMPT_OBJ)
 
 .PHONY: all clean fclean re env lexer expander parser
 
