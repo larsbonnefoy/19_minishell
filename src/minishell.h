@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:08:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/20 20:34:18 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:04:52 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "../env/src/env.h"
 # include "../expander/src/expander.h"
 # include "../lexer/src/lexer.h"
+# include "../parser/src/parser.h"
 
 void	lexer_to_expander(t_lexer *lexer, t_env **env);
 
