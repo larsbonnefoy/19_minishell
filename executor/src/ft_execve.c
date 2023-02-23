@@ -6,13 +6,13 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/23 11:36:01 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:15:53 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 /*
- * Check if function is self a self coded func or not and execute it
+ * Check if function is a self coded func or not and execute it
 */
 void ft_execve(char **av, char **env)
 {
@@ -36,6 +36,7 @@ void ft_execve(char **av, char **env)
 			free(access_path);
 		i++;
 	}
+	perror("access");
 }
 
 char *get_access_path(char **av, char *path)

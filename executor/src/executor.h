@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:10:26 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/23 11:34:52 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/23 13:14:07 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,10 @@
 
 # include"../../libft/libft.h"
 # include "../../lexer/src/lexer.h"
+# include "../../parser/src/parser.h"
 
-typedef struct s_simple_cmds
-{
-    char                    **av;
-    t_lexer                 *redirections;
-    struct s_simple_cmds    *next;
-}    t_simple_cmds;
-
-void executor(t_simple_cmds *cmd, char **env);
-
+//executor
+void	executor(t_simple_cmds *cmd, char **env);
 //ft_execve
 void ft_execve(char **av, char **env);
 char *get_access_path(char **av, char *path);

@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 08:49:56 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/23 11:41:48 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/23 16:16:59 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ int main(int argc, char **argv)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[0]);
 		close(fd[1]); //dup2 creates a new
-		execlp("ping", "ping", "-c", "5", "google.com", NULL);
+		execlp("ping", "ping", "-c", "2", "google.com", NULL);
 	}
+	waitpid(pid1, NULL, 0);
 	int pid2 = fork();
 	if (pid2 == -1)
 		return (-1);
@@ -47,7 +48,6 @@ int main(int argc, char **argv)
 	}
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 }
 

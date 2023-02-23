@@ -6,39 +6,14 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/23 11:41:50 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:03:10 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
-#include<stdio.h>
+#include"../../src/minishell.h"
 
 void print_input_cmd_line(char **av);
-
-/*
-    We are going to take a cmd and execute its content
-    If there are any redirection we take care of them first;
-
-*/
-
-int main(int argc, char **argv, char **env)
-{
-    t_simple_cmds   cmd;
-    char            **arr = NULL;
-    (void)          argc;
-    (void)          argv;
-    arr = ft_malloc(sizeof (char *) * 3);
-    arr[0] = ft_malloc(sizeof(char) * 10);
-    arr[1] = ft_malloc(sizeof(char) * 10);
-    arr[0] = "echo";
-    arr[1] = "a";
-    arr[2] = NULL;
-    cmd.av = arr;
-    cmd.next = NULL;
-    cmd.redirections = NULL;
-    executor(&cmd, env);
-    return (0);
-}
+void	exec_last_cmd(t_simple_cmds *cmd, char **env, int fd[2], int nbr_pipe);
 
 /*
  *	We take each node of the cmd table
@@ -51,15 +26,56 @@ void executor(t_simple_cmds *cmd, char **env)
 {
 	int		fd[2];
 	int		pid;
+	int		old_fd;
+	int		nbr_pipe;
 
-	printf("%d, %d\n", fd[0], fd[1]);
 	if (pipe(fd) == -1)
 		return ;
 	print_input_cmd_line(cmd->av);
-	ft_execve(cmd->av, env);
+	nbr_pipe = 0;
+	while (cmd->next) //if cmd->next we have to pipe
+	{
+		printf("Parent process fd[0] = %d, fd[1] = %d\n", fd[0], fd[1]);
+		pid = fork();
+		if (pid == 0)
+		{
+			printf("	child executing %s\n", cmd->av[0]);
+			if (nbr_pipe != 0)
+				dup2(fd[0], STDIN_FILENO); 
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[0]);
+			close(fd[1]);
+			ft_execve(cmd->av, env);
+		}
+		old_fd = fd[0];
+		close(fd[1]);
+		cmd = cmd->next;
+		nbr_pipe++;
+		printf("------------------------\n");
+	}
+	exec_last_cmd(cmd, env, fd, nbr_pipe);
 }
 
+void	exec_last_cmd(t_simple_cmds *cmd, char **env, int fd[2], int nbr_pipe)
+{
+	int pid2;
 
+	printf("Parent process fd[0] = %d, fd[1] = %d\n", fd[0], fd[1]);
+	pid2 = fork();
+	if (pid2 == 0)
+	{
+		if (nbr_pipe != 0)
+			dup2(fd[0], STDIN_FILENO);
+		printf("	child process fd[0] = %d, fd[1] = %d\n", fd[0], fd[1]);
+		printf("	last child executing %s\n", cmd->av[0]);
+		close(fd[0]);
+		close(fd[1]);
+		ft_execve(cmd->av, env);
+	}
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid2, NULL, 0);
+}
 
 void print_input_cmd_line(char **av)
 {
