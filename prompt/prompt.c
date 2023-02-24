@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:07:34 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/24 15:30:39 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/24 18:23:46 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,30 @@ rl_replace_line, rl_redisplay, add_history,*/
 
 #include "prompt.h"
 
-void	handle_sigint(int sig)
+void	handle_sig(int sig)
 {
-	// rl_on_new_line();
-	// rl_replace_line("test\n", 0);
-	// rl_redisplay();
-	rl_on_new_line();
-	rl_replace_line("\n", 0);
-	rl_redisplay();
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	// rl_on_new_line();
-	// rl_replace_line("", 0);
-	// rl_on_new_line();
-	// rl_redisplay();
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	if (sig == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
+
 
 void	handle_signal(void)
 {
 	struct sigaction	sa;
 	
-	sa.sa_handler = &handle_sigint;
-	sa.sa_flags = SA_RESTART;
+	sa.sa_handler = &handle_sig;
 	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
 char	*get_line(void)
@@ -58,6 +58,5 @@ char	*prompt(void)
 
 	handle_signal();
 	line = get_line();
-	// handle_signal();
 	return (line);
 }
