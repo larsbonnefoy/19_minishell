@@ -7,7 +7,7 @@ var=toi=moi
 cat | cat > file
 cmd < file < file1
 var=salut ; echo $var
-echo -nnnnn ; echo -n-n-n-n-n; echo -nnaaaa
+echo -nnnnn ; echo -n-n-n-n-n; echo -nnaaaa ; echo -n -n -n -n -n -n
 cd double args
 export
 echo "<3" >> "<3"
