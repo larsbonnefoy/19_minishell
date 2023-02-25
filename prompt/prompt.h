@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:08:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/25 17:37:44 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/23 10:07:53 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/02/25 10:47:15 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
+#ifndef PROMPT_H
+# define PROMPT_H
 
+# include <stdio.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
 # include "../libft/libft.h"
-# include "../env/src/env.h"
-# include "../expander/src/expander.h"
-# include "../lexer/src/lexer.h"
-# include "../parser/src/parser.h"
-# include "../prompt/prompt.h"
-# include "../executor/src/executor.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env);
+char	*prompt(void);
 
 #endif

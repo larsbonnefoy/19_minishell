@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/02/23 12:58:05 by lbonnefo         ###   ########.fr        #
+#    Updated: 2023/02/25 17:38:46 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,11 +97,19 @@ EXECUTOR_SRC = $(addprefix $(EXECUTOR_DIR)/src/, $(EXECUTOR_FILE))
 
 EXECUTOR_OBJ = $(EXECUTOR_SRC:.c=.o)
 
+###__PROMPT__###
+PROMPT_NAME = prompt.a
+
+PROMPT_DIR = ./prompt
+
+PROMPT_SRC = ./prompt/prompt.c
+
+PROMPT_OBJ = $(PROMPT_SRC:.c=.o)
 
 ###__ALL__###
-ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC) $(EXECUTOR_SRC)
+ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC) $(EXECUTOR_SRC) $(PROMPT_SRC)
 
-ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(EXECUTOR_NAME)
+ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(EXECUTOR_NAME) $(PROMPT_NAME)
 
 
 $(NAME): $(OBJ)

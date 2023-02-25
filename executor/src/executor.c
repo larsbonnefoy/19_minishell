@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/25 17:10:08 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:45:41 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ void executor(t_simple_cmds *cmd, char **env)
 	int		fd_in;
 	t_simple_cmds *curr;
 	int		std_in;
+	int		std_out;
 
 	fd_in = STDIN_FILENO; //par defaut fd_in est mis a STDIN, par apres il est set a fd[0] (read) du pipe
 	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
 	fd_pipe[1] = 1;
 	std_in = dup(STDIN_FILENO);
+	std_out = dup(STDOUT_FILENO);
 	curr = cmd;
 	while (curr) //if cmd->next we have to pipe
 	{ 
@@ -56,6 +58,8 @@ void executor(t_simple_cmds *cmd, char **env)
 		waitpid(curr->pid, NULL, 0);
 		curr=curr->next;
 	}
+	dup2(std_in, STDIN_FILENO);
+	dup2(std_out, STDOUT_FILENO);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/25 16:49:54 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:41:23 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int main(int argc, char **argv, char **env)
 	line = "";
 	while (1)
 	{
-		line = get_line();
+		line = prompt();
+		printf("{%s}\n", line);
 		if (ft_strncmp("exit", line, 4) == 0)
 			break ;
 //		printf("input line = %s\n", line);
