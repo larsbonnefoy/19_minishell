@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:07:53 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/24 10:09:11 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/25 10:47:15 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
-char	*get_line(void);
 char	*prompt(void);
 
 #endif

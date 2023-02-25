@@ -6,17 +6,16 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:08:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/23 15:12:13 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/25 10:49:40 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-
-
 
 # include "../libft/libft.h"
 # include "../env/src/env.h"
