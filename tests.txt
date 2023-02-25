@@ -40,5 +40,8 @@ ls | ls | ls | ls | ls | ls | ls | ls
 export var=salut > file 
 var = "echo this" ; var1 = "c'est" ; var2 = 'c"est' ; $var $var $var
 ex"it" (has to exit and print exit); 
+exit | exit 
+exit | ls 
+
 github ; Lucas Kuhn minishell tester
 
