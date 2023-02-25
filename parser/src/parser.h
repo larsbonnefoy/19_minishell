@@ -13,7 +13,8 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "../../src/minishell.h"
+# include"../../libft/libft.h"
+# include "../../lexer/src/lexer.h"
 
 typedef struct s_simple_cmds
 {
