@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 08:49:56 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/23 16:16:59 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/25 13:22:23 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ int main(int argc, char **argv)
 	{
 		//Child process 1
 		dup2(fd[1], STDOUT_FILENO);
+		//After dup2, fd[1] (write part of pipe) is also opened on the std output
+		//THIS MEANS THAT WE CAN CLOSE FD[1] AS THE STD OUTPUT IS GOING TO WRITE TO THE PIPE| 
+		close(fd[1]);
 		close(fd[0]);
-		close(fd[1]); //dup2 creates a new
 		execlp("ping", "ping", "-c", "2", "google.com", NULL);
 	}
 	waitpid(pid1, NULL, 0);

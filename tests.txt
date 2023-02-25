@@ -42,6 +42,7 @@ var = "echo this" ; var1 = "c'est" ; var2 = 'c"est' ; $var $var $var
 ex"it" (has to exit and print exit); 
 exit | exit 
 exit | ls 
+exit 178036478945602741 (some big overflow nbr)
 
 github ; Lucas Kuhn minishell tester
 
