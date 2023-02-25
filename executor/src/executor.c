@@ -6,13 +6,13 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/25 15:03:40 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:10:08 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../src/minishell.h"
 
-int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env, int n);
+int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env);
 void 	print_input_cmd_line(char **av);
 
 /*
@@ -28,31 +28,33 @@ void executor(t_simple_cmds *cmd, char **env)
 {
 	int		fd_pipe[2];
 	int		pid;
-	int		in_fd;
-	int		n;
-	t_simple_cmds *tmp_cmd;
+	int		fd_in;
+	t_simple_cmds *curr;
+	int		std_in;
 
-	print_input_cmd_line(cmd->av);
-	in_fd = STDIN_FILENO;
-	n = 0;
-	tmp_cmd = cmd;
-	while (cmd) //if cmd->next we have to pipe
+	fd_in = STDIN_FILENO; //par defaut fd_in est mis a STDIN, par apres il est set a fd[0] (read) du pipe
+	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
+	fd_pipe[1] = 1;
+	std_in = dup(STDIN_FILENO);
+	curr = cmd;
+	while (curr) //if cmd->next we have to pipe
 	{ 
-		if (cmd->next != NULL)
+		if (curr->next != NULL)
+		{
 			if (pipe(fd_pipe) == -1)
 				return ;
-		printf("Parent process fd[0] = %d, fd[1] = %d, in_fd = %d\n", fd_pipe[0], fd_pipe[1], in_fd);
-		in_fd = process(fd_pipe, in_fd, cmd, env, n); //read access of pipe will be stdin of the next pipe
-		close(fd_pipe[0]);
-		close(fd_pipe[1]);
-		cmd = cmd->next;
-		n++;
-		printf("------------------------\n");
+		}
+		printf("fd_pipe[0] = %d, fd_pipe[1] = %d\n", fd_pipe[0], fd_pipe[1]);
+		fd_in = process(fd_pipe, fd_in, curr, env); //read access of pipe will be stdin of the next pipe
+		curr = curr->next;
 	}
-	tmp_cmd = cmd;
-	while (tmp_cmd)
+	printf("test\n");
+	curr = cmd;
+	while (curr)
 	{
-	
+		//printf("waiting for pid %d\n", curr->pid);
+		waitpid(curr->pid, NULL, 0);
+		curr=curr->next;
 	}
 }
 
@@ -69,23 +71,29 @@ void executor(t_simple_cmds *cmd, char **env)
  * 		=> on peut ecrire sur le document depuis fildes ou fildes2
  * 		c'est pour ça qu'on close a chaque fois pcq avec dup on a ouvert sur une nouvelle entree
  */
-int 	process(int *fd, int fd_in, t_simple_cmds *cmd, char **env, int n)
+int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 {
-	int pid;
 
-	pid = fork();
-	if (pid == 0)
+	cmd->pid = fork();
+	if (cmd->pid == 0)
 	{
-		printf(" ->child executing %s\n", cmd->av[0]);
-		printf(" ->read from fd_in  = %d\n", fd_in);
-		if (dup2(fd_in, STDIN_FILENO) == -1 || dup2(fd[1], STDOUT_FILENO) == -1)
+		//printf("cmd n%d executing\n", cmd->n);
+		//printf(" ->child executing %s\n", cmd->av[0]);
+		//printf(" ->read from fd_in  = %d\n", fd_in);
+		if (cmd->next != NULL) //redir output to pipe because we are not at there is at least a pipe left
+		{
+			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
+				return (-2);
+			close(fd_pipe[1]);
+			close(fd_pipe[0]);
+		}
+		if (dup2(fd_in, STDIN_FILENO) == -1)
 			return (-2);
-		close(fd[fd_in]);
-		close(fd[1]);
-		close(fd[0]);
 		ft_execve(cmd->av, env);
 	}
-	return (fd[0]);
+	close(fd_in);
+	close(fd_pipe[1]);
+	return (fd_pipe[0]);
 }
 
 void print_input_cmd_line(char **av)
