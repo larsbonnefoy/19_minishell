@@ -31,11 +31,14 @@ void executor(t_simple_cmds *cmd, char **env)
 	int		fd_in;
 	t_simple_cmds *curr;
 	int		std_in;
+	int		std_out;
 
 	fd_in = STDIN_FILENO; //par defaut fd_in est mis a STDIN, par apres il est set a fd[0] (read) du pipe
 	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
 	fd_pipe[1] = 1;
-	std_in = dup(STDIN_FILENO);
+	std_in = dup(STDIN_FILENO); //stdin = 3 pointe sur l'entree std
+	std_out = dup(STDOUT_FILENO); //stdin = 3 pointe sur l'entree std
+	printf("std_in = %d\n", std_in); 
 	curr = cmd;
 	while (curr) //if cmd->next we have to pipe
 	{ 
@@ -44,11 +47,15 @@ void executor(t_simple_cmds *cmd, char **env)
 			if (pipe(fd_pipe) == -1)
 				return ;
 		}
-		printf("fd_pipe[0] = %d, fd_pipe[1] = %d\n", fd_pipe[0], fd_pipe[1]);
+		printf("fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
 		fd_in = process(fd_pipe, fd_in, curr, env); //read access of pipe will be stdin of the next pipe
 		curr = curr->next;
 	}
-	printf("test\n");
+	close(fd_in);
+	dup2(std_in, STDIN_FILENO);
+	dup2(std_out, STDIN_FILENO);
+	close(std_in);
+	close(std_out);
 	curr = cmd;
 	while (curr)
 	{
@@ -89,6 +96,7 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 		}
 		if (dup2(fd_in, STDIN_FILENO) == -1)
 			return (-2);
+		close(fd_in);
 		ft_execve(cmd->av, env);
 	}
 	close(fd_in);
