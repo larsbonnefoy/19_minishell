@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:37:38 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/23 08:50:15 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/25 15:10:53 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	lexer_to_cmd(t_lexer **lexer, t_simple_cmds *res, int i)
 	return (i);
 }
 
-static t_simple_cmds	*create_single_cmd(t_lexer **lexer)
+static t_simple_cmds	*create_single_cmd(t_lexer **lexer, int n)
 {
 	t_simple_cmds	*res;
 	int				i;
@@ -50,6 +50,7 @@ static t_simple_cmds	*create_single_cmd(t_lexer **lexer)
 	res->av = NULL;
 	res->redirections = NULL;
 	res->next = NULL;
+	res->n = n;
 	while (*lexer && (*lexer)->token != PIPE)
 	{
 		i = lexer_to_cmd(lexer, res, i);
@@ -80,15 +81,20 @@ t_simple_cmds	*create_simple_cmds(t_lexer *lexer)
 	t_simple_cmds	*res;
 	t_lexer			*head;
 	t_simple_cmds	*cmd;
+	int				n;
 
 	head = lexer;
 	res = NULL;
+	n = 0;
 	while (lexer)
 	{
-		cmd = create_single_cmd(&lexer);
+		cmd = create_single_cmd(&lexer, n);
 		simple_cmd_addback(&res, cmd);
 		if (lexer && lexer->token == PIPE)
+		{
+			n++;
 			lexer = lexer->next;
+		}
 	}
 	lexer = head;
 	return (res);

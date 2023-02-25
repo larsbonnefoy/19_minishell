@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/25 11:47:32 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/25 15:14:34 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ void	print_cmd(t_simple_cmds *cmd)
 	while (cmd)
 	{
 		j = -1;
+		printf(">n = %i\n",cmd->n);
 		printf("cmd%d av : [", ++k);
 		while (cmd->av && cmd->av[++j])
 		{
+			
 			if (cmd->av[j + 1])
 				printf("%s, ", cmd->av[j]);
 			else 
@@ -78,7 +80,7 @@ int main(int argc, char **argv, char **env)
 		print_cmd(cmd);
 		printf("-----------------------\n");
 		if (cmd)
-			destroy_simple_cmds(tmp);
+			destroy_simple_cmds(cmd);
 	}
 	env_free_all_node(l_env);
 	return (0);
