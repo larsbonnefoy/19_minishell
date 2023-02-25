@@ -51,11 +51,6 @@ void executor(t_simple_cmds *cmd, char **env)
 		fd_in = process(fd_pipe, fd_in, curr, env); //read access of pipe will be stdin of the next pipe
 		curr = curr->next;
 	}
-	close(fd_in);
-	dup2(std_in, STDIN_FILENO);
-	dup2(std_out, STDIN_FILENO);
-	close(std_in);
-	close(std_out);
 	curr = cmd;
 	while (curr)
 	{
@@ -63,6 +58,11 @@ void executor(t_simple_cmds *cmd, char **env)
 		waitpid(curr->pid, NULL, 0);
 		curr=curr->next;
 	}
+	close(fd_in);
+	dup2(std_in, STDIN_FILENO);
+	dup2(std_out, STDIN_FILENO);
+	close(std_in);
+	close(std_out);
 }
 
 /*
