@@ -18,7 +18,7 @@ BONUSOBJ = $(BONUS:.c=.o)
 
 AR = ar -rcs
 
-CFLAGS = -Wall -Wextra -Werror $(FFLAGS)
+CFLAGS = -Wall -Wextra -Werror 
 
 FFLAGS = -fsanitize=address -g
 

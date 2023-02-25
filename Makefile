@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/02/23 14:19:49 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/02/25 11:41:19 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJ = $(SRCS:.c=.o)
 
 AR = ar -rcs
 
-CFLAGS = -Wall -Wextra -Werror -Isrc/ $(FFLAGS)
+CFLAGS = -Wall -Wextra -Werror -Isrc/ 
 
 FFLAGS = -fsanitize=address -g
 
