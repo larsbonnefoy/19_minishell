@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include"../../src/minishell.h"
+//#include"sys/wait.h"
 
 int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env);
 void 	print_input_cmd_line(char **av);
@@ -37,8 +38,6 @@ void executor(t_simple_cmds *cmd, char **env)
 	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
 	fd_pipe[1] = 1;
 	std_in = dup(STDIN_FILENO); //stdin = 3 pointe sur l'entree std
-	std_out = dup(STDOUT_FILENO); //stdin = 3 pointe sur l'entree std
-	printf("std_in = %d\n", std_in); 
 	curr = cmd;
 	while (curr) //if cmd->next we have to pipe
 	{ 
@@ -47,8 +46,10 @@ void executor(t_simple_cmds *cmd, char **env)
 			if (pipe(fd_pipe) == -1)
 				return ;
 		}
-		printf("fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
+		printf("parent process pipe = fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
 		fd_in = process(fd_pipe, fd_in, curr, env); //read access of pipe will be stdin of the next pipe
+		printf("fd_in from main process %d\n", fd_in);
+		printf("-----------------\n");
 		curr = curr->next;
 	}
 	curr = cmd;
@@ -59,10 +60,9 @@ void executor(t_simple_cmds *cmd, char **env)
 		curr=curr->next;
 	}
 	close(fd_in);
-	dup2(std_in, STDIN_FILENO);
-	dup2(std_out, STDIN_FILENO);
+	int in = dup2(std_in, STDIN_FILENO);
+	printf("restored in = %d\n", in);
 	close(std_in);
-	close(std_out);
 }
 
 /*
@@ -80,13 +80,12 @@ void executor(t_simple_cmds *cmd, char **env)
  */
 int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 {
-
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		//printf("cmd n%d executing\n", cmd->n);
+		printf("child process pipe = fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
+		printf("cmd n%d executing\n", cmd->n);
 		//printf(" ->child executing %s\n", cmd->av[0]);
-		//printf(" ->read from fd_in  = %d\n", fd_in);
 		if (cmd->next != NULL) //redir output to pipe because we are not at there is at least a pipe left
 		{
 			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
@@ -94,13 +93,15 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 			close(fd_pipe[1]);
 			close(fd_pipe[0]);
 		}
+		printf(" ->read from fd_in  = %d\n", fd_in);
 		if (dup2(fd_in, STDIN_FILENO) == -1)
 			return (-2);
 		close(fd_in);
 		ft_execve(cmd->av, env);
 	}
 	close(fd_in);
-	close(fd_pipe[1]);
+	if (cmd->next != NULL)
+		close(fd_pipe[1]);
 	return (fd_pipe[0]);
 }
 
