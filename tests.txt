@@ -43,6 +43,10 @@ ex"it" (has to exit and print exit);
 exit | exit 
 exit | ls 
 exit 178036478945602741 (some big overflow nbr)
+echo a > out1| <<out2 >| cat
+echo a > out1| <<out2> | cat
+"'ec'ho" salut
+echo salut "" les "" ami
 
 github ; Lucas Kuhn minishell tester
 
