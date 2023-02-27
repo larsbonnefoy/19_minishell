@@ -1,6 +1,5 @@
 cat << l < file
 << l < file
-> file
 | | | |
 var="< file cat"
 var+=bonjour
@@ -51,4 +50,5 @@ echo salut "" les "" ami
 grep a
 
 github ; Lucas Kuhn minishell tester
-
+> file
+echo a > file1 <<
