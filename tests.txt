@@ -47,6 +47,7 @@ echo a > out1| <<out2 >| cat
 echo a > out1| <<out2> | cat
 "'ec'ho" salut
 echo salut "" les "" ami
+grep a
 
 github ; Lucas Kuhn minishell tester
 

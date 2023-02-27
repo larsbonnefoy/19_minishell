@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/25 17:10:08 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:14:34 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void executor(t_simple_cmds *cmd, char **env)
 	int		fd_in;
 	t_simple_cmds *curr;
 	int		std_in;
-	int		std_out;
 
 	fd_in = STDIN_FILENO; //par defaut fd_in est mis a STDIN, par apres il est set a fd[0] (read) du pipe
 	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
@@ -59,7 +58,6 @@ void executor(t_simple_cmds *cmd, char **env)
 		waitpid(curr->pid, NULL, 0);
 		curr=curr->next;
 	}
-	close(fd_in);
 	int in = dup2(std_in, STDIN_FILENO);
 	printf("restored in = %d\n", in);
 	close(std_in);
@@ -93,13 +91,17 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 			close(fd_pipe[1]);
 			close(fd_pipe[0]);
 		}
-		printf(" ->read from fd_in  = %d\n", fd_in);
-		if (dup2(fd_in, STDIN_FILENO) == -1)
-			return (-2);
-		close(fd_in);
+		if (cmd->n > 0)
+		{
+			printf(" ->read from fd_in  = %d\n", fd_in);
+			if (dup2(fd_in, STDIN_FILENO) == -1)
+				return (-2);
+			close(fd_in);
+		}
 		ft_execve(cmd->av, env);
 	}
-	close(fd_in);
+	if (cmd->n > 0)
+		close(fd_in);
 	if (cmd->next != NULL)
 		close(fd_pipe[1]);
 	return (fd_pipe[0]);
