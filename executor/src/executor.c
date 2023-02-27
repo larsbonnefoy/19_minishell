@@ -11,10 +11,13 @@
 /* ************************************************************************** */
 
 #include"../../src/minishell.h"
+#include<fcntl.h>
+#include <unistd.h>
 
 int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env);
+int 	get_in_redir(t_simple_cmds *cmd, int fd_in);
 void 	print_input_cmd_line(char **av);
-int		get_redir(t_simple_cmds *cmd);
+
 /*
  *	We take each node of the cmd table
  * 	1. handle redirection
@@ -32,20 +35,15 @@ void executor(t_simple_cmds *cmd, char **env)
 	t_simple_cmds *curr;
 	int		std_in;
 
-	if (!cmd->redirections)
-		fd_in = STDIN_FILENO; //par defaut fd_in est mis a STDIN, par apres il est set a fd[0] (read) du pipe
-	else
-	{
-		printf("redir lexer\n");
-		lexer_print_list(&cmd->redirections);
-		fd_in = get_redir(cmd);
-	}
 	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
 	fd_pipe[1] = 1;
 	std_in = dup(STDIN_FILENO); //stdin = 3 pointe sur l'entree std
 	curr = cmd;
+	fd_in = get_in_redir(curr, STDIN_FILENO);
 	while (curr) //if cmd->next we have to pipe
 	{ 
+		if (curr->redirections)
+			lexer_print_list(&curr->redirections);
 		if (curr->next != NULL)
 		{
 			if (pipe(fd_pipe) == -1)
@@ -82,8 +80,8 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		printf("cmd n%d\n", cmd->n);
-		printf("fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
+		//printf("cmd n%d\n", cmd->n);
+		//printf("fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
 		if (cmd->next != NULL) //redir output to pipe because we are not at there is at least a pipe left
 		{
 			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
@@ -91,7 +89,7 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 			close(fd_pipe[1]);
 			close(fd_pipe[0]);
 		}
-		if (cmd->n > 0)
+		if (cmd->n > 0 || cmd->redirections)
 		{
 			if (dup2(fd_in, STDIN_FILENO) == -1)
 				return (-2);
@@ -106,12 +104,30 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 	return (fd_pipe[0]);
 }
 
-int get_redir(t_simple_cmds *cmd)
+/*
+ * opens fd of infile redirection if there is one, else returns fd_in
+ *
+*/
+int get_in_redir(t_simple_cmds *cmd,int fd_in)
 {
-
-
-
-	return (0);
+	t_lexer *redir; 	
+	int 	fd;
+	
+	redir = cmd->redirections;
+	while (redir)
+	{
+		if (redir->token == 4)
+		{
+			fd = open(redir->str, O_RDONLY);
+			printf("fd of opened file = %d\n", fd);
+			if (fd == -1)
+				perror("open");
+			close(fd_in);
+			return (fd);
+		}
+		redir=redir->next;
+	}
+	return (fd_in);
 }
 
 void print_input_cmd_line(char **av)
