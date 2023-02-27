@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/02/25 15:14:57 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/02/27 09:04:02 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,10 @@ SRCS = $(SRC) $(ALL)
 OBJ = $(SRCS:.c=.o)
 
 AR = ar -rcs
+
+LDFLAGS = -L/Users/hdelmas/.brew/opt/readline/lib
+
+CPPFLAGS = -I/Users/hdelmas/.brew/opt/readline/include
 
 CFLAGS = -Wall -Wextra -Werror -Isrc/ $(FFLAGS)
 
@@ -106,10 +110,10 @@ ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME)
 
 $(NAME): $(OBJ)
 		@make --no-print-directory -C $(LIBFT_DIR)
-		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -g $(RLINE) -g -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -g $(LDFLAGS) $(CPPFLAGS) $(RLINE)  -g -o $(NAME)
 
 .c.o:
-		$(CC) $(CLFAGS) -c -g $< -g -o $(<:.c=.o)
+		$(CC) $(CLFAGS) $(CPPFLAGS) -c -g $< -g -o $(<:.c=.o)
 
 all: $(NAME)
 	
