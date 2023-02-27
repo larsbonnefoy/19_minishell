@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/25 16:49:54 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/27 15:53:07 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,17 @@ int main(int argc, char **argv, char **env)
 		line = get_line();
 		if (ft_strncmp("exit", line, 4) == 0)
 			break ;
-//		printf("input line = %s\n", line);
-//		printf("--------LEXER---------\n");
+		printf("input line = %s\n", line);
+		printf("--------LEXER---------\n");
 		lexer = tokenize(line);
 		free(line);
-//		lexer_print_list(&lexer);
-//		printf("--------EXPAND--------\n");
+		lexer_print_list(&lexer);
+		printf("--------EXPAND--------\n");
 		lexer_to_expander(lexer, l_env);
-//		lexer_print_list(&lexer);
+		lexer_print_list(&lexer);
 		cmd = create_simple_cmds(lexer);
 		lexer_clear_list(&lexer);
-//		printf("----------CMD----------\n");
+		printf("----------CMD----------\n");
 		tmp = cmd;
 		executor(tmp, env);
 		tmp = cmd;

@@ -11,7 +11,7 @@ echo -nnnnn ; echo -n-n-n-n-n; echo -nnaaaa ; echo -n -n -n -n -n -n
 cd double args
 export
 echo "<3" >> "<3"
-cd ../../../../../ 
+cd ../../../../../
 cat < a > b
 cd /
 cd -
@@ -37,11 +37,11 @@ var="ec" ; $var"ho" a
 echo bonsoir > file | cat < file
 ls > f | ls > f1
 ls | ls | ls | ls | ls | ls | ls | ls
-export var=salut > file 
+export var=salut > file
 var = "echo this" ; var1 = "c'est" ; var2 = 'c"est' ; $var $var $var
-ex"it" (has to exit and print exit); 
-exit | exit 
-exit | ls 
+ex"it" (has to exit and print exit);
+exit | exit
+exit | ls
 exit 178036478945602741 (some big overflow nbr)
 echo a > out1| <<out2 >| cat
 echo a > out1| <<out2> | cat
@@ -50,4 +50,6 @@ echo salut "" les "" ami
 grep a
 
 github ; Lucas Kuhn minishell tester
-
+> file
+<>
+echo a > file1 <<

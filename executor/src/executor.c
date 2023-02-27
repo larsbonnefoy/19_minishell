@@ -6,16 +6,15 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/27 14:14:34 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/27 16:14:10 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../src/minishell.h"
-//#include"sys/wait.h"
 
 int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env);
 void 	print_input_cmd_line(char **av);
-
+int		get_redir(t_simple_cmds *cmd);
 /*
  *	We take each node of the cmd table
  * 	1. handle redirection
@@ -33,7 +32,14 @@ void executor(t_simple_cmds *cmd, char **env)
 	t_simple_cmds *curr;
 	int		std_in;
 
-	fd_in = STDIN_FILENO; //par defaut fd_in est mis a STDIN, par apres il est set a fd[0] (read) du pipe
+	if (!cmd->redirections)
+		fd_in = STDIN_FILENO; //par defaut fd_in est mis a STDIN, par apres il est set a fd[0] (read) du pipe
+	else
+	{
+		printf("redir lexer\n");
+		lexer_print_list(&cmd->redirections);
+		fd_in = get_redir(cmd);
+	}
 	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
 	fd_pipe[1] = 1;
 	std_in = dup(STDIN_FILENO); //stdin = 3 pointe sur l'entree std
@@ -45,21 +51,16 @@ void executor(t_simple_cmds *cmd, char **env)
 			if (pipe(fd_pipe) == -1)
 				return ;
 		}
-		printf("parent process pipe = fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
 		fd_in = process(fd_pipe, fd_in, curr, env); //read access of pipe will be stdin of the next pipe
-		printf("fd_in from main process %d\n", fd_in);
-		printf("-----------------\n");
 		curr = curr->next;
 	}
 	curr = cmd;
 	while (curr)
 	{
-		//printf("waiting for pid %d\n", curr->pid);
 		waitpid(curr->pid, NULL, 0);
 		curr=curr->next;
 	}
 	int in = dup2(std_in, STDIN_FILENO);
-	printf("restored in = %d\n", in);
 	close(std_in);
 }
 
@@ -81,9 +82,8 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		printf("child process pipe = fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
-		printf("cmd n%d executing\n", cmd->n);
-		//printf(" ->child executing %s\n", cmd->av[0]);
+		printf("cmd n%d\n", cmd->n);
+		printf("fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
 		if (cmd->next != NULL) //redir output to pipe because we are not at there is at least a pipe left
 		{
 			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
@@ -93,7 +93,6 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 		}
 		if (cmd->n > 0)
 		{
-			printf(" ->read from fd_in  = %d\n", fd_in);
 			if (dup2(fd_in, STDIN_FILENO) == -1)
 				return (-2);
 			close(fd_in);
@@ -105,6 +104,14 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 	if (cmd->next != NULL)
 		close(fd_pipe[1]);
 	return (fd_pipe[0]);
+}
+
+int get_redir(t_simple_cmds *cmd)
+{
+
+
+
+	return (0);
 }
 
 void print_input_cmd_line(char **av)
