@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_exit.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 13:56:22 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/27 17:01:25 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/27 17:51:36 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/02/27 17:52:09 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pwd.h"
+#ifndef FT_EXIT_H
+# define FT_EXIT_H
 
-int	ft_pwd(char **av)
-{
-	char buf[1024];
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include "../libft/libft.h"
 
-	if (av)
-	{
-		ft_putendl_fd("pwd: too many arguments", 2);
-		return (1);
-	}
-	if (getcwd(buf, 12))
-	{
-		ft_putendl_fd(buf, 1);
-		return (0);
-	}
-	perror("pwd");
-	return (1);
-}
+#endif
