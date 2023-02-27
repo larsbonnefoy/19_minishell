@@ -1,5 +1,6 @@
 cat << l < file
 << l < file
+> file
 | | | |
 var="< file cat"
 var+=bonjour
