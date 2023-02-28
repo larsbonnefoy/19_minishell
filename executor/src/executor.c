@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/27 16:14:10 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/28 13:34:22 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void executor(t_simple_cmds *cmd, char **env)
 	t_simple_cmds *curr;
 	int		std_in;
 
+	fd_in = STDIN_FILENO;
 	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
 	fd_pipe[1] = 1;
 	std_in = dup(STDIN_FILENO); //stdin = 3 pointe sur l'entree std
 	curr = cmd;
-	fd_in = get_in_redir(curr, STDIN_FILENO);
 	while (curr) //if cmd->next we have to pipe
 	{ 
 		if (curr->redirections)
@@ -49,6 +49,7 @@ void executor(t_simple_cmds *cmd, char **env)
 			if (pipe(fd_pipe) == -1)
 				return ;
 		}
+		fd_in = get_in_redir(curr, fd_in);
 		fd_in = process(fd_pipe, fd_in, curr, env); //read access of pipe will be stdin of the next pipe
 		curr = curr->next;
 	}
