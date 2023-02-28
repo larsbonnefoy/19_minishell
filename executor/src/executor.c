@@ -11,12 +11,13 @@
 /* ************************************************************************** */
 
 #include"../../src/minishell.h"
-#include<fcntl.h>
+#include <fcntl.h>
 #include <unistd.h>
 
 int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env);
 int 	get_in_redir(t_simple_cmds *cmd, int fd_in);
 void 	print_input_cmd_line(char **av);
+int 	is_infile(t_lexer *redirection);
 
 /*
  *	We take each node of the cmd table
@@ -38,7 +39,7 @@ void executor(t_simple_cmds *cmd, char **env)
 	fd_in = STDIN_FILENO;
 	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
 	fd_pipe[1] = 1;
-	std_in = dup(STDIN_FILENO); //stdin = 3 pointe sur l'entree std
+	std_in = dup(STDIN_FILENO); //stdin = 3 pointe sur le fichier "entre standard (/prompt)"
 	curr = cmd;
 	while (curr) //if cmd->next we have to pipe
 	{ 
@@ -83,14 +84,14 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 	{
 		//printf("cmd n%d\n", cmd->n);
 		//printf("fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
-		if (cmd->next != NULL) //redir output to pipe because we are not at there is at least a pipe left
+		if (cmd->next != NULL) //redir output to pipe because we are not at there is at least a pipe left || redir the output to the file
 		{
 			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
 				return (-2);
 			close(fd_pipe[1]);
 			close(fd_pipe[0]);
 		}
-		if (cmd->n > 0 || cmd->redirections)
+		if (is_infile(cmd->redirections) || cmd->n > 0) //OR IN REDIR
 		{
 			if (dup2(fd_in, STDIN_FILENO) == -1)
 				return (-2);
@@ -98,11 +99,11 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 		}
 		ft_execve(cmd->av, env);
 	}
-	if (cmd->redirections || cmd->n > 0)
+	if (is_infile(cmd->redirections) || cmd->n > 0) //OR IN REDIR
 		close(fd_in);
 	if (cmd->next != NULL)
 		close(fd_pipe[1]);
-	return (fd_pipe[0]);
+	return (fd_pipe[0]); //si on a une redirection sur fd_out le fd_in du prochain pipe sera sur STD_IN
 }
 
 /*
@@ -113,23 +114,80 @@ int get_in_redir(t_simple_cmds *cmd,int fd_in)
 {
 	t_lexer *redir; 	
 	int 	fd;
+	char 	*file;
 	
+	redir = cmd->redirections;
+	file = NULL;
+	while (redir)
+	{
+		if (redir->token == LOWER)
+			file = redir->str;
+		redir=redir->next;
+	}
+	if (file)
+	{
+		fd = open(file, O_RDONLY);
+		if (fd == -1)
+			perror("open");
+		close(fd_in);
+		return (fd);
+	}
+	return (fd_in);
+}
+
+int get_out_redir(t_simple_cmds *cmd, int pipe_out)
+{
+	t_lexer *redir;
+	int fd;
+	char *file;
+	int  token;
+
+	redir = cmd->redirections;
+	file = NULL;
+	while (redir)
+	{
+		if (redir->token == GREATER || redir->token == D_GREATER)
+		{
+			file = redir->str;
+			token = redir->token;
+		}	
+		redir = redir->next;
+	}
+	if (file)
+	{ 
+		if (token == D_GREATER)
+			fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		else
+			fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		return (fd);
+	}
+
+	return (0);
+}
+int is_infile(t_lexer *redirection)
+{
+	t_lexer *curr_redir;
+	curr_redir = redirection;
+	while (curr_redir)
+	{
+		if (curr_redir->token == LOWER)
+			return (1);
+		curr_redir=curr_redir->next;
+	}
+	return (0);
+}
+
+int is_outfile(t_simple_cmds *cmd)
+{
+	t_lexer *redir;
 	redir = cmd->redirections;
 	while (redir)
 	{
-		if (redir->token == 4)
-		{
-			fd = open(redir->str, O_RDONLY);
-			printf("fd of opened file = %d\n", fd);
-			if (fd == -1)
-				perror("open");
-			printf("closed %d\n", fd_in);
-			close(fd_in);
-			return (fd);
-		}
+		if (redir->token == D_GREATER || redir->token == GREATER)
+			return (1);
 		redir=redir->next;
 	}
-	return (fd_in);
+	return (0);
 }
 
 void print_input_cmd_line(char **av)

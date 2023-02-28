@@ -56,3 +56,6 @@ github ; Lucas Kuhn minishell tester
 <>
 echo a > file1 <<
 < grep a somefile
+cat > file1  < infile1  >>file2 <infile2
+echo a > file1 | grep a
+grep a
