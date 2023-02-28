@@ -6,12 +6,12 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 13:56:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/28 08:13:14 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/28 13:35:40 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PWD_H
-# define PWD_H
+#ifndef FT_PWD_H
+# define FT_PWD_H
 
 # include <stdlib.h>
 # include <unistd.h>

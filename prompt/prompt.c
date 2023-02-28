@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:07:34 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/28 08:54:58 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/28 15:44:11 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ static void	handle_sig(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-	}
 }
 
 static void	handle_signal(void)
@@ -34,7 +29,6 @@ static void	handle_signal(void)
 
 	sa.sa_handler = &handle_sig;
 	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
 }
 
 static char	*get_line(void)
@@ -47,12 +41,18 @@ static char	*get_line(void)
 	return (line);
 }
 
-char	*prompt(void)
+char	*prompt(struct termios *term)
 {
-	char	*line;
+	char			*line;
 
+	tcgetattr(STDIN_FILENO, term);
+	term->c_cc[VQUIT] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, term);
 	handle_signal();
 	line = get_line();
+	tcgetattr(STDIN_FILENO, term);
+	term->c_cc[VQUIT] = 1;
+	tcsetattr(STDIN_FILENO, TCSANOW, term);
 	if (!line)
 	{
 		write(2, "exit\n", 5);

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/25 15:14:34 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/28 15:47:58 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int main(int argc, char **argv, char **env)
 	t_lexer			*lexer;
 	t_simple_cmds	*cmd;
 	t_simple_cmds	*tmp;
+	struct termios	term;
 
 	(void)argc;
 	(void)argv;
@@ -62,7 +63,11 @@ int main(int argc, char **argv, char **env)
 	line = "";
 	while (1)
 	{
-		line = prompt();
+		line = prompt(&term);
+		// while(1)
+		// {
+		// 	(void)clean;
+		// }
 		if (ft_strncmp("exit", line, 4) == 0)
 			break ;
 		printf("input line = %s\n", line);
