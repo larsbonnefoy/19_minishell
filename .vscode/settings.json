@@ -12,7 +12,8 @@
 		"unistd.h": "c",
 		"stdlib.h": "c",
 		"bitset": "c",
-		"pwd.h": "c"
+		"pwd.h": "c",
+		"locale": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:15:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/27 17:41:51 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/28 08:13:21 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-# include "../libft/libft.h"
+# include "../../libft/libft.h"
 
 int	ft_env(char **av, char **env);
 

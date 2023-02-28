@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:51:36 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/27 17:52:09 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/28 08:52:27 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-# include "../libft/libft.h"
+# include <limits.h>
+# include <string.h>
+# include "../../libft/libft.h"
 
 #endif
