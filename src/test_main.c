@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/28 15:47:58 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/02/28 16:58:18 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	// env = lstrdup(env)
 	l_env = env_to_list(env);
 	node2 = env_new(ft_strdup("?"), ft_strdup("0"), 0);
 	env_addfront(node2, l_env);
@@ -64,10 +65,6 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		line = prompt(&term);
-		// while(1)
-		// {
-		// 	(void)clean;
-		// }
 		if (ft_strncmp("exit", line, 4) == 0)
 			break ;
 		printf("input line = %s\n", line);
