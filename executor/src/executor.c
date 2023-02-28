@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/28 13:34:22 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/02/28 16:17:48 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 		}
 		ft_execve(cmd->av, env);
 	}
-	if (cmd->n > 0)
+	if (cmd->redirections || cmd->n > 0)
 		close(fd_in);
 	if (cmd->next != NULL)
 		close(fd_pipe[1]);
@@ -123,6 +123,7 @@ int get_in_redir(t_simple_cmds *cmd,int fd_in)
 			printf("fd of opened file = %d\n", fd);
 			if (fd == -1)
 				perror("open");
+			printf("closed %d\n", fd_in);
 			close(fd_in);
 			return (fd);
 		}

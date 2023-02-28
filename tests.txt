@@ -55,3 +55,4 @@ github ; Lucas Kuhn minishell tester
 > file
 <>
 echo a > file1 <<
+< grep a somefile
