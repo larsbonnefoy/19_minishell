@@ -68,6 +68,7 @@ void executor(t_simple_cmds *cmd, char **env)
 	dup2(std_in, STDIN_FILENO);
 	dup2(std_out, STDOUT_FILENO);
 	close(std_in);
+	close(std_out);
 }
 
 /*
