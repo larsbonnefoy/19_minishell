@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/28 16:58:18 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/01 15:55:38 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int main(int argc, char **argv, char **env)
 {
 	char			*line;
 	char			*clean;
-
 	t_env			**l_env;
 	t_env			*node2;
 	t_env			*node3;

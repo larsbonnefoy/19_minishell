@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:01:07 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/01 09:01:11 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/01 16:48:41 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*getname(char *str)
 		;
 	return (ft_strldup(str, i));
 }
+
 char	*getval(char *str)
 {
 	int	i;
@@ -55,4 +56,28 @@ t_env	**env_to_list(char **env)
 		env_addfront(new, list);
 	}
 	return (list);
+}
+
+char	**list_to_env(t_env **l_env)
+{
+	t_env	*head;
+	int		size;
+	char	**res;
+
+	size = 0;
+	head = *l_env;
+	res = ft_calloc_exit(sizeof(char *), (size + 1));
+	while (*l_env)
+	{
+		if ((*l_env)->export)
+		{
+			res = ft_realloc_tab((void **)res, sizeof(char *), (++size) + 1);
+			tmp = ft_strjoin(*l_env->name, "=");
+			res[size - 1] = ft_strjoin(tmp, *l_env->val);
+			free(tmp);
+		}
+		*l_env = *l_env->next;
+	}
+	*l_env = head;
+	return (res);
 }

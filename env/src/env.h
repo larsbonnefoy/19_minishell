@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 16:51:30 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/01 09:06:21 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/01 15:56:40 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	env_addfront(t_env *new_node, t_env **list);
 void	env_free_node(t_env *node);
 void	env_free_all_node(t_env **list);
 t_env	**env_to_list(char **env);
+char	**list_to_env(t_env **l_env);
 void	env_reassign(t_env *to_add, t_env **l_env);
 char	*getname(char *str);
 char	*getval(char *str);
