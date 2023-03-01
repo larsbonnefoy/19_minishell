@@ -6,13 +6,13 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:01:07 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/17 15:40:45 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/01 09:01:11 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
-static char	*getname(char *str)
+char	*getname(char *str)
 {
 	int	i;
 
@@ -23,8 +23,7 @@ static char	*getname(char *str)
 		;
 	return (ft_strldup(str, i));
 }
-
-static char	*getval(char *str)
+char	*getval(char *str)
 {
 	int	i;
 
