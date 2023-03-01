@@ -6,13 +6,14 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/23 14:15:53 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/01 10:53:10 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 /*
  * Check if function is a self coded func or not and execute it
+ * TO DO: check in working dir
 */
 void ft_execve(char **av, char **env)
 {

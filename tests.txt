@@ -59,3 +59,4 @@ echo a > file1 <<
 cat > file1  < infile1  >>file2 <infile2
 echo a > file1 | grep a
 grep a
+./minishell
