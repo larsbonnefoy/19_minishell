@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "executor.h"
+#include <stdlib.h>
 /*
  * Check if function is a self coded func or not and execute it
  * TO DO: check in working dir
 */
-void ft_execve(char **av, char **env)
+void ft_execve(char **av, char **env, int debug_stdout)
 {
 	char	**path_arr;
 	char	*access_path;
@@ -32,12 +33,20 @@ void ft_execve(char **av, char **env)
 		access_path = get_access_path(av, path_arr[i]);
 		return_access = access(access_path, X_OK);
 		if (return_access == 0)
-			execve(access_path, av, env);
+		{
+			if (execve(access_path, av, env) == -1)
+			{
+				exit(EXIT_FAILURE);
+				ft_putstr_fd("\x1B[31mexecve did not exec\n\x1B[0m", debug_stdout);
+				perror("execve");
+			}
+		}
 		else
 			free(access_path);
 		i++;
 	}
 	perror("access");
+	exit(EXIT_FAILURE);
 }
 
 char *get_access_path(char **av, char *path)

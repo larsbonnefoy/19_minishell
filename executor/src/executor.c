@@ -21,6 +21,7 @@ int 	get_in_redir(t_simple_cmds *cmd, int fd_in);
 void 	print_input_cmd_line(char **av);
 int		is_outfile(t_lexer *redirections);
 
+int 	debug_stdout;
 /*
  *	We take each node of the cmd table
  * 	1. handle redirection
@@ -40,6 +41,8 @@ void executor(t_simple_cmds *cmd, char **env)
 	int		std_in;
 	int		std_out;
 
+	debug_stdout = dup(STDOUT_FILENO);
+
 	fd_in = STDIN_FILENO;
 	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
 	fd_pipe[1] = 1;
@@ -56,7 +59,7 @@ void executor(t_simple_cmds *cmd, char **env)
 				return ;
 		}
 		fd_in = get_in_redir(curr, fd_in);
-		fd_in = process(fd_pipe, fd_in, curr, env); //read access of pipe will be stdin of the next pipe
+		fd_in = process(fd_pipe, fd_in, curr, env ); //read access of pipe will be stdin of the next pipe
 		curr = curr->next;
 	}
 	curr = cmd;
@@ -69,6 +72,7 @@ void executor(t_simple_cmds *cmd, char **env)
 	dup2(std_out, STDOUT_FILENO);
 	close(std_in);
 	close(std_out);
+	close(debug_stdout);
 }
 
 /*
@@ -89,11 +93,13 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		//printf("cmd n%d\n", cmd->n);
-		//printf("fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
+		printf("_________________CMD%d________________________\n", cmd->n);
+		printf("fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
 		fd_pipe[1] = get_out_redir(cmd, fd_pipe[1]);
+		printf("out fd = %d\n", fd_pipe[1]);
 		if (cmd->next != NULL || is_outfile(cmd->redirections)) //redir output to pipe because we are not at there is at least a pipe left || redir the output to the file
 		{
+			ft_putstr_fd("\x1B[31mDUP out_fd to STDOUT\n\x1B[0m", debug_stdout);
 			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
 				return (-2);
 			close(fd_pipe[1]);
@@ -105,7 +111,7 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 				return (-2);
 			close(fd_in);
 		}
-		ft_execve(cmd->av, env);
+		ft_execve(cmd->av, env, debug_stdout);
 	}
 	if (is_infile(cmd->redirections) || cmd->n > 0) //OR IN REDIR
 		close(fd_in);
@@ -167,6 +173,9 @@ int get_out_redir(t_simple_cmds *cmd, int pipe_write)
 			fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		else
 			fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		printf(" %s open %d\n",file, fd);
+		printf(" ->MODIFIED OUT FROM %d to %d\n", pipe_write, fd);
+		printf("close %d\n", pipe_write);
 		close(pipe_write);
 		return (fd);
 	}
@@ -198,17 +207,4 @@ int is_outfile(t_lexer *redirections)
 
 	}
 	return (0);
-}
-
-void print_input_cmd_line(char **av)
-{
-	int i;
-
-	i = 0;
-	while (av[i] != NULL)
-	{
-		printf("[%s] ", av[i]);
-		i++;
-	}
-	printf("\n");
 }

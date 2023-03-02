@@ -46,13 +46,13 @@ int main(int argc, char **argv, char **env)
 		if (ft_strncmp("exit", line, 4) == 0)
 			break ;
 		printf("input line = %s\n", line);
-		printf("--------LEXER---------\n");
+	//	printf("--------LEXER---------\n");
 		lexer = tokenize(line);
 		free(line);
-		lexer_print_list(&lexer);
-		printf("--------EXPAND--------\n");
+	//	lexer_print_list(&lexer);
+	//	printf("--------EXPAND--------\n");
 		lexer_to_expander(lexer, l_env);
-		lexer_print_list(&lexer);
+	//	lexer_print_list(&lexer);
 		cmd = create_simple_cmds(lexer);
 		lexer_clear_list(&lexer);
 		printf("----------CMD----------\n");
