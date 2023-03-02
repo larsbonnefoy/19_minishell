@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:22:06 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/22 18:13:51 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/02 21:34:25 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	**ft_realloc_tab(void **p, size_t size_of, size_t size)
 	res = ft_malloc(size_of * (size + 1));
 	if (!p)
 		return (res);
-	ft_bzero(res, size);
+	ft_bzero(res, size_of * (size + 1));
 	ft_tab_memcpy(res, p, size);
 	free(p);
 	return (res);

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:01:07 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/01 16:48:41 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/02 14:35:34 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char	**list_to_env(t_env **l_env)
 	t_env	*head;
 	int		size;
 	char	**res;
+	char	*tmp;
 
 	size = 0;
 	head = *l_env;
@@ -71,13 +72,24 @@ char	**list_to_env(t_env **l_env)
 	{
 		if ((*l_env)->export)
 		{
-			res = ft_realloc_tab((void **)res, sizeof(char *), (++size) + 1);
-			tmp = ft_strjoin(*l_env->name, "=");
-			res[size - 1] = ft_strjoin(tmp, *l_env->val);
+			res = (char **)ft_realloc_tab((void **)res, sizeof(char *),
+					(++size));
+			tmp = ft_strjoin((*l_env)->name, "=");
+			res[size - 1] = ft_strjoin(tmp, (*l_env)->value);
 			free(tmp);
 		}
-		*l_env = *l_env->next;
+		*l_env = (*l_env)->next;
 	}
 	*l_env = head;
 	return (res);
+}
+
+void	free_char_env(char **env)
+{
+	size_t	i;
+
+	i = -1;
+	while (env[++i])
+		free(env[i]);
+	free(env);
 }

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 09:58:01 by hdelmas           #+#    #+#             */
-/*   Updated: 2022/10/14 09:50:57 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/02 14:33:14 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void	ft_bzero(void *s, size_t n)
 	i = -1;
 	res = s;
 	while (++i < n)
-		res[i] = '\0';
+		res[i] = 0;
 	return ;
 }
