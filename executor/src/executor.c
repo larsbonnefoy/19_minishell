@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/03 16:33:29 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/03 17:12:32 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void executor(t_simple_cmds *cmd, char **env)
 	dup2(std_in, STDIN_FILENO);
 	dup2(std_out, STDOUT_FILENO);
 	close(std_out);
+	close(std_in);
 	close(debug_stdout);
 }
 
@@ -93,18 +94,16 @@ void executor(t_simple_cmds *cmd, char **env)
 int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 {
 	int fd_out;
+
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		printf("________________CMD%d______________\n", cmd->n);
-		printf("fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
 		if (cmd->next != NULL || is_outfile(cmd->redirections)) //redir output to pipe because we are not at there is at least a pipe left || redir the output to the file
 		{
-			//ft_putstr_fd("\x1B[31mDUP out_fd to STDOUT\n\x1B[0m", debug_stdout);
 			fd_pipe[1] = get_out_fd(cmd, fd_pipe[1]);
-			printf("fd_out = %d\n", fd_pipe[1]);
 			dup2(fd_pipe[1], STDOUT_FILENO);
-			close(fd_pipe[0]);
+			if (cmd->next != NULL)
+				close(fd_pipe[0]);
 			close(fd_pipe[1]);
 		}
 		if (cmd->n > 0 || is_infile(cmd->redirections)) //OR IN REDIR
@@ -113,7 +112,6 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 			if (dup2(fd_in, STDIN_FILENO) == -1)
 				return (-2);
 			close(fd_in);
-			write(1, "allo", 4);
 		}
 		ft_execve(cmd->av, env, debug_stdout);
 	}
@@ -142,7 +140,8 @@ int get_out_fd(t_simple_cmds *cmd, int pipe_write)
 			perror("open");
 			exit(EXIT_FAILURE);
 		}
-		close(pipe_write);
+		if (cmd->next != NULL)
+			close(pipe_write);
 		printf("opened %s on %d\n", file, fd);
 		return (fd);
 	}
