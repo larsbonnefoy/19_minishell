@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_unset.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 13:56:22 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/03 18:00:40 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/03/03 15:11:17 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/03 16:12:12 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pwd.h"
+#ifndef FT_UNSET_H
+# define FT_UNSET_H
 
-int	ft_pwd(char **av)
-{
-	char	buf[1024];
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <limits.h>
+# include <string.h>
+# include "../../env/src/env.h"
+# include "../ft_export/ft_export.h"
+# include "../ft_env/ft_env.h"
+# include "../../libft/libft.h"
 
-	if (getcwd(buf, 12))
-	{
-		ft_putendl_fd(buf, 1);
-		return (0);
-	}
-	perror("pwd");
-	return (1);
-}
+int	ft_unset(char **av, t_env **l_env, char ***env);
+
+#endif

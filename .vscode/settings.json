@@ -14,7 +14,10 @@
 		"bitset": "c",
 		"pwd.h": "c",
 		"locale": "c",
-		"ft_export.h": "c"
+		"ft_export.h": "c",
+		"__node_handle": "c",
+		"chrono": "c",
+		"ft_unset.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

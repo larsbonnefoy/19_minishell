@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 12:57:43 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/03 12:58:23 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/03 17:07:36 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ char	**ft_tabdup(char **tab)
 		exit(EXIT_FAILURE);
 	while (tab[++size])
 		;
-	res = ft_malloc(sizeof(char *) * size + 1);
+	res = ft_malloc(sizeof(char *) * (size + 1));
+	res[size] = NULL;
 	while (tab[++i])
 		res[i] = ft_strdup(tab[i]);
 	return (res);

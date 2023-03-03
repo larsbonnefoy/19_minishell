@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 12:59:19 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/03 13:19:39 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/03 14:51:22 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	print_in_order(char **env)
 		j = -1;
 		while (j < size && i != array[++j])
 			;
+		ft_putstr_fd("declare -x ", 1);
 		ft_putendl_fd(env[j], 1);
 	}
 	free(array);
