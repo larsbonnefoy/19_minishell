@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/01 15:21:55 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/03 16:33:29 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env);
 int 	get_in_redir(t_simple_cmds *cmd, int fd_in);
 void 	print_input_cmd_line(char **av);
 int		is_outfile(t_lexer *redirections);
+char	*get_out_file(t_simple_cmds *cmd);
+int		get_out_token(t_simple_cmds *cmd, char *file);
+int		get_out_fd(t_simple_cmds *cmd, int pipe_write);
+int		get_in_fd(t_simple_cmds *cmd,int fd_in);
 
 int 	debug_stdout;
 /*
@@ -44,8 +48,8 @@ void executor(t_simple_cmds *cmd, char **env)
 	debug_stdout = dup(STDOUT_FILENO);
 
 	fd_in = STDIN_FILENO;
-	fd_pipe[0] = 0; //init fd_pipe dans le cas ou curr->next == NULL;
-	fd_pipe[1] = 1;
+	fd_pipe[0] = -1;
+	fd_pipe[1] = -2;
 	std_in = dup(STDIN_FILENO); //stdin = 3 pointe sur le fichier "entre standard (/prompt)"
 	std_out = dup(STDOUT_FILENO);
 	curr = cmd;
@@ -58,7 +62,6 @@ void executor(t_simple_cmds *cmd, char **env)
 			if (pipe(fd_pipe) == -1)
 				return ;
 		}
-		fd_in = get_in_redir(curr, fd_in);
 		fd_in = process(fd_pipe, fd_in, curr, env ); //read access of pipe will be stdin of the next pipe
 		curr = curr->next;
 	}
@@ -70,7 +73,6 @@ void executor(t_simple_cmds *cmd, char **env)
 	}
 	dup2(std_in, STDIN_FILENO);
 	dup2(std_out, STDOUT_FILENO);
-	close(std_in);
 	close(std_out);
 	close(debug_stdout);
 }
@@ -90,41 +92,68 @@ void executor(t_simple_cmds *cmd, char **env)
  */
 int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env)
 {
+	int fd_out;
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		printf("_________________CMD%d________________________\n", cmd->n);
+		printf("________________CMD%d______________\n", cmd->n);
 		printf("fd_pipe[0] = %d, fd_pipe[1] = %d, fd_in = %d\n", fd_pipe[0], fd_pipe[1], fd_in);
-		fd_pipe[1] = get_out_redir(cmd, fd_pipe[1]);
-		printf("out fd = %d\n", fd_pipe[1]);
 		if (cmd->next != NULL || is_outfile(cmd->redirections)) //redir output to pipe because we are not at there is at least a pipe left || redir the output to the file
 		{
-			ft_putstr_fd("\x1B[31mDUP out_fd to STDOUT\n\x1B[0m", debug_stdout);
-			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
-				return (-2);
-			close(fd_pipe[1]);
+			//ft_putstr_fd("\x1B[31mDUP out_fd to STDOUT\n\x1B[0m", debug_stdout);
+			fd_pipe[1] = get_out_fd(cmd, fd_pipe[1]);
+			printf("fd_out = %d\n", fd_pipe[1]);
+			dup2(fd_pipe[1], STDOUT_FILENO);
 			close(fd_pipe[0]);
+			close(fd_pipe[1]);
 		}
-		if (is_infile(cmd->redirections) || cmd->n > 0) //OR IN REDIR
+		if (cmd->n > 0 || is_infile(cmd->redirections)) //OR IN REDIR
 		{
+			fd_in = get_in_fd(cmd, fd_in);
 			if (dup2(fd_in, STDIN_FILENO) == -1)
 				return (-2);
 			close(fd_in);
+			write(1, "allo", 4);
 		}
 		ft_execve(cmd->av, env, debug_stdout);
 	}
-	if (is_infile(cmd->redirections) || cmd->n > 0) //OR IN REDIR
+	if (cmd->n > 0)
 		close(fd_in);
-	if (cmd->next != NULL || is_outfile(cmd->redirections))
-		close(fd_pipe[1]);
+	close(fd_pipe[1]);
 	return (fd_pipe[0]); //si on a une redirection sur fd_out le fd_in du prochain pipe sera sur STD_IN
+}
+
+int get_out_fd(t_simple_cmds *cmd, int pipe_write)
+{
+	char	*file;
+	int		token;
+	int		fd;
+
+	if (is_outfile(cmd->redirections))
+	{
+		file = get_out_file(cmd);	
+		token = get_out_token(cmd, file);
+		if (token == D_GREATER)
+			fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		else
+			fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (fd == -1)
+		{	
+			perror("open");
+			exit(EXIT_FAILURE);
+		}
+		close(pipe_write);
+		printf("opened %s on %d\n", file, fd);
+		return (fd);
+	}
+	else
+		return (pipe_write);
 }
 
 /*
  * opens fd of infile redirection if there is one, else returns fd_in
- *
 */
-int get_in_redir(t_simple_cmds *cmd,int fd_in)
+int get_in_fd(t_simple_cmds *cmd,int fd_in)
 {
 	t_lexer *redir; 	
 	int 	fd;
@@ -149,37 +178,35 @@ int get_in_redir(t_simple_cmds *cmd,int fd_in)
 	return (fd_in);
 }
 
-int get_out_redir(t_simple_cmds *cmd, int pipe_write)
+char *get_out_file(t_simple_cmds *cmd)
 {
 	t_lexer *redir;
-	int fd;
-	char *file;
-	int  token;
+	char	*file;
 
 	redir = cmd->redirections;
 	file = NULL;
 	while (redir)
 	{
 		if (redir->token == GREATER || redir->token == D_GREATER)
-		{
 			file = redir->str;
-			token = redir->token;
-		}	
 		redir = redir->next;
 	}
-	if (file)
-	{ 
-		if (token == D_GREATER)
-			fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		else
-			fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		printf(" %s open %d\n",file, fd);
-		printf(" ->MODIFIED OUT FROM %d to %d\n", pipe_write, fd);
-		printf("close %d\n", pipe_write);
-		close(pipe_write);
-		return (fd);
+	return (file);
+}
+
+int get_out_token(t_simple_cmds *cmd, char *file)
+{
+	int token;
+	t_lexer	*redir;
+
+	redir = cmd->redirections;
+	while(redir)
+	{
+		if (file == redir->str)
+			token = redir->token;
+		redir = redir->next;
 	}
-	return (pipe_write);
+	return (token);
 }
 
 int is_infile(t_lexer *redirection)
@@ -204,7 +231,6 @@ int is_outfile(t_lexer *redirections)
 		if (curr_redir->token == D_GREATER || curr_redir->token == GREATER)
 			return (1);
 		curr_redir=curr_redir->next;
-
 	}
 	return (0);
 }

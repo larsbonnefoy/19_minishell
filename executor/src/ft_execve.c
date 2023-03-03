@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/01 10:53:10 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:15:15 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void ft_execve(char **av, char **env, int debug_stdout)
 		{
 			if (execve(access_path, av, env) == -1)
 			{
-				exit(EXIT_FAILURE);
 				ft_putstr_fd("\x1B[31mexecve did not exec\n\x1B[0m", debug_stdout);
 				perror("execve");
+				exit(EXIT_FAILURE);
 			}
 		}
 		else
