@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.h                                        :+:      :+:    :+:   */
+/*   ft_tabdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/28 15:50:41 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/03 12:59:43 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/03/03 12:57:43 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/03 12:58:23 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_EXPORT_H
-# define FT_EXPORT_H
+#include "libft.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <limits.h>
-# include <string.h>
-# include "../../env/src/env.h"
-# include "../ft_env/ft_env.h"
-# include "../../libft/libft.h"
+char	**ft_tabdup(char **tab)
+{
+	int		i;
+	char	**res;
+	int		size;
 
-int	ft_export(char **av, t_env **l_env, char ***env);
-int	is_export(char *str);
-int	print_in_order(char **env);
-#endif
+	i = -1;
+	size = -1;
+	if (!tab)
+		exit(EXIT_FAILURE);
+	while (tab[++size])
+		;
+	res = ft_malloc(sizeof(char *) * size + 1);
+	while (tab[++i])
+		res[i] = ft_strdup(tab[i]);
+	return (res);
+}

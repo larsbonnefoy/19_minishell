@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:36:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/01 10:26:57 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/03 14:48:55 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,4 @@ void	env_reassign(t_env *to_add, t_env **l_env)
 	}
 	*l_env = head;
 	env_addfront(to_add, l_env);
-	return ;
 }
