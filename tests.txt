@@ -60,3 +60,5 @@ echo a > file1 | grep a
 grep a
 ./minishell
 cat << $HOME
+<< "stop" cat -> dont expand values in the heredoc
+<< stop cat -> expand values in the heredoc

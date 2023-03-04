@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/03 17:12:32 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:26:06 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int 	debug_stdout;
  * 	3. return right fd so that the parent process can read from it in case of multiple pipes
  * 	fd[0] == READ == IN
  * 	fd[1] == WRITE == OUT
- * 	/!\ free correctly all the elements as execve replaces the process 
  * 	fork with execve (=> standard non builtin functions)
  */
 void executor(t_simple_cmds *cmd, char **env)
