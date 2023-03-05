@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/05 14:22:05 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/05 14:40:44 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,11 +111,22 @@ BUILTINS_SRC = $(addprefix  $(BUILTINS_DIR)/, $(BUILTINS_FILE))
 
 BUILTINS_OBJ = $(BUILTINS_SRC:.c=.o)
 
+###__EXEC__###
+EXEC_NAME = executor.a
+
+EXEC_DIR = ./executor
+
+EXEC_FILE = executor.c ft_execve.c
+
+EXEC_SRC = $(addprefix  $(EXEC_DIR)/src/, $(EXEC_FILE))
+
+EXEC_OBJ = $(EXEC_SRC:.c=.o)
 
 ###__ALL__###
-ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC) $(PROMPT_SRC) $(BUILTINS_SRC)
+ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC) $(PROMPT_SRC) $(BUILTINS_SRC) $(EXEC_SRC)
 
-ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME) $(BUILTINS_NAME)
+ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME) $(BUILTINS_NAME) $(EXEC_NAME)
+
 
 
 
