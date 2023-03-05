@@ -51,7 +51,7 @@ re :	fclean all
 
 ###__PRINT__###
 
-PRINT = echo
+PRINT = echo -e
 
 ###__COLORS__###
 NOCOLOR = \033[0m

@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 13:56:22 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 14:22:53 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/03/02 21:32:54 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/02 21:58:32 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_pwd.h"
+#include "libft.h"
 
-int	ft_pwd(char **av)
+void	*ft_realloc(void *p, size_t size_of, size_t size)
 {
-	char	buf[1024];
+	void	*res;
 
-	if (getcwd(buf, 12))
-	{
-		ft_putendl_fd(buf, 1);
-		return (0);
-	}
-	perror("pwd");
-	return (1);
+	res = ft_malloc(size_of * (size));
+	if (!p)
+		return (res);
+	ft_bzero(res, size_of * (size));
+	ft_memmove(res, p, (size - 1) * size_of);
+	free(p);
+	return (res);
 }

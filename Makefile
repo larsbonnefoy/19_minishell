@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/02/27 09:04:02 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/05 14:22:05 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,11 +100,22 @@ PROMPT_SRC = ./prompt/prompt.c
 
 PROMPT_OBJ = $(PROMPT_SRC:.c=.o)
 
+###__BUILTINS__###
+BUILTINS_NAME = builtins.a
+
+BUILTINS_DIR = ./builtins
+
+BUILTINS_FILE = ft_echo/ft_echo.c ft_env/ft_env.c ft_exit/ft_exit.c ft_export/ft_export.c ft_export/print_in_order.c ft_pwd/ft_pwd.c ft_unset/ft_unset.c\
+
+BUILTINS_SRC = $(addprefix  $(BUILTINS_DIR)/, $(BUILTINS_FILE))
+
+BUILTINS_OBJ = $(BUILTINS_SRC:.c=.o)
+
 
 ###__ALL__###
-ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC) $(PROMPT_SRC)
+ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC) $(PROMPT_SRC) $(BUILTINS_SRC)
 
-ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME)
+ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME) $(BUILTINS_NAME)
 
 
 
