@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:43:59 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/05 19:59:33 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ int main(int argc, char **argv, char **env)
 	t_simple_cmds	*tmp;
 	struct termios	term;
 
-	(void)argc;
-	(void)argv;
-	// env = lstrdup(env)
+	env = ft_tabdup(env);
 	l_env = env_to_list(env);
 	node2 = env_new(ft_strdup("?"), ft_strdup("0"), 0);
 	env_addfront(node2, l_env);
@@ -88,6 +86,7 @@ int main(int argc, char **argv, char **env)
 		if (cmd)
 			destroy_simple_cmds(cmd);
 	}
+	free_char_env(env);
 	env_free_all_node(l_env);
 	return (0);
 }
