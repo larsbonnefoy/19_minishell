@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2022/10/04 16:49:39 by hdelmas           #+#    #+#             */
+/*   Updated: 2022/10/14 09:59:18 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "libft.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char	*clean;
-	t_lexer	*head;
+	size_t	i;
+	size_t	dstlen;
 
-	head = lexer;
-	while (lexer)
-	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
-	}
-	lexer = head;
+	i = -1;
+	if ((!dst || !src) && dstsize == 0)
+		return (0);
+	dstlen = ft_strlen(dst);
+	if (dstsize <= dstlen || !dst || !src)
+		return (ft_strlen(src) + dstsize);
+	while (++i + dstlen < dstsize - 1 && src[i])
+		dst[dstlen + i] = src[i];
+	dst[dstlen + i] = '\0';
+	return (dstlen + ft_strlen(src));
 }

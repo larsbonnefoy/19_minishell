@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/02/23 14:19:49 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/05 19:45:39 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,11 @@ OBJ = $(SRCS:.c=.o)
 
 AR = ar -rcs
 
-CFLAGS = -Wall -Wextra -Werror -Isrc/ $(FFLAGS)
+LDFLAGS = -L/Users/hdelmas/.brew/opt/readline/lib
+
+CPPFLAGS = -I/Users/hdelmas/.brew/opt/readline/include
+
+CFLAGS = -Wall -Wextra -Werror -IIncludes/ $(FFLAGS)
 
 FFLAGS = -fsanitize=address -g
 
@@ -35,7 +39,7 @@ RM = rm -f
 
 
 ###__LIBFT__###
-LIBFT_DIR =	./libft
+LIBFT_DIR =	src/libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
@@ -43,9 +47,9 @@ LIBFT = $(LIBFT_DIR)/libft.a
 ###__EXP__###
 EXP_NAME = expander.a
 
-EXP_DIR = 	./expander
+EXP_DIR = 	src/expander
 
-EXP_SRC = 	$(EXP_DIR)/src/cleaner.c $(EXP_DIR)/src/expander.c\
+EXP_SRC = 	$(EXP_DIR)/cleaner.c $(EXP_DIR)/expander.c\
 
 EXP_OBJ = $(EXP_SRC:.c=.o)
 
@@ -53,9 +57,9 @@ EXP_OBJ = $(EXP_SRC:.c=.o)
 ###__ENV__###
 ENV = env.a
 
-ENV_DIR = 	./env
+ENV_DIR = 	src/env
 
-ENV_SRC = 	$(addprefix $(ENV_DIR)/src/, $(ENV_FILE))
+ENV_SRC = 	$(addprefix $(ENV_DIR)/, $(ENV_FILE))
 
 ENV_FILE =	ft_getenv.c env_list_manager.c env_to_list.c\
 			env_reassign.c\
@@ -66,11 +70,11 @@ ENV_OBJ  = $(ENV_SRC:.c=.o)
 ###__LEXER__###
 LEXER_NAME = lexer.a
 
-LEXER_DIR = 	./lexer
+LEXER_DIR = 	src/lexer
 
 LEXER_FILE = 	lexer.c lexer_list_manager.c lexer_quotes.c lexer_quotes_utils.c\
 
-LEXER_SRC = $(addprefix $(LEXER_DIR)/src/, $(LEXER_FILE))
+LEXER_SRC = $(addprefix $(LEXER_DIR)/, $(LEXER_FILE))
 
 LEXER_OBJ = $(LEXER_SRC:.c=.o)
 
@@ -78,11 +82,11 @@ LEXER_OBJ = $(LEXER_SRC:.c=.o)
 ###__PARSER__###
 PARSER_NAME = parser.a
 
-PARSER_DIR = 	./parser
+PARSER_DIR = 	src/parser
 
 PARSER_FILE = 	simple_cmd.c
 
-PARSER_SRC = $(addprefix $(PARSER_DIR)/src/, $(PARSER_FILE))
+PARSER_SRC = $(addprefix $(PARSER_DIR)/, $(PARSER_FILE))
 
 PARSER_OBJ = $(PARSER_SRC:.c=.o)
 
@@ -90,26 +94,48 @@ PARSER_OBJ = $(PARSER_SRC:.c=.o)
 ###__PROMPT__###
 PROMPT_NAME = prompt.a
 
-PROMPT_DIR = ./prompt
+PROMPT_DIR = src/prompt
 
-PROMPT_SRC = ./prompt/prompt.c
+PROMPT_SRC = src/prompt/prompt.c
 
 PROMPT_OBJ = $(PROMPT_SRC:.c=.o)
 
+###__BUILTINS__###
+BUILTINS_NAME = builtins.a
+
+BUILTINS_DIR = ./src/builtins
+
+BUILTINS_FILE = ft_echo/ft_echo.c ft_env/ft_env.c ft_exit/ft_exit.c ft_export/ft_export.c ft_export/print_in_order.c ft_pwd/ft_pwd.c ft_unset/ft_unset.c\
+
+BUILTINS_SRC = $(addprefix  $(BUILTINS_DIR)/, $(BUILTINS_FILE))
+
+BUILTINS_OBJ = $(BUILTINS_SRC:.c=.o)
+
+###__EXEC__###
+EXEC_NAME = executor.a
+
+EXEC_DIR = src/executor
+
+EXEC_FILE = executor.c ft_execve.c
+
+EXEC_SRC = $(addprefix  $(EXEC_DIR)/, $(EXEC_FILE))
+
+EXEC_OBJ = $(EXEC_SRC:.c=.o)
 
 ###__ALL__###
-ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC) $(PROMPT_SRC)
+ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC) $(PROMPT_SRC) $(BUILTINS_SRC) $(EXEC_SRC)
 
-ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME)
+ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME) $(BUILTINS_NAME) $(EXEC_NAME)
+
 
 
 
 $(NAME): $(OBJ)
 		@make --no-print-directory -C $(LIBFT_DIR)
-		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -g $(RLINE) -g -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -g $(LDFLAGS) $(CPPFLAGS) $(RLINE)  -g -o $(NAME)
 
 .c.o:
-		$(CC) $(CLFAGS) -c -g $< -g -o $(<:.c=.o)
+		$(CC) $(CLFAGS) $(CPPFLAGS) -c -g $< -g -o $(<:.c=.o)
 
 all: $(NAME)
 	

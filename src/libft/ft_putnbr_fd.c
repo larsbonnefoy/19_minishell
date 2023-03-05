@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2022/10/10 18:18:07 by hdelmas           #+#    #+#             */
+/*   Updated: 2022/10/14 09:57:43 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "libft.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char	*clean;
-	t_lexer	*head;
+	size_t	nbr;
+	int		sign;
 
-	head = lexer;
-	while (lexer)
+	sign = 1;
+	if (n < 0)
 	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
+		sign = -1;
+		ft_putchar_fd('-', fd);
 	}
-	lexer = head;
+	nbr = ((long int)n * sign);
+	if (nbr <= 9)
+		ft_putchar_fd(nbr + 48, fd);
+	else
+	{
+		ft_putnbr_fd(nbr / 10, fd);
+		ft_putnbr_fd(nbr % 10, fd);
+	}
+	return ;
 }

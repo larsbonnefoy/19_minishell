@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_tabdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/03/03 12:57:43 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/03 17:07:36 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "libft.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+char	**ft_tabdup(char **tab)
 {
-	char	*clean;
-	t_lexer	*head;
+	int		i;
+	char	**res;
+	int		size;
 
-	head = lexer;
-	while (lexer)
-	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
-	}
-	lexer = head;
+	i = -1;
+	size = -1;
+	if (!tab)
+		exit(EXIT_FAILURE);
+	while (tab[++size])
+		;
+	res = ft_malloc(sizeof(char *) * (size + 1));
+	res[size] = NULL;
+	while (tab[++i])
+		res[i] = ft_strdup(tab[i]);
+	return (res);
 }

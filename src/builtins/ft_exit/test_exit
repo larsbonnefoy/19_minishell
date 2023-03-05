@@ -1,0 +1,7 @@
+exit big numbr > overflow at 64bit
+exit str
+exit 1 2 3
+exit -1
+exit ""
+exit "9 "
+exit "9 9"

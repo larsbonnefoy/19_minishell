@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2022/10/06 16:20:20 by hdelmas           #+#    #+#             */
+/*   Updated: 2022/10/14 10:02:45 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "libft.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char	*clean;
-	t_lexer	*head;
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
-	head = lexer;
-	while (lexer)
+	i = -1;
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	while (++i < n)
 	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
+		if (str2[i] != str1[i])
+			return (str1[i] - str2[i]);
 	}
-	lexer = head;
+	return (0);
 }
