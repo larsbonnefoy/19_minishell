@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:08:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:37:57 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/06 13:39:34 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <errno.h>
 
 # include "../src/libft/libft.h"
 # include "env.h"

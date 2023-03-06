@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:10:26 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/05 20:05:15 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:19:22 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@
 void	executor(t_simple_cmds *cmd, char **env);
 //ft_execve
 void	ft_execve(char **av, char **env, int debug_stdout);
-char	get_access_path(char **av, char *path);
+char	*get_access_path(char **av, char *path);
 #endif

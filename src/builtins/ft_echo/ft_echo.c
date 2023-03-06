@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 09:27:59 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:27:29 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:09:38 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,15 @@ static int	has_option(char **av)
 	return (i);
 }
 
-int	ft_echo(char **av)
+int	ft_echo(char **av, char ***env, t_env **l_env)
 {
 	int	option;
 	int	i;
 	int	nbr_av;
 	int	ac;
 
+	(void)l_env;
+	(void)env;
 	option = has_option(av);
 	ac = 0;
 	while (av[++ac])
