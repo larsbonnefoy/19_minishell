@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:51:34 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:27:43 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:16:48 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ long int	ft_atol(char *nptr, int *over)
 	return ((long int)(res * sign));
 }
 
-int	ft_exit(char **av)
+nt	ft_exit(char **av)
 {
 	long int	x;
 	int			over;

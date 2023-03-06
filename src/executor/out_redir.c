@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:53:31 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/06 11:23:56 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/06 13:49:07 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int get_out_fd(t_simple_cmds *cmd, int pipe_write)
 		}
 		if (cmd->next != NULL)
 			close(pipe_write);
-		printf("opened %s on %d\n", file, fd);
 		return (fd);
 	}
 	else

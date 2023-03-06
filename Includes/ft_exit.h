@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:51:36 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:22:22 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:16:45 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@
 # include <string.h>
 # include "../src/libft/libft.h"
 
+int	ft_exit(char **av);
 #endif
