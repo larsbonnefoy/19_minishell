@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:11:17 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:23:08 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/06 14:59:49 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@
 # include "ft_env.h"
 # include "../src/libft/libft.h"
 
-int	ft_unset(char **av, t_env **l_env, char ***env);
+int	ft_unset(char **av, char ***env, t_env **l_env);
 
 #endif

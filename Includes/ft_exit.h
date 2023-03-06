@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:51:36 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:22:22 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:56:53 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,9 @@
 # include <limits.h>
 # include <string.h>
 # include "../src/libft/libft.h"
+# include "env.h"
+
+long int	ft_atol(char *nptr, int *over);
+int			ft_exit(char **av, char ***env, t_env **l_env);
 
 #endif
