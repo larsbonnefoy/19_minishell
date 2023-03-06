@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:10:26 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/02/23 13:14:07 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/06 11:01:32 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,19 @@
 # include"../../libft/libft.h"
 # include "../../lexer/src/lexer.h"
 # include "../../parser/src/parser.h"
-#define KNRM  "\x1B[0m"
-#define KRED  "\x1B[31m"
-#define KGRN  "\x1B[32m"
-#define KYEL  "\x1B[33m"
-#define KBLU  "\x1B[34m"
-#define KMAG  "\x1B[35m"
-#define KCYN  "\x1B[36m"
-#define KWHT  "\x1B[37m"
+#include <fcntl.h>
+
 //executor
 void	executor(t_simple_cmds *cmd, char **env);
 //ft_execve
-void ft_execve(char **av, char **env, int debug_stdout);
+void ft_execve(char **av, char **env);
 char *get_access_path(char **av, char *path);
+//out_redir.c
+int get_out_fd(t_simple_cmds *cmd, int pipe_write);
+char *get_out_file(t_simple_cmds *cmd);
+int get_out_token(t_simple_cmds *cmd, char *file);
+int is_outfile(t_lexer *redirections);
+//in_redir.c
+int get_in_fd(t_simple_cmds *cmd,int fd_in);
+int is_infile(t_lexer *redirection);
 #endif

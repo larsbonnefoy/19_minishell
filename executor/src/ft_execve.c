@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/03 15:15:15 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/06 11:02:06 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Check if function is a self coded func or not and execute it
  * TO DO: check in working dir
 */
-void ft_execve(char **av, char **env, int debug_stdout)
+void ft_execve(char **av, char **env)
 {
 	char	**path_arr;
 	char	*access_path;
@@ -36,7 +36,6 @@ void ft_execve(char **av, char **env, int debug_stdout)
 		{
 			if (execve(access_path, av, env) == -1)
 			{
-				ft_putstr_fd("\x1B[31mexecve did not exec\n\x1B[0m", debug_stdout);
 				perror("execve");
 				exit(EXIT_FAILURE);
 			}
