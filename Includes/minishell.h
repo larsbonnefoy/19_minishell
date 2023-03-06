@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:08:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/25 10:49:40 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/05 19:37:57 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,22 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
-# include "../libft/libft.h"
-# include "../env/src/env.h"
-# include "../expander/src/expander.h"
-# include "../lexer/src/lexer.h"
-# include "../parser/src/parser.h"
-# include "../prompt/prompt.h"
+# include "../src/libft/libft.h"
+# include "env.h"
+# include "expander.h"
+# include "lexer.h"
+# include "parser.h"
+# include "prompt.h"
+# include "executor.h"
+# include "ft_echo.h"
+# include "ft_env.h"
+# include "ft_exit.h"
+# include "ft_export.h"
+# include "ft_pwd.h"
+# include "ft_unset.h"
 
 void	lexer_to_expander(t_lexer *lexer, t_env **env);
 

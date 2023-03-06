@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/27 17:14:45 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/05 19:27:39 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../../Includes//ft_env.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+int	ft_env(char **av, char **env)
 {
-	char	*clean;
-	t_lexer	*head;
+	int	i;
 
-	head = lexer;
-	while (lexer)
+	i = -1;
+	if (av[1])
 	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
+		ft_putendl_fd("env: too many arguments", 2);
+		return (1);
 	}
-	lexer = head;
+	if (!env)
+	{
+		ft_putendl_fd("env: no env", 2);
+		return (1);
+	}
+	while (env[++i])
+		ft_putendl_fd(env[i], 1);
+	return (0);
 }
