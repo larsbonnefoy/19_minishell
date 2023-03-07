@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 09:45:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/06 16:08:13 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/07 08:11:18 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	ft_cd(char **av, char ***env, t_env **l_env)
 	}
 	set_pwds(new_pwd, old_pwd, l_env, env);
 	free(new_pwd);
+	return (0);
 }
 
 // int	main(int ac,  char **av, char **env)

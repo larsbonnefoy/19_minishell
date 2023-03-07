@@ -6,11 +6,10 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/06 16:54:12 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/07 08:13:13 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.SILENT:
 NAME = minishell
 
 FILES = lexer_to_expender.c test_main.c 
@@ -23,9 +22,9 @@ OBJ = $(SRCS:.c=.o)
 
 AR = ar -rcs
 
-LDFLAGS = -L/Users/hdelmas/.brew/opt/readline/lib
+LDFLAGS = -L$(HOME)/.brew/opt/readline/lib
 
-CPPFLAGS = -I/Users/hdelmas/.brew/opt/readline/include
+CPPFLAGS = -I$(HOME)/.brew/opt/readline/include
 
 CFLAGS = -Wall -Wextra -Werror -IIncludes/ $(FFLAGS)
 
@@ -131,7 +130,7 @@ ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME) $
 
 
 $(NAME): $(OBJ)
-		@make --no-print-directory -C $(LIBFT_DIR)
+		make -C $(LIBFT_DIR)
 		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -g $(LDFLAGS) $(CPPFLAGS) $(RLINE)  -g -o $(NAME)
 
 .c.o:
@@ -141,33 +140,33 @@ all: $(NAME)
 	
 
 clean:
-		@make --no-print-directory clean -C $(LIBFT_DIR)	
+		make clean -C $(LIBFT_DIR)	
 		$(RM) $(OBJ)
 
 fclean: clean
-		@make --no-print-directory fclean -C $(LIBFT_DIR)
+		make fclean -C $(LIBFT_DIR)
 		$(RM) $(NAME) $(ALL_NAME)
 
 re :	fclean $(NAME)
 
 env : $(ENV_OBJ)
-		@make --no-print-directory -C $(LIBFT_DIR)
+		make -C $(LIBFT_DIR)
 		$(AR) $(ENV_NAME) $(ENV_OBJ)
 
 parser : $(PARSER_OBJ) $(LEXER_OBJ)
-		@make --no-print-directory -C $(LIBFT_DIR)
+		make -C $(LIBFT_DIR)
 		$(AR) $(PARSER_NAME) $(LEXER_OBJ) $(PARSER_OBJ)
 
 lexer : $(LEXER_OBJ)
-		@make --no-print-directory -C $(LIBFT_DIR)
+		make -C $(LIBFT_DIR)
 		$(AR) $(LEXER_NAME) $(LEXER_OBJ)
 
 expander : $(EXP_OBJ) $(ENV_OBJ)
-		@make --no-print-directory -C $(LIBFT_DIR)
+		make -C $(LIBFT_DIR)
 		$(AR) $(EXP_NAME) $(ENV_OBJ) $(EXP_OBJ)
 
 prompt : $(PROMPT_OBJ) 
-		@make --no-print-directory -C $(LIBFT_DIR)
+		make -C $(LIBFT_DIR)
 		$(AR) $(PROMPT_NAME) $(PROMPT_OBJ)
 
 .PHONY: all clean fclean re env lexer expander parser
