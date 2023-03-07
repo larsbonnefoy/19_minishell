@@ -6,11 +6,12 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:36:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:28:17 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/05 20:03:10 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/env.h"
+
 void	env_reassign(t_env *to_add, t_env **l_env)
 {
 	t_env	*head;

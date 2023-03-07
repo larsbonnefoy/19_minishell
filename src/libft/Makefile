@@ -1,4 +1,15 @@
-.SILENT:
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/03/07 08:14:24 by hdelmas           #+#    #+#              #
+#    Updated: 2023/03/07 08:14:50 by hdelmas          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = libft.a
  
 SRCS = 	ft_isascii.c ft_isalnum.c ft_isalpha.c ft_isdigit.c ft_isprint.c\
@@ -27,16 +38,11 @@ CC = cc
 RM = rm -f
 
 $(NAME): $(OBJ)
-		$(PRINT) "$(RED)making:\t$(NOCOLOR)$(NAME)"
 		$(AR) $(NAME) $(OBJ)
-		$(PRINT) "$(GREEN)done:\t$(NOCOLOR)$(NAME)"
 .c.o:
 		$(CC) $(CFLAGS) -g -c $< -g -o $(<:.c=.o)
 
 all: $(NAME)
-
-bonus: $(OBJ) $(BONUSOBJ)
-		$(AR) $(NAME) $(OBJ) $(BONUSOBJ)
 
 clean:
 		$(RM) $(OBJ) $(BONUSOBJ)
@@ -46,17 +52,5 @@ fclean: clean
 
 re :	fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
 
-
-###__PRINT__###
-
-PRINT = echo -e
-
-###__COLORS__###
-NOCOLOR = \033[0m
-RED = \033[0;31m
-GREEN = \033[0;32m
-YELLOW = \033[0;32m
-BLUE = \033[0;34m
-CYAN = \033[0;36m

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:23:08 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:27:57 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:00:27 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_in_lenv(char *name, t_env **l_env, t_env **head, t_env **last)
 	return (0);
 }
 
-int	ft_unset(char **av, t_env **l_env, char ***env)
+int	ft_unset(char **av, char ***env, t_env **l_env)
 {
 	int		i;
 	t_env	*last;

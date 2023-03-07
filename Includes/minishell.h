@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:08:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:37:57 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/07 08:42:18 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <errno.h>
 
 # include "../src/libft/libft.h"
 # include "env.h"
@@ -33,5 +34,6 @@
 # include "ft_unset.h"
 
 void	lexer_to_expander(t_lexer *lexer, t_env **env);
+int		ft_cd(char **av, char ***env, t_env **l_env);
 
 #endif

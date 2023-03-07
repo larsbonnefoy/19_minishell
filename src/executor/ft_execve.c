@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/06 15:41:19 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/07 10:13:57 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
 char	*get_access_path(char **av, char *path);
 int		is_self_builtin(char *func_name);
-int		exec_self_builtin(char **av, char **env, t_env **l_env, int self_built_nb);
+int		exec_s_built(char **av, char ***env, t_env **l_env, int self_built_nb);
 
 /*
  * Check if function is a self coded func or not and execute it
  * TO DO: check in working dir
 */
-void ft_execve(char **av, char **env, t_env **l_env)
+void ft_execve(char **av, char ***env, t_env **l_env)
 {
 	char	**path_arr;
 	char	*access_path;
@@ -29,7 +29,7 @@ void ft_execve(char **av, char **env, t_env **l_env)
 
 	self_builtin_nb = is_self_builtin(av[0]);
 	if (self_builtin_nb != -1)
-		exec_self_builtin(av, env, l_env, self_builtin_nb);	
+		exec_s_built(av, env, l_env, self_builtin_nb);	
 	else
 	{
 		path_arr = ft_split(getenv("PATH"), ':');
@@ -40,7 +40,7 @@ void ft_execve(char **av, char **env, t_env **l_env)
 			return_access = access(access_path, X_OK);
 			if (return_access == 0)
 			{
-				if (execve(access_path, av, env) == -1)
+				if (execve(access_path, av, *env) == -1)
 				{
 					perror("execve");
 					exit(EXIT_FAILURE);
@@ -65,16 +65,17 @@ char *get_access_path(char **av, char *path)
 	return (access_path);
 }
 
-int	exec_s_built(char **av, char **env, t_env **l_env, int self_builtin_nb)
+int	exec_s_built(char **av, char ***env, t_env **l_env, int self_builtin_nb)
 {
-	int (*func[7])(char **av, char **env, t_env **l_env);
-	int  res;
-	
+	int	(*func[7])(char **av, char ***env, t_env **l_env);
+	int	res;
+	printf("exec builtin\n");
+
 	func[0] = &ft_echo;
 	func[1] = &ft_pwd;
 	func[2] = &ft_exit;
 	func[3] = &ft_env;
-	//func[4] = &ft_cd;
+	func[4] = &ft_cd;
 	func[5] = &ft_export;
 	func[6] = &ft_unset;
 

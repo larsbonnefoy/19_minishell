@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/06 15:38:41 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/07 10:10:47 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
 
 int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in);
-int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env, t_env **l_env);
+int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env);
 /*
  *	We take each node of the cmd table
  * 	1. handle redirection
@@ -23,7 +23,7 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env, t_env **l_
  * 	fd[1] == WRITE == OUT
  * 	fork with execve (=> standard non builtin functions)
  */
-void executor(t_simple_cmds *cmd, char **env, t_env **l_env)
+void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
 	int		fd_pipe[2];
 	int		pid;
@@ -36,21 +36,19 @@ void executor(t_simple_cmds *cmd, char **env, t_env **l_env)
 	fd_in = STDIN_FILENO;
 	fd_pipe[0] = -1;
 	fd_pipe[1] = -2;
-	std_in = dup(STDIN_FILENO); //stdin = 3 pointe sur le fichier "entre standard (/prompt)"
+	std_in = dup(STDIN_FILENO); 
 	std_out = dup(STDOUT_FILENO);
-	self_built_nb = is_self_builtin(curr->av[0]);
 	curr = cmd;
+	self_built_nb = is_self_builtin(curr->av[0]);
 	if (curr->next == NULL && self_built_nb != -1)
 	{
-		handle_redir(curr, fd_pipe, fd_in);	
+		handle_redir(curr, fd_pipe, fd_in);
 		exec_s_built(cmd->av, env, l_env, self_built_nb);
 	}
 	else
 	{
 		while (curr) //if cmd->next we have to pipe
 		{ 
-			if (curr->redirections)
-				lexer_print_list(&curr->redirections);
 			if (curr->next != NULL)
 			{
 				if (pipe(fd_pipe) == -1)
@@ -85,7 +83,7 @@ void executor(t_simple_cmds *cmd, char **env, t_env **l_env)
  * 		=> on peut ecrire sur le document depuis fildes ou fildes2
  * 		c'est pour ça qu'on close a chaque fois pcq avec dup on a ouvert sur une nouvelle entree
  */
-int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char **env, t_env **l_env)
+int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
 	int fd_out;
 
