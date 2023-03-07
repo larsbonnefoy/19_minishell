@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:50:39 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/06 16:10:20 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/07 10:15:07 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,24 @@
 int	is_export(char *str)
 {
 	int	i;
+	int	check;
 
 	i = -1;
+	check = 0;
 	if (!str)
 		exit(EXIT_FAILURE);
 	while (str[++i])
 	{
 		if (str[i] == '=')
+		{
+			check = 1;
 			break ;
+		}
 		if ((str[i] == 32) || (str[i] <= 13 && str[i] >= 9)
 			|| !ft_isalnum(str[i]))
 			return (0);
 	}
-	if (!str[i] || ft_isdigit(str[0]))
-		return (0);
-	if (!str[++i])
+	if (check == 0 || ft_isdigit(str[0]))
 		return (0);
 	return (1);
 }
@@ -73,8 +76,6 @@ int	ft_export(char **av, char ***env, t_env **l_env)
 {
 	int	ret_val;
 
-	(void)l_env;
-	(void)env;
 	ret_val = 0;
 	if (!av)
 		exit(EXIT_FAILURE);
