@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/07 09:54:02 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:39:56 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	print_cmd(t_simple_cmds *cmd)
 		printf("cmd%d av : [", ++k);
 		while (cmd->av && cmd->av[++j])
 		{
-			
 			if (cmd->av[j + 1])
 				printf("%s, ", cmd->av[j]);
 			else 
