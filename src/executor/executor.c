@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/07 08:58:01 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/07 14:51:22 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	fd_in = STDIN_FILENO;
 	fd_pipe[0] = -1;
 	fd_pipe[1] = -2;
-	std_in = dup(STDIN_FILENO); //stdin = 3 pointe sur le fichier "entre standard (/prompt)"
+	std_in = dup(STDIN_FILENO); 
 	std_out = dup(STDOUT_FILENO);
-	self_built_nb = is_self_builtin(curr->av[0]);
 	curr = cmd;
+	self_built_nb = is_self_builtin(curr->av[0]);
 	if (curr->next == NULL && self_built_nb != -1)
 	{
 		handle_redir(curr, fd_pipe, fd_in);
@@ -49,8 +49,6 @@ void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	{
 		while (curr) //if cmd->next we have to pipe
 		{ 
-			if (curr->redirections)
-				lexer_print_list(&curr->redirections);
 			if (curr->next != NULL)
 			{
 				if (pipe(fd_pipe) == -1)
