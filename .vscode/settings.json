@@ -1,0 +1,26 @@
+{
+	"files.associations": {
+		"env.h": "c",
+		"expander.h": "c",
+		"lexer.h": "c",
+		"parser.h": "c",
+		"history.h": "c",
+		"readline.h": "c",
+		"libft.h": "c",
+		"stdio.h": "c",
+		"prompt.h": "c",
+		"unistd.h": "c",
+		"stdlib.h": "c",
+		"bitset": "c",
+		"pwd.h": "c",
+		"locale": "c",
+		"ft_export.h": "c",
+		"__node_handle": "c",
+		"chrono": "c",
+		"ft_unset.h": "c",
+		"minishell.h": "c",
+		"ft_exit.h": "c",
+		"ft_echo.h": "c"
+	},
+	"C_Cpp.errorSquiggles": "disabled"
+}

@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_calloc_exit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/14 11:40:46 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/02/14 11:40:52 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "libft.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+void	*ft_calloc_exit(size_t count, size_t size)
 {
-	char	*clean;
-	t_lexer	*head;
+	void	*ptr;
 
-	head = lexer;
-	while (lexer)
-	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
-	}
-	lexer = head;
+	ptr = ft_malloc(size * count);
+	ft_bzero(ptr, size * count);
+	return (ptr);
 }

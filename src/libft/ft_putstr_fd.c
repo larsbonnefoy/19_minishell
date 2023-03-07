@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2022/10/10 18:09:17 by hdelmas           #+#    #+#             */
+/*   Updated: 2022/10/14 10:14:15 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "libft.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+void	ft_putstr_fd(char *s, int fd)
 {
-	char	*clean;
-	t_lexer	*head;
+	size_t	s_len;
 
-	head = lexer;
-	while (lexer)
-	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
-	}
-	lexer = head;
+	if (!s)
+		return ;
+	s_len = ft_strlen(s);
+	write(fd, s, s_len);
 }

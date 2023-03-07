@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_export.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/28 15:50:41 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/06 14:59:19 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#ifndef FT_EXPORT_H
+# define FT_EXPORT_H
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
-{
-	char	*clean;
-	t_lexer	*head;
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <limits.h>
+# include <string.h>
+# include "env.h"
+# include "ft_env.h"
+# include "../src/libft/libft.h"
 
-	head = lexer;
-	while (lexer)
-	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
-	}
-	lexer = head;
-}
+int	ft_export(char **av, char ***env, t_env **l_env);
+int	is_export(char *str);
+int	print_in_order(char **env);
+
+#endif

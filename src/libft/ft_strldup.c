@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_strldup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/13 08:30:08 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/02/15 16:58:17 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
-
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+#include "libft.h"
+/*
+ * strdup but either stop at the EOS or at max_len
+ */
+char	*ft_strldup(char *s, int max_len)
 {
-	char	*clean;
-	t_lexer	*head;
+	int		len;
+	int		i;
+	char	*res;
 
-	head = lexer;
-	while (lexer)
+	if (!s)
+		exit(EXIT_FAILURE);
+	len = -1;
+	i = -1;
+	while (s[++len])
+		;
+	if (len > max_len)
+		len = max_len;
+	res = ft_malloc(sizeof(char) * (len) + 1);
+	while (s[++i] && i < len)
 	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
+		res[i] = s[i];
 	}
-	lexer = head;
+	res[i] = '\0';
+	return (res);
 }

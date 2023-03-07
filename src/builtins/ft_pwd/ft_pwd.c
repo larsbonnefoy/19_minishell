@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/27 13:56:22 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/06 15:24:36 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../../Includes/ft_pwd.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+int	ft_pwd(char **av, char ***env, t_env **l_env)
 {
-	char	*clean;
-	t_lexer	*head;
+	char	buf[1024];
 
-	head = lexer;
-	while (lexer)
+	(void)env;
+	(void)l_env;
+	if (getcwd(buf, 1024))
 	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
+		ft_putendl_fd(buf, 1);
+		return (0);
 	}
-	lexer = head;
+	perror("pwd");
+	return (1);
 }
+
+// int	main(int ac,  char **av, char **env)
+// {
+// 	ft_pwd(av);
+// }

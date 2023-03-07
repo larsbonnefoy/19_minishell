@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2022/10/06 09:58:01 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/02 14:33:14 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "libft.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+void	ft_bzero(void *s, size_t n)
 {
-	char	*clean;
-	t_lexer	*head;
+	size_t			i;
+	char			*res;
 
-	head = lexer;
-	while (lexer)
-	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
-	}
-	lexer = head;
+	if (n == 0)
+		return ;
+	i = -1;
+	res = s;
+	while (++i < n)
+		res[i] = 0;
+	return ;
 }

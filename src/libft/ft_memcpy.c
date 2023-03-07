@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_to_expender.c                                :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:42 by hdelmas          ###   ########.fr       */
+/*   Created: 2022/10/06 10:16:35 by hdelmas           #+#    #+#             */
+/*   Updated: 2022/10/14 10:02:53 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "libft.h"
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char	*clean;
-	t_lexer	*head;
+	char	*cpy;
+	char	*temp_src;
+	size_t	i;
 
-	head = lexer;
-	while (lexer)
-	{
-		if (lexer->str)
-		{
-			clean = cleaner(lexer->str, env);
-			free(lexer->str);
-			lexer->str = clean;
-		}
-		lexer = lexer->next;
-	}
-	lexer = head;
+	if (!dst && !src)
+		return (NULL);
+	cpy = (char *)dst;
+	temp_src = (char *)src;
+	i = -1;
+	while (++i < n)
+		cpy[i] = temp_src[i];
+	return (dst);
 }
