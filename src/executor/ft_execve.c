@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/07 14:36:43 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/07 16:07:27 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	exec_s_built(char **av, char ***env, t_env **l_env, int self_builtin_nb)
 	int	(*func[7])(char **av, char ***env, t_env **l_env);
 	int	res;
 
-	printf("exec builtin\n");
 	func[0] = &ft_echo;
 	func[1] = &ft_pwd;
 	func[2] = &ft_exit;

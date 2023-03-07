@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/07 14:51:22 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:59:20 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	fd_in = STDIN_FILENO;
 	fd_pipe[0] = -1;
 	fd_pipe[1] = -2;
-	std_in = dup(STDIN_FILENO); 
+	std_in = dup(STDIN_FILENO);
 	std_out = dup(STDOUT_FILENO);
 	curr = cmd;
 	self_built_nb = is_self_builtin(curr->av[0]);
@@ -92,6 +92,7 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l
 	{
 		handle_redir(cmd, fd_pipe, fd_in);
 		ft_execve(cmd->av, env, l_env);
+		exit(EXIT_SUCCESS);
 	}
 	if (cmd->n > 0)
 		close(fd_in);

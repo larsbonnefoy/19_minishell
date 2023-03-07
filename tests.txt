@@ -63,3 +63,4 @@ cat << $HOME
 << "stop" cat -> dont expand values in the heredoc
 << stop cat -> expand values in the heredoc
 echo a | pwd > file1
+exit | exit | exit
