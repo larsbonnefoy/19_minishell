@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/07 08:13:13 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/07 08:34:42 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,7 +115,7 @@ EXEC_NAME = executor.a
 
 EXEC_DIR = src/executor
 
-EXEC_FILE = executor.c ft_execve.c
+EXEC_FILE = executor.c ft_execve.c in_redir.c out_redir.c
 
 EXEC_SRC = $(addprefix  $(EXEC_DIR)/, $(EXEC_FILE))
 

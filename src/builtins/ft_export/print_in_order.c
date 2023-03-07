@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 12:59:19 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:27:50 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/07 08:55:57 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	*create_order(char **env, int size)
 	{
 		j = -1;
 		last_name = getname(env[i]);
+		printf("[%s]\n", last_name);
 		while (env[++j])
 		{
 			name = getname(env[j]);

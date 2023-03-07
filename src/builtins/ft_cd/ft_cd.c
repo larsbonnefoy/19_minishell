@@ -6,13 +6,13 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 09:45:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/07 08:11:18 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/07 09:03:48 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/minishell.h"
 
-char	*format_path(char *str, char *pwd)
+static char	*format_path(char *str, char *pwd)
 {
 	char	*res;
 	char	*tmp;
@@ -32,13 +32,16 @@ char	*format_path(char *str, char *pwd)
 	}	
 }
 
-void	set_pwds(char *new, char *old, t_env **l_env, char ***env)
+static void	set_pwds(char *old, t_env **l_env, char ***env)
 {
 	char	*new_pwd;
+	char	new[1024];
 	char	*(new_av[3]);
 	char	*(old_av[3]);
 	char	*old_pwd;
 
+	if (!getcwd(new, 1024))
+		exit(EXIT_FAILURE);
 	new_pwd = ft_strjoin("PWD=", new);
 	old_pwd = ft_strjoin("OLDPWD=", old);
 	new_av[0] = "export";
@@ -76,7 +79,7 @@ int	ft_cd(char **av, char ***env, t_env **l_env)
 		free(new_pwd);
 		return (errno);
 	}
-	set_pwds(new_pwd, old_pwd, l_env, env);
+	set_pwds(old_pwd, l_env, env);
 	free(new_pwd);
 	return (0);
 }
