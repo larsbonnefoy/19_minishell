@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.h                                        :+:      :+:    :+:   */
+/*   ft_local.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/28 15:50:41 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/07 21:12:34 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/03/07 21:03:46 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/07 22:08:39 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_EXPORT_H
-# define FT_EXPORT_H
+#include "../../../Includes/ft_export.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <limits.h>
-# include <string.h>
-# include "env.h"
-# include "ft_env.h"
-# include "../src/libft/libft.h"
+int	ft_local(char **av, char ***env, t_env **l_env)
+{
+	int	ret_val;
 
-int	ft_export(char **av, char ***env, t_env **l_env);
-int	is_export(char *str);
-int	print_in_order(char **env);
-int	add_exports_to_list(char **av, t_env **l_env, int export);
-
-#endif
+	if (!av || !av[0] || av[1])
+		exit(EXIT_FAILURE);
+	ret_val = 0;
+	ret_val = add_exports_to_list(av, l_env, FASLE);
+	free_char_env(*env);
+	*env = list_to_env(l_env);
+	return (ret_val);
+}
