@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 09:45:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/07 09:03:48 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/07 09:45:21 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ft_cd(char **av, char ***env, t_env **l_env)
 	if (!av[1] && !home)
 		return (0);
 	if (!av[1] && home)
-		new_pwd = home;
+		new_pwd = ft_strdup(home);
 	else
 		new_pwd = format_path(av[1], old_pwd);
 	if (chdir(new_pwd) == -1)

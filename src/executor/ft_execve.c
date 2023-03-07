@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/07 10:13:57 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/07 14:36:43 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int		exec_s_built(char **av, char ***env, t_env **l_env, int self_built_nb);
 */
 void ft_execve(char **av, char ***env, t_env **l_env)
 {
+	char	*path_str; 
 	char	**path_arr;
 	char	*access_path;
 	int		i;
@@ -32,7 +33,9 @@ void ft_execve(char **av, char ***env, t_env **l_env)
 		exec_s_built(av, env, l_env, self_builtin_nb);	
 	else
 	{
-		path_arr = ft_split(getenv("PATH"), ':');
+		path_str = ft_strjoin(getenv("PATH"), ":");
+		path_str = ft_strjoinf(path_str, getenv("PWD"));
+		path_arr = ft_split(path_str, ':');
 		i = 0;
 		while (path_arr[i] != NULL)
 		{
@@ -50,7 +53,9 @@ void ft_execve(char **av, char ***env, t_env **l_env)
 				free(access_path);
 			i++;
 		}
-		perror("access");
+		free(path_arr);
+		ft_putstr_fd(av[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -69,8 +74,8 @@ int	exec_s_built(char **av, char ***env, t_env **l_env, int self_builtin_nb)
 {
 	int	(*func[7])(char **av, char ***env, t_env **l_env);
 	int	res;
-	printf("exec builtin\n");
 
+	printf("exec builtin\n");
 	func[0] = &ft_echo;
 	func[1] = &ft_pwd;
 	func[2] = &ft_exit;

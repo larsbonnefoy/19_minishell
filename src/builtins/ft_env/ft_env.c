@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:14:45 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/06 16:09:54 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/07 09:55:11 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@ int	ft_env(char **av, char ***env, t_env **l_env)
 	int	i;
 
 	(void)l_env;
-	(void)env;
 	i = -1;
+	if (!env)
+		exit(EXIT_FAILURE);
 	if (av[1])
 	{
 		ft_putendl_fd("env: too many arguments", 2);
 		return (1);
 	}
-	if (!env)
+	if (!*env)
 	{
 		ft_putendl_fd("env: no env", 2);
 		return (1);
 	}
-	while (*env[++i])
-		ft_putendl_fd(*env[i], 1);
+	while ((*env)[++i])
+		ft_putendl_fd((*env)[i], 1);
 	return (0);
 }
