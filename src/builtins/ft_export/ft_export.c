@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:50:39 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/07 10:15:07 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/07 22:08:49 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	export_error(char *str)
 	return (1);
 }
 
-static int	add_exports_to_list(char **av, t_env **l_env)
+static int	add_exports_to_list(char **av, t_env **l_env, int export)
 {
 	int		ret_val;
 	int		i;
@@ -56,14 +56,14 @@ static int	add_exports_to_list(char **av, t_env **l_env)
 	char	*val;
 
 	ret_val = 0;
-	i = 0;
+	i = export - 1;
 	while (av[++i])
 	{
 		if (is_export(av[i]))
 		{
 			name = getname(av[i]);
 			val = getval(av[i]);
-			new = env_new(name, val, TRUE);
+			new = env_new(name, val, export);
 			env_reassign(new, l_env);
 		}
 		else
@@ -81,7 +81,7 @@ int	ft_export(char **av, char ***env, t_env **l_env)
 		exit(EXIT_FAILURE);
 	if (!av[1])
 		return (print_in_order(*env));
-	ret_val = add_exports_to_list(av, l_env);
+	ret_val = add_exports_to_list(av, l_env, TRUE);
 	free_char_env(*env);
 	*env = list_to_env(l_env);
 	return (ret_val);

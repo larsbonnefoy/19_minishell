@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/07 15:59:20 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/08 12:37:04 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l
 void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
 	int		fd_pipe[2];
-	int		pid;
 	int		fd_in;
 	t_simple_cmds *curr;
 	int		std_in;
@@ -39,7 +38,8 @@ void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	std_in = dup(STDIN_FILENO);
 	std_out = dup(STDOUT_FILENO);
 	curr = cmd;
-	self_built_nb = is_self_builtin(curr->av[0]);
+	curr->pid = -2; //could be set when init cmd
+	self_built_nb = is_self_builtin(curr->av[0], curr->pid);
 	if (curr->next == NULL && self_built_nb != -1)
 	{
 		handle_redir(curr, fd_pipe, fd_in);
@@ -91,7 +91,7 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l
 	if (cmd->pid == 0)
 	{
 		handle_redir(cmd, fd_pipe, fd_in);
-		ft_execve(cmd->av, env, l_env);
+		ft_execve(cmd->av, env, l_env, cmd->pid);
 		exit(EXIT_SUCCESS);
 	}
 	if (cmd->n > 0)
