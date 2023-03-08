@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/08 10:34:24 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/08 17:43:48 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	lexer_to_expander(t_lexer *lexer, t_env **env)
 	{
 		if (lexer->str)
 		{
-			//TODO $ARG="echo a" vs"$ARG"
+			//TODO $ARG="echo a" vs"$ARG" split then join or create node
 			clean = cleaner(lexer->str, env);
 			free(lexer->str);
 			lexer->str = clean;
