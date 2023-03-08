@@ -67,5 +67,10 @@ cat << "st""op"
 cat << "st"op
 echo a >| grep a
 cat |< file1
+cat | < file1
 /bin/ls
 ../some_exec
+> existing_file
+> non_existing_file
+> file1 >file2 -> create both files
+echo > file1 > file2 -> create both files and write in lastone

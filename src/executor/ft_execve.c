@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/08 15:30:41 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:24:31 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ void ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 			}
 		}
 		free(path_arr);
-		ft_putstr_fd(cmd->av[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_perror(cmd->av[0], ": command not found");
 		exit(127); //set exit_code to 127
 	}
 }

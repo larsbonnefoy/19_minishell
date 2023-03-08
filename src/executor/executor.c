@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/08 15:28:59 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:29:39 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		handle_redir(cmd, fd_pipe, fd_in);
+		if (handle_redir(cmd, fd_pipe, fd_in) != 0)
+			exit(EXIT_FAILURE);
 		ft_execve(cmd, env, l_env);
 		exit(EXIT_SUCCESS);
 	}
@@ -107,7 +108,8 @@ int handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
 		if (cmd->next != NULL || is_outfile(cmd->redirections)) 
 		{
 			fd_pipe[1] = get_out_fd(cmd, fd_pipe[1]);
-			dup2(fd_pipe[1], STDOUT_FILENO);
+			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
+				return (-1);
 			if (cmd->next != NULL)
 				close(fd_pipe[0]);
 			close(fd_pipe[1]);
@@ -115,8 +117,10 @@ int handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
 		if (cmd->n > 0 || is_infile(cmd->redirections)) //OR IN REDIR
 		{
 			fd_in = get_in_fd(cmd, fd_in);
+			if (fd_in == -1)
+				return (fd_in);
 			if (dup2(fd_in, STDIN_FILENO) == -1)
-				return (-2);
+				return (-1);
 			close(fd_in);
 		}
 		return (0);

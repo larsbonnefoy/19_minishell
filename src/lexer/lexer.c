@@ -6,11 +6,12 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:16 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/08 16:44:33 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/lexer.h"
+#include "../../Includes/executor.h"
 
 void	add_to_lexer(char *str, t_lexer **lexer);
 void	set_lexer(char *str, t_lexer **lexer);
@@ -31,7 +32,10 @@ t_lexer	*tokenize(char *input_string)
 	lexer = NULL;
 	clean_str = handle_sub_quotes(input_string);
 	if (clean_str == NULL)
+	{
+		ft_perror("parser error", ": alone standing quote");
 		return (NULL);
+	}	
 	set_lexer(clean_str, &lexer);
 	free(clean_str);
 	return (lexer);
