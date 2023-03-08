@@ -6,11 +6,57 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 12:59:19 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/07 10:13:15 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/08 10:45:46 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/ft_export.h"
+
+static char	*quad_join(char *first, char *second, char *third, char *last)
+{
+	char	*fise;
+	char	*fisethi;
+	char	*fisethila;
+
+	fise = ft_strjoin(first, second);
+	fisethi = ft_strjoin(fise, third);
+	free(fise);
+	fisethila = ft_strjoin(fisethi, last);
+	free(fisethi);
+	return (fisethila);
+}
+
+static char	**list_to_print(t_env **l_env)
+{
+	t_env	*head;
+	int		size;
+	char	**res;
+	char	*tmp;
+	char	*dquote;
+
+	size = 0;
+	head = *l_env;
+	res = ft_calloc_exit(sizeof(char *), (size + 1));
+	while (*l_env)
+	{
+		if ((*l_env)->export && (*l_env)->value)
+		{
+			res = (char **)ft_realloc_tab((void **)res, sizeof(char *),
+					(++size));
+			res[size - 1] = quad_join((*l_env)->name,
+					"=\"", (*l_env)->value, "\"");
+		}
+		else if ((*l_env)->export && !(*l_env)->value)
+		{
+			res = (char **)ft_realloc_tab((void **)res, sizeof(char *),
+					(++size));
+			res[size - 1] = ft_strdup((*l_env)->name);
+		}
+		*l_env = (*l_env)->next;
+	}
+	*l_env = head;
+	return (res);
+}
 
 static int	*create_order(char **env, int size)
 {
@@ -39,15 +85,17 @@ static int	*create_order(char **env, int size)
 	return (array);
 }
 
-int	print_in_order(char **env)
+int	print_in_order(t_env **l_env)
 {
 	int		size;
 	int		*array;
 	int		i;
 	int		j;
+	char	**env;
 
-	if (!env)
+	if (!l_env)
 		exit(EXIT_FAILURE);
+	env = list_to_print(l_env);
 	size = -1;
 	while (env[++size])
 		;
@@ -61,6 +109,7 @@ int	print_in_order(char **env)
 		ft_putstr_fd("declare -x ", 1);
 		ft_putendl_fd(env[j], 1);
 	}
+	free_char_env(env);
 	free(array);
 	return (0);
 }

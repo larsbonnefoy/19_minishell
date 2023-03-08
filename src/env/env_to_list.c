@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:01:07 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:28:19 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/08 15:45:14 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*getname(char *str)
 	i = -1;
 	if (!str)
 		exit(EXIT_FAILURE);
-	while (str[++i] && str[i] != '=')
+	while (str[++i] && (str[i] != '=' && str[i] != '+'))
 		;
 	return (ft_strldup(str, i));
 }
@@ -29,10 +29,12 @@ char	*getval(char *str)
 	int	i;
 
 	i = -1;
-	if (!str)
-		exit(EXIT_FAILURE);
+	if (!str || !str[i])
+		return (NULL);
 	while (str[++i] && str[i] != '=')
 		;
+	if (!str[i])
+		return (NULL);
 	return (ft_strdup(&str[++i]));
 }
 
@@ -70,7 +72,7 @@ char	**list_to_env(t_env **l_env)
 	res = ft_calloc_exit(sizeof(char *), (size + 1));
 	while (*l_env)
 	{
-		if ((*l_env)->export)
+		if ((*l_env)->export && (*l_env)->value)
 		{
 			res = (char **)ft_realloc_tab((void **)res, sizeof(char *),
 					(++size));

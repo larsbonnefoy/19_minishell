@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:50:41 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/07 21:12:34 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/08 09:40:28 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 int	ft_export(char **av, char ***env, t_env **l_env);
 int	is_export(char *str);
-int	print_in_order(char **env);
+int	print_in_order(t_env **l_env);
 int	add_exports_to_list(char **av, t_env **l_env, int export);
 
 #endif
