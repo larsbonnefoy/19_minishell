@@ -6,60 +6,69 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/08 12:36:24 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:30:41 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
 char	*get_access_path(char **av, char *path);
 int		is_self_builtin(char *func_name, int cmd_pid);
+int		access_exec(char *access_path, t_simple_cmds *cmd, char ***env);
 int		exec_s_built(char **av, char ***env, t_env **l_env, int self_built_nb);
 int		ft_void(char **av, char ***env, t_env **l_env);
 int		is_in_child(int ret_value, int cmd_pid);
 
 /*
  * Check if function is a self coded func or not and execute it
- * TO DO: check in working dir
 */
-void ft_execve(char **av, char ***env, t_env **l_env, int cmd_pid)
+void ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
-	char	*path_str; 
 	char	**path_arr;
 	char	*access_path;
 	int		i;
-	int		return_access;
 	int		self_builtin_nb;
 
-	self_builtin_nb = is_self_builtin(av[0], cmd_pid);
+	self_builtin_nb = is_self_builtin(cmd->av[0], cmd->pid);
 	if (self_builtin_nb != -1)
-		exec_s_built(av, env, l_env, self_builtin_nb);	
+		exec_s_built(cmd->av, env, l_env, self_builtin_nb);	
 	else
 	{
-		path_str = ft_strjoin(getenv("PATH"), ":");
-		path_str = ft_strjoinf(path_str, getenv("PWD"));
-		path_arr = ft_split(path_str, ':');
-		i = 0;
-		while (path_arr[i] != NULL)
+		if (ft_strchr(cmd->av[0], '/') != NULL)
+			access_exec(cmd->av[0], cmd, env);
+		else
 		{
-			access_path = get_access_path(av, path_arr[i]);
-			return_access = access(access_path, X_OK);
-			if (return_access == 0)
+			path_arr = ft_split(getenv("PATH"), ':');
+			i = 0;
+			while (path_arr[i] != NULL)
 			{
-				if (execve(access_path, av, *env) == -1)
-				{
-					perror("execve");
-					exit(EXIT_FAILURE);
-				}
+				access_path = get_access_path(cmd->av, path_arr[i]);
+				if (access_exec(access_path, cmd, env) == -1)
+					free(access_path);
+				i++;
 			}
-			else
-				free(access_path);
-			i++;
 		}
 		free(path_arr);
-		ft_putstr_fd(av[0], 2);
+		ft_putstr_fd(cmd->av[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		exit(EXIT_FAILURE);
+		exit(127); //set exit_code to 127
 	}
+}
+
+int	access_exec(char *access_path, t_simple_cmds *cmd, char ***env)
+{
+
+	int return_access;
+
+	return_access = access(access_path, X_OK);
+	if (return_access == 0)
+	{
+		if (execve(access_path, cmd->av, *env) == -1)
+		{
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
+	}
+	return (return_access);
 }
 
 char *get_access_path(char **av, char *path)

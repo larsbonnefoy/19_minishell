@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:50:39 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/07 22:08:49 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/08 11:41:31 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	is_export(char *str)
 	return (1);
 }
 
-static int	export_error(char *str)
+int	export_error(char *str)
 {
 	if (!str)
 		exit(EXIT_FAILURE);
@@ -47,7 +47,7 @@ static int	export_error(char *str)
 	return (1);
 }
 
-static int	add_exports_to_list(char **av, t_env **l_env, int export)
+int	add_exports_to_list(char **av, t_env **l_env, int export)
 {
 	int		ret_val;
 	int		i;
