@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:10:26 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/08 16:01:39 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/09 14:56:24 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		exec_s_built(char **av, char ***env, t_env **l_env, int self_built_nb);
 int		get_out_fd(t_simple_cmds *cmd, int pipe_write);
 char	*get_out_file(t_simple_cmds *cmd);
 int		get_out_token(t_simple_cmds *cmd, char *file);
-int		is_outfile(t_lexer *redirections);
+int		has_outfile(t_lexer *redirections);
 //in_redir.c
 int		get_in_fd(t_simple_cmds *cmd, int fd_in);
 int		is_infile(t_lexer *redirection);

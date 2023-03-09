@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/08 16:29:39 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/09 14:48:16 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in);
 int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env);
+
 /*
  *	We take each node of the cmd table
  * 	1. handle redirection
@@ -105,7 +106,7 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l
 
 int handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
 {
-		if (cmd->next != NULL || is_outfile(cmd->redirections)) 
+		if (cmd->next != NULL || has_outfile(cmd->redirections)) 
 		{
 			fd_pipe[1] = get_out_fd(cmd, fd_pipe[1]);
 			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
