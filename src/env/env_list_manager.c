@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 17:08:48 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:25:23 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/08 08:37:27 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_env	*env_new(char *name, char *new_value, int export_value)
 {
 	t_env	*res;
 
-	if (!new_value)
+	if (!name)
 		exit(EXIT_FAILURE);
 	res = ft_malloc(sizeof(t_env));
 	res->value = new_value;

@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.h                                           :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
+/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 17:15:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/09 14:03:44 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/03/08 15:56:45 by lbonnefo          #+#    #+#             */
+/*   Updated: 2023/03/08 16:03:31 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ENV_H
-# define FT_ENV_H
+#include "../../Includes/executor.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include "../src/libft/libft.h"
-# include "env.h"
-
-#endif
+void	ft_perror(char *cmd_name, char *msg)
+{
+	if (!cmd_name)
+		return ;
+	if (msg != NULL)
+	{
+		ft_putstr_fd(cmd_name, 2);
+		ft_putstr_fd(msg, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	else
+		perror(cmd_name);
+}

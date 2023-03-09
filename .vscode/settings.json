@@ -20,7 +20,9 @@
 		"ft_unset.h": "c",
 		"minishell.h": "c",
 		"ft_exit.h": "c",
-		"ft_echo.h": "c"
+		"ft_echo.h": "c",
+		"sstream": "c",
+		"ft_pwd.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

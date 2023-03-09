@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.h                                           :+:      :+:    :+:   */
+/*   lexer_to_expender.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 17:15:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/09 14:03:44 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/09 16:06:51 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ENV_H
-# define FT_ENV_H
+#include "../../Includes/expander.h"
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include "../src/libft/libft.h"
-# include "env.h"
+void	lexer_to_expander(t_lexer *lexer, t_env **env)
+{
+	char	*clean;
+	t_lexer	*head;
 
-#endif
+	head = lexer;
+	while (lexer)
+	{
+		if (lexer->str)
+			cleaner(&lexer, env);
+		lexer = lexer->next;
+	}
+	lexer = head;
+}

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 09:39:40 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:18 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/08 16:43:21 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char	*handle_sub_quotes(char *str)
 
 /*
  *	Joins in clean_str chars from main_str[beg_sub_str; beg_sub_str + len] 
- *	FREE SUBSTR ? or leaks?
  */
 char	*join_substr(char *main_str, char *clean_str, int beg_sub_str, int len)
 {
