@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:10:26 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/07 21:23:52 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/09 14:56:24 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,17 @@
 //executor
 void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env);
 //ft_execve
-void	ft_execve(char **av, char ***env, t_env **l_env);
-int		is_self_builtin(char *func_name);
+void	ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env);
+int		is_self_builtin(char *func_name, int cmd_pid);
 int		exec_s_built(char **av, char ***env, t_env **l_env, int self_built_nb);
 //out_redir.c
 int		get_out_fd(t_simple_cmds *cmd, int pipe_write);
 char	*get_out_file(t_simple_cmds *cmd);
 int		get_out_token(t_simple_cmds *cmd, char *file);
-int		is_outfile(t_lexer *redirections);
+int		has_outfile(t_lexer *redirections);
 //in_redir.c
 int		get_in_fd(t_simple_cmds *cmd, int fd_in);
 int		is_infile(t_lexer *redirection);
+//error.c
+void	ft_perror(char *cmd_name, char *msg);
 #endif

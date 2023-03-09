@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/07 14:51:22 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/09 14:48:16 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in);
 int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env);
+
 /*
  *	We take each node of the cmd table
  * 	1. handle redirection
@@ -26,20 +27,22 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l
 void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
 	int		fd_pipe[2];
-	int		pid;
 	int		fd_in;
 	t_simple_cmds *curr;
 	int		std_in;
 	int		std_out;
 	int		self_built_nb;
 
+	if (!cmd)
+		return ;
 	fd_in = STDIN_FILENO;
 	fd_pipe[0] = -1;
 	fd_pipe[1] = -2;
-	std_in = dup(STDIN_FILENO); 
+	std_in = dup(STDIN_FILENO);
 	std_out = dup(STDOUT_FILENO);
 	curr = cmd;
-	self_built_nb = is_self_builtin(curr->av[0]);
+	curr->pid = -2; //could be set when init cmd
+	self_built_nb = is_self_builtin(curr->av[0], curr->pid);
 	if (curr->next == NULL && self_built_nb != -1)
 	{
 		handle_redir(curr, fd_pipe, fd_in);
@@ -90,8 +93,10 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		handle_redir(cmd, fd_pipe, fd_in);
-		ft_execve(cmd->av, env, l_env);
+		if (handle_redir(cmd, fd_pipe, fd_in) != 0)
+			exit(EXIT_FAILURE);
+		ft_execve(cmd, env, l_env);
+		exit(EXIT_SUCCESS);
 	}
 	if (cmd->n > 0)
 		close(fd_in);
@@ -101,10 +106,11 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l
 
 int handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
 {
-		if (cmd->next != NULL || is_outfile(cmd->redirections)) 
+		if (cmd->next != NULL || has_outfile(cmd->redirections)) 
 		{
 			fd_pipe[1] = get_out_fd(cmd, fd_pipe[1]);
-			dup2(fd_pipe[1], STDOUT_FILENO);
+			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
+				return (-1);
 			if (cmd->next != NULL)
 				close(fd_pipe[0]);
 			close(fd_pipe[1]);
@@ -112,8 +118,10 @@ int handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
 		if (cmd->n > 0 || is_infile(cmd->redirections)) //OR IN REDIR
 		{
 			fd_in = get_in_fd(cmd, fd_in);
+			if (fd_in == -1)
+				return (fd_in);
 			if (dup2(fd_in, STDIN_FILENO) == -1)
-				return (-2);
+				return (-1);
 			close(fd_in);
 		}
 		return (0);

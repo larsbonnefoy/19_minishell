@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:57:34 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/06 11:23:42 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:25:55 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int get_in_fd(t_simple_cmds *cmd,int fd_in)
 	{
 		fd = open(file, O_RDONLY);
 		if (fd == -1)
-			perror("open");
+			ft_perror(file, NULL);
 		close(fd_in);
 		return (fd);
 	}
