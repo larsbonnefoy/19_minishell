@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 09:04:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/02/14 15:52:28 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/09 11:47:45 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char	**put_word(char const *s, char c, char **res, size_t nbr_words)
 	return (res);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char	**res;
 	size_t	nbr_words;

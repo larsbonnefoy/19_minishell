@@ -6,13 +6,13 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/07 08:34:42 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/09 15:45:10 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FILES = lexer_to_expender.c test_main.c 
+FILES =  test_main.c 
 
 SRC = $(addprefix src/, $(FILES))
 
@@ -48,7 +48,7 @@ EXP_NAME = expander.a
 
 EXP_DIR = 	src/expander
 
-EXP_SRC = 	$(EXP_DIR)/cleaner.c $(EXP_DIR)/expander.c\
+EXP_SRC = 	$(EXP_DIR)/cleaner.c $(EXP_DIR)/expander.c $(EXP_DIR)/no_quote.c $(EXP_DIR)/lexer_to_expender.c\
 
 EXP_OBJ = $(EXP_SRC:.c=.o)
 
