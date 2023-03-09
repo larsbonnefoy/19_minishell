@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:01:07 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/08 15:45:14 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/09 12:31:27 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*getval(char *str)
 	int	i;
 
 	i = -1;
-	if (!str || !str[i])
+	if (!str || !str[0])
 		return (NULL);
 	while (str[++i] && str[i] != '=')
 		;
