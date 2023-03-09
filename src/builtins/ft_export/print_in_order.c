@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 12:59:19 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/08 10:45:46 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/09 17:47:44 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,25 @@ static char	*quad_join(char *first, char *second, char *third, char *last)
 static char	**list_to_print(t_env **l_env)
 {
 	t_env	*head;
-	int		size;
+	int		s;
 	char	**res;
-	char	*tmp;
-	char	*dquote;
 
-	size = 0;
+	s = 0;
 	head = *l_env;
-	res = ft_calloc_exit(sizeof(char *), (size + 1));
+	res = ft_calloc_exit(sizeof(char *), (s + 1));
 	while (*l_env)
 	{
 		if ((*l_env)->export && (*l_env)->value)
 		{
-			res = (char **)ft_realloc_tab((void **)res, sizeof(char *),
-					(++size));
-			res[size - 1] = quad_join((*l_env)->name,
+			res = (char **)ft_realloc_tab((void **)res, sizeof(char *), (++s));
+			res[s - 1] = quad_join((*l_env)->name,
 					"=\"", (*l_env)->value, "\"");
 		}
 		else if ((*l_env)->export && !(*l_env)->value)
 		{
 			res = (char **)ft_realloc_tab((void **)res, sizeof(char *),
-					(++size));
-			res[size - 1] = ft_strdup((*l_env)->name);
+					(++s));
+			res[s - 1] = ft_strdup((*l_env)->name);
 		}
 		*l_env = (*l_env)->next;
 	}
