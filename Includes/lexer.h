@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:43:01 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/05 19:23:14 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/10 10:16:12 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_lexer
 {
 	char			*str;
 	t_token			token;
+	int				hdoc_exp;
 	struct s_lexer	*next;
 }	t_lexer;
 

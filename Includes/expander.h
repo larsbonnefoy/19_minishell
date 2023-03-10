@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:51:12 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/09 16:29:47 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/10 11:57:20 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 void	cleaner(t_lexer **lexer, t_env **local_env);
 char	*expander(char *str, int quote_type, t_env **local_env);
 void	lexer_to_expander(t_lexer *lexer, t_env **env);
-char	*no_quotes_handling(char *to_join, char **cleaned, t_lexer **lexer);\
+char	*no_quotes_handling(char *to_join, char **cleaned, t_lexer **lexer);
+char	*dup_word(char *str, int *i);
+char	*strdup_in_quotes(char *str, int *i, int quote_type);
 
 #endif

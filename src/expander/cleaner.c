@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:32:14 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/09 16:53:19 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/10 11:57:14 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * quote_type is either " or '
  * the function returns the str without the enclosing quotes
  */
-static char	*strdup_in_quotes(char *str, int *i, int quote_type)
+char	*strdup_in_quotes(char *str, int *i, int quote_type)
 {
 	int	tmp;
 
@@ -32,7 +32,7 @@ static char	*strdup_in_quotes(char *str, int *i, int quote_type)
 	return (NULL);
 }
 
-static char	*dup_word(char *str, int *i)
+char	*dup_word(char *str, int *i)
 {
 	int		tmp;
 
