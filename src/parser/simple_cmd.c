@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:37:38 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/10 14:49:14 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:58:04 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	lexer_to_cmd(t_lexer **lexer, t_simple_cmds *res, int i)
 	if ((*lexer)->str && (*lexer)->token == NOT_A_TOKEN)
 	{
 		res->av = (char **)ft_realloc_tab((void *)res->av,
-				(sizeof(char *) * (i + 1)), i + 1);
+				(sizeof(char *) /** (i + 1)*/), i + 1);
 		res->av[i] = ft_strdup((*lexer)->str);
 		res->av[++i] = NULL;
 	}

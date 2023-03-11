@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/09 12:35:06 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/10 22:50:37 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int main(int argc, char **argv, char **env)
 		printf("-----------------------\n");
 		printf("expander ouput:\n");
 		lexer_to_expander(lexer, l_env);
+		printf("oi\n");
 		lexer_print_list(&lexer);
 		printf("-----------------------\n");
 		printf("simple_cmd ouput:\n");
@@ -87,7 +88,7 @@ int main(int argc, char **argv, char **env)
 		if (cmd)
 			destroy_simple_cmds(cmd);
 	}
-	free_char_env(env);
+	free_char_tab(env);
 	env_free_all_node(l_env);
 	return (0);
 }

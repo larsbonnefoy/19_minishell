@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:10:26 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/09 14:56:24 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/11 01:13:06 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@
 # include "ft_unset.h"
 # include <fcntl.h>
 # include "minishell.h"
+
+typedef struct s_heredoc
+{
+	char	*limiter;
+	int		expand;
+}	t_heredoc;
 
 //executor
 void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env);

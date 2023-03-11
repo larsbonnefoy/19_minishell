@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/09 17:22:59 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/10 17:18:28 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,7 +104,7 @@ BUILTINS_NAME = builtins.a
 
 BUILTINS_DIR = ./src/builtins
 
-BUILTINS_FILE =  ft_cd/ft_cd.c ft_echo/ft_echo.c ft_env/ft_env.c ft_exit/ft_exit.c ft_exit/exit_atol.c ft_export/ft_export.c ft_export/print_in_order.c ft_pwd/ft_pwd.c ft_unset/ft_unset.c\
+BUILTINS_FILE = ft_cd/ft_cd.c ft_echo/ft_echo.c ft_env/ft_env.c ft_exit/ft_exit.c ft_exit/exit_atol.c ft_export/ft_export.c ft_export/ft_local.c ft_export/print_in_order.c ft_pwd/ft_pwd.c ft_unset/ft_unset.c\
 
 BUILTINS_SRC = $(addprefix  $(BUILTINS_DIR)/, $(BUILTINS_FILE))
 

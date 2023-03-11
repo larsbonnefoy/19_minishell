@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:01:07 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/09 12:31:27 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/10 19:12:26 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**list_to_env(t_env **l_env)
 	return (res);
 }
 
-void	free_char_env(char **env)
+void	free_char_tab(char **env)
 {
 	size_t	i;
 
