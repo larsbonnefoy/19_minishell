@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 21:03:46 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/10 23:14:58 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/11 13:34:04 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ int	is_local(char *str)
 	return (1);
 }
 
+static char	**tabswap(char **res, char **av, int i)
+{
+	free_char_tab(res);
+	res = ft_tabdup(&av[i]);
+	free_char_tab(av);
+	return (res);
+}
+
 char	**make_local(char **av)
 {
 	char	**res;
@@ -49,19 +57,14 @@ char	**make_local(char **av)
 	i = -1;
 	while (av[++i])
 	{
-		if (is_local(av[i]) >= 0)
+		if (is_local(av[i]))
 		{
 			res = (char **)ft_realloc_tab((void **)res, sizeof(char *), i + 2);
 			res[i + 1] = ft_strdup(av[i]);
 			res[i + 2] = NULL;
 		}
 		else
-		{
-			free_char_tab(res);
-			res = ft_tabdup(&av[i]);
-			free_char_tab(av);
-			return (res);
-		}
+			return (tabswap(res, av, i));
 	}
 	free_char_tab(av);
 	return (res);
