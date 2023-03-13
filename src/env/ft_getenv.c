@@ -25,10 +25,10 @@ char	*ft_getenv(char *var_name, t_env **l_env)
 	if (!l_env || !var_name)
 		exit(EXIT_FAILURE);
 	head = *l_env;
-	len_var_name = ft_strlen(var_name);
 	while (*l_env)
 	{
-		if (ft_strncmp((*l_env)->name, var_name, len_var_name) == 0)
+		if (ft_strncmp((*l_env)->name, var_name,
+				ft_strlen((*l_env)->name)) == 0)
 		{
 			value = (*l_env)->value;
 			*l_env = head;

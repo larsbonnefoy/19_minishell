@@ -26,7 +26,14 @@
 		"array": "c",
 		"string_view": "c",
 		"initializer_list": "c",
-		"valarray": "c"
+		"valarray": "c",
+		"source_location": "c",
+		"*.tcc": "c",
+		"fstream": "c",
+		"executor.h": "c",
+		"ft_env.h": "c",
+		"fcntl.h": "c",
+		"wait.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

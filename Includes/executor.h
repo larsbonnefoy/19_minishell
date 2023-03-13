@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:10:26 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/09 14:56:24 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:27:06 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@
 # include <fcntl.h>
 # include "minishell.h"
 
+typedef struct s_heredoc
+{
+	char	*limiter;
+	int		expand;
+}	t_heredoc;
+
 //executor
 void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env);
 //ft_execve
@@ -41,4 +47,6 @@ int		get_in_fd(t_simple_cmds *cmd, int fd_in);
 int		is_infile(t_lexer *redirection);
 //error.c
 void	ft_perror(char *cmd_name, char *msg);
+
+int		ft_heredoc(char *limiter, int expand, t_env **l_env);
 #endif

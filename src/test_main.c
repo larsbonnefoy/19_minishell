@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/09 12:35:06 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 11:26:02 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		line = prompt(&term);
-		if (ft_strncmp("exit", line, 4) == 0)
-			break ;
 		printf("input line = %s\n", line);
 		printf("-----------------------\n");
 		printf("lexer ouput:\n");
@@ -74,6 +72,7 @@ int main(int argc, char **argv, char **env)
 		printf("-----------------------\n");
 		printf("expander ouput:\n");
 		lexer_to_expander(lexer, l_env);
+		printf("oi\n");
 		lexer_print_list(&lexer);
 		printf("-----------------------\n");
 		printf("simple_cmd ouput:\n");
@@ -81,13 +80,20 @@ int main(int argc, char **argv, char **env)
 		lexer_clear_list(&lexer);
 		print_cmd(cmd);
 		printf("-----------------------\n");
-		printf("execution output:\n");
-		executor(cmd, &env, l_env);
+		int fp = ft_heredoc("eof", 0, l_env);
+		printf("-----------------------\n");
+		printf("output heredoc\n");
+		char *buf;
+		while (read(fp, buf, 1) > 0)
+			printf("%c", *buf);
+		printf("-----------------------\n");
+		// printf("execution output:\n");
+		// executor(cmd, &env, l_env);
 		printf("-----------------------\n");
 		if (cmd)
 			destroy_simple_cmds(cmd);
 	}
-	free_char_env(env);
+	free_char_tab(env);
 	env_free_all_node(l_env);
 	return (0);
 }

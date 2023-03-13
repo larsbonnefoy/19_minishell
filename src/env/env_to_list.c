@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:01:07 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/09 12:31:27 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 10:07:56 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_env	**env_to_list(char **env)
 	char	*value;
 	t_env	*new;
 
-	if (!env || !*env)
+	if (!env)
 		exit(EXIT_FAILURE);
 	i = -1;
 	list = env_init();
@@ -86,7 +86,7 @@ char	**list_to_env(t_env **l_env)
 	return (res);
 }
 
-void	free_char_env(char **env)
+void	free_char_tab(char **env)
 {
 	size_t	i;
 

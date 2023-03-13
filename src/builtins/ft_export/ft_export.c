@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:50:39 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/08 16:44:37 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/10 23:10:51 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	add_exports_to_list(char **av, t_env **l_env, int export)
 	void	(*assign[2])(t_env *to_add, t_env **l_env);
 
 	ret_val = 0;
-	i = export - 1;
+	i = 0;
 	assign[0] = &env_reassign;
 	assign[1] = &env_join;
 	while (av[++i])
@@ -86,7 +86,7 @@ int	ft_export(char **av, char ***env, t_env **l_env)
 	if (!av[1])
 		return (print_in_order(l_env));
 	ret_val = add_exports_to_list(av, l_env, TRUE);
-	free_char_env(*env);
+	free_char_tab(*env);
 	*env = list_to_env(l_env);
 	return (ret_val);
 }
