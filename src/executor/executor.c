@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/10 22:29:21 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 13:36:24 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include "../../Includes/minishell.h"
 
 int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in);
-int		process(int *fd_pipe, int fd_in,
-			t_simple_cmds *cmd, char ***env, t_env **l_env);
+int		process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env);
 
 /*
  *	We take each node of the cmd table
@@ -93,8 +92,7 @@ void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
  * 		c'est pour ça qu'on close a chaque fois pcq avec dup on a 
  * 		ouvert sur une nouvelle entree
  */
-int	process(int *fd_pipe, int fd_in,
-		t_simple_cmds *cmd, char ***env, t_env **l_env)
+int	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
 	int	fd_out;
 

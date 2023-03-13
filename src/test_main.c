@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/13 11:26:02 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 12:08:45 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int main(int argc, char **argv, char **env)
 		printf("-----------------------\n");
 		printf("expander ouput:\n");
 		lexer_to_expander(lexer, l_env);
-		printf("oi\n");
 		lexer_print_list(&lexer);
 		printf("-----------------------\n");
 		printf("simple_cmd ouput:\n");
@@ -80,15 +79,8 @@ int main(int argc, char **argv, char **env)
 		lexer_clear_list(&lexer);
 		print_cmd(cmd);
 		printf("-----------------------\n");
-		int fp = ft_heredoc("eof", 0, l_env);
-		printf("-----------------------\n");
-		printf("output heredoc\n");
-		char *buf;
-		while (read(fp, buf, 1) > 0)
-			printf("%c", *buf);
-		printf("-----------------------\n");
-		// printf("execution output:\n");
-		// executor(cmd, &env, l_env);
+		printf("execution output:\n");
+		executor(cmd, &env, l_env);
 		printf("-----------------------\n");
 		if (cmd)
 			destroy_simple_cmds(cmd);
