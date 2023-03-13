@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:10:26 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 13:53:22 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:27:06 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		get_out_token(t_simple_cmds *cmd, char *file);
 int		has_outfile(t_lexer *redirections);
 //in_redir.c
 int		get_in_fd(t_simple_cmds *cmd, int fd_in);
-int		has_infile(t_lexer *redirection);
+int		is_infile(t_lexer *redirection);
 //error.c
 void	ft_perror(char *cmd_name, char *msg);
 
