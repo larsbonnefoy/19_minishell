@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/10 22:50:37 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 11:26:02 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		line = prompt(&term);
-		if (ft_strncmp("exit", line, 4) == 0)
-			break ;
 		printf("input line = %s\n", line);
 		printf("-----------------------\n");
 		printf("lexer ouput:\n");
@@ -82,8 +80,15 @@ int main(int argc, char **argv, char **env)
 		lexer_clear_list(&lexer);
 		print_cmd(cmd);
 		printf("-----------------------\n");
-		printf("execution output:\n");
-		executor(cmd, &env, l_env);
+		int fp = ft_heredoc("eof", 0, l_env);
+		printf("-----------------------\n");
+		printf("output heredoc\n");
+		char *buf;
+		while (read(fp, buf, 1) > 0)
+			printf("%c", *buf);
+		printf("-----------------------\n");
+		// printf("execution output:\n");
+		// executor(cmd, &env, l_env);
 		printf("-----------------------\n");
 		if (cmd)
 			destroy_simple_cmds(cmd);
