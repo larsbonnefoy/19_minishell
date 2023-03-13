@@ -6,7 +6,7 @@
 /*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:53:31 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/09 16:15:28 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:25:13 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int get_out_fd(t_simple_cmds *cmd, int pipe_write)
 	{
 		if (is_out_redir(redir))
 		{
+			if (fd != -2)
+				close(fd);
 			if (redir->token == D_GREATER)
 				fd = open(redir->str, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			else
