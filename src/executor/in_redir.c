@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:57:34 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 16:03:04 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:28:08 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	has_infile(t_lexer *redir)
 	t_lexer	*curr_redir;
 
 	curr_redir = redir;
-	printf("token of redir = %d\n", curr_redir->token);
 	while (curr_redir)
 	{
 		if (is_in_redir(curr_redir) == 1)

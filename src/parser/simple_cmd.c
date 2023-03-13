@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:37:38 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/10 18:58:04 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 17:32:03 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	lexer_to_cmd(t_lexer **lexer, t_simple_cmds *res, int i)
 		res->av[i] = ft_strdup((*lexer)->str);
 		res->av[++i] = NULL;
 	}
-	else if ((*lexer)->token != D_GREATER)
+	else if ((*lexer)->token != D_LOWER)
 	{
 		tmp = lexer_new_node(NULL, (*lexer)->token);
 		lexer_add_back(&res->redirections, tmp);
@@ -34,6 +34,17 @@ static int	lexer_to_cmd(t_lexer **lexer, t_simple_cmds *res, int i)
 			return (i);
 		if ((*lexer)->str)
 			tmp->str = ft_strdup((*lexer)->str);
+	}
+	else
+	{
+		if (!*lexer)
+			return (i);
+		if ((*lexer)->str)
+		{
+			tmp = lexer_new_node(ft_strdup((*lexer)->str), (*lexer)->token);
+			tmp->hdoc_exp = (*lexer)->hdoc_exp;
+			lexer_add_back(&res->redirections, tmp);
+		}
 	}
 	return (i);
 }
@@ -54,7 +65,8 @@ static t_simple_cmds	*create_single_cmd(t_lexer **lexer, int n)
 	while (*lexer && (*lexer)->token != PIPE)
 	{
 		i = lexer_to_cmd(lexer, res, i);
-		*lexer = (*lexer)->next;
+		if (*lexer)
+			*lexer = (*lexer)->next;
 	}
 	return (res);
 }
