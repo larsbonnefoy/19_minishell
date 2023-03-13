@@ -6,32 +6,34 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/09 14:48:16 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:36:24 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
+#include "../../Includes/minishell.h"
 
 int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in);
-int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env);
+int		process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env);
 
 /*
  *	We take each node of the cmd table
  * 	1. handle redirection
  * 	2. execute command
- * 	3. return right fd so that the parent process can read from it in case of multiple pipes
+ * 	3. return right fd so that the parent process can read from 
+ * 	it in case of multiple pipes
  * 	fd[0] == READ == IN
  * 	fd[1] == WRITE == OUT
  * 	fork with execve (=> standard non builtin functions)
  */
-void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
+void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
-	int		fd_pipe[2];
-	int		fd_in;
-	t_simple_cmds *curr;
-	int		std_in;
-	int		std_out;
-	int		self_built_nb;
+	int				fd_pipe[2];
+	int				fd_in;
+	t_simple_cmds	*curr;
+	int				std_in;
+	int				std_out;
+	int				self_built_nb;
 
 	if (!cmd)
 		return ;
@@ -42,6 +44,9 @@ void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	std_out = dup(STDOUT_FILENO);
 	curr = cmd;
 	curr->pid = -2; //could be set when init cmd
+	if (is_local(curr->av[0]))
+		curr->av = make_local(curr->av);
+	print_cmd(curr);
 	self_built_nb = is_self_builtin(curr->av[0], curr->pid);
 	if (curr->next == NULL && self_built_nb != -1)
 	{
@@ -51,7 +56,7 @@ void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	else
 	{
 		while (curr) //if cmd->next we have to pipe
-		{ 
+		{
 			if (curr->next != NULL)
 			{
 				if (pipe(fd_pipe) == -1)
@@ -64,7 +69,7 @@ void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 		while (curr)
 		{
 			waitpid(curr->pid, NULL, 0);
-			curr=curr->next;
+			curr = curr->next;
 		}
 	}
 	dup2(std_in, STDIN_FILENO);
@@ -84,11 +89,12 @@ void executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
  * dup2(fildes, fildes2)
  * 	fildes2 points sur fildes 
  * 		=> on peut ecrire sur le document depuis fildes ou fildes2
- * 		c'est pour ça qu'on close a chaque fois pcq avec dup on a ouvert sur une nouvelle entree
+ * 		c'est pour ça qu'on close a chaque fois pcq avec dup on a 
+ * 		ouvert sur une nouvelle entree
  */
-int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env)
+int	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
-	int fd_out;
+	int	fd_out;
 
 	cmd->pid = fork();
 	if (cmd->pid == 0)
@@ -101,28 +107,29 @@ int 	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l
 	if (cmd->n > 0)
 		close(fd_in);
 	close(fd_pipe[1]);
-	return (fd_pipe[0]); //si on a une redirection sur fd_out le fd_in du prochain pipe sera sur STD_IN
+	return (fd_pipe[0]);
+//si on a une redirection sur fd_out le fd_in du prochain pipe sera sur STD_IN
 }
 
-int handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
+int	handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
 {
-		if (cmd->next != NULL || has_outfile(cmd->redirections)) 
-		{
-			fd_pipe[1] = get_out_fd(cmd, fd_pipe[1]);
-			if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
-				return (-1);
-			if (cmd->next != NULL)
-				close(fd_pipe[0]);
-			close(fd_pipe[1]);
-		}
-		if (cmd->n > 0 || is_infile(cmd->redirections)) //OR IN REDIR
-		{
-			fd_in = get_in_fd(cmd, fd_in);
-			if (fd_in == -1)
-				return (fd_in);
-			if (dup2(fd_in, STDIN_FILENO) == -1)
-				return (-1);
-			close(fd_in);
-		}
-		return (0);
+	if (cmd->next != NULL || has_outfile(cmd->redirections))
+	{
+		fd_pipe[1] = get_out_fd(cmd, fd_pipe[1]);
+		if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
+			return (-1);
+		if (cmd->next != NULL)
+			close(fd_pipe[0]);
+		close(fd_pipe[1]);
+	}
+	if (cmd->n > 0 || is_infile(cmd->redirections)) //OR IN REDIR
+	{
+		fd_in = get_in_fd(cmd, fd_in);
+		if (fd_in == -1)
+			return (fd_in);
+		if (dup2(fd_in, STDIN_FILENO) == -1)
+			return (-1);
+		close(fd_in);
+	}
+	return (0);
 }

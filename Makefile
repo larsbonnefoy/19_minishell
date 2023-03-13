@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/09 17:22:59 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/13 13:17:57 by lbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ LEXER_NAME = lexer.a
 
 LEXER_DIR = 	src/lexer
 
-LEXER_FILE = 	lexer.c lexer_list_manager.c lexer_quotes.c lexer_quotes_utils.c\
+LEXER_FILE = 	lexer.c lexer_list_manager.c lexer_quotes.c lexer_quotes_utils.c lexer_errors.c\
 
 LEXER_SRC = $(addprefix $(LEXER_DIR)/, $(LEXER_FILE))
 
@@ -104,7 +104,7 @@ BUILTINS_NAME = builtins.a
 
 BUILTINS_DIR = ./src/builtins
 
-BUILTINS_FILE =  ft_cd/ft_cd.c ft_echo/ft_echo.c ft_env/ft_env.c ft_exit/ft_exit.c ft_exit/exit_atol.c ft_export/ft_export.c ft_export/print_in_order.c ft_pwd/ft_pwd.c ft_unset/ft_unset.c\
+BUILTINS_FILE = ft_cd/ft_cd.c ft_echo/ft_echo.c ft_env/ft_env.c ft_exit/ft_exit.c ft_exit/exit_atol.c ft_export/ft_export.c ft_export/ft_local.c ft_export/print_in_order.c ft_pwd/ft_pwd.c ft_unset/ft_unset.c\
 
 BUILTINS_SRC = $(addprefix  $(BUILTINS_DIR)/, $(BUILTINS_FILE))
 
@@ -115,7 +115,7 @@ EXEC_NAME = executor.a
 
 EXEC_DIR = src/executor
 
-EXEC_FILE = executor.c ft_execve.c in_redir.c out_redir.c error.c
+EXEC_FILE = executor.c ft_execve.c in_redir.c out_redir.c error.c heredoc.c
 
 EXEC_SRC = $(addprefix  $(EXEC_DIR)/, $(EXEC_FILE))
 

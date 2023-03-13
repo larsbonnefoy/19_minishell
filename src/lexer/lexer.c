@@ -6,15 +6,13 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 11:29:08 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:21:54 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/lexer.h"
 #include "../../Includes/executor.h"
 
-int	syntax_error(t_lexer **lexer);
-int is_redir(int token);
 static void	add_to_lexer(char *str, t_lexer **lexer);
 static void	set_lexer(char *str, t_lexer **lexer);
 static int	is_token(char *str_to_add);
@@ -147,41 +145,4 @@ int	add_to_pos(char *str, int start_pos)
 	}
 	else
 		return (i + 1);
-}
-
-/*
- * checks for syntax errors in Lexer
- * Error if redir without arg before pipe
- * Invalid sequence | |, < |, | first, | last
- */
-
-int	syntax_error(t_lexer **lexer)
-{
-	t_lexer *curr;
-	int		i;
-	
-	curr = *lexer;
-	i = 0;
-	while (curr)	
-	{
-		if (curr->next)
-			if (is_redir(curr->token) && curr->next->token == PIPE)
-				return (1);
-		if (i == 0)
-			if (curr->token == PIPE)
-				return (1);
-		if (curr->next == NULL)
-			if (curr->token == PIPE)
-				return (1);
-		i++;
-		curr = curr->next;
-	}
-	return (0);
-}
-
-int is_redir(int token)
-{
-	if (token > PIPE && token <= D_LOWER)
-		return (1);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:43:01 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/10 10:16:12 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 13:27:48 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ t_lexer	*tokenize(char *input_string);
 
 //lexer_quotes
 char	*handle_sub_quotes(char *str);
-char	*join_substr(char *main_str, char *clean_str, int beg_sub_str, int len);
-int		remove_quotes(char *main_str, char *sub_str, int beg_sub_str);
 
 //lexer_quotes_utils
 int		find_quotes(char *str, char matching_q);
@@ -59,4 +57,5 @@ void	lexer_add_back(t_lexer **lexer_list, t_lexer *new_node);
 void	lexer_print_list(t_lexer **lexer_list);
 void	lexer_clear_list(t_lexer **lexer_list);
 //
+int		syntax_error(t_lexer **lexer);
 #endif

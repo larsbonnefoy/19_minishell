@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/13 10:09:58 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:08:45 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,31 +63,29 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		line = prompt(&term);
-		if (ft_strncmp("exit", line, 4) == 0)
-			break ;
 		printf("input line = %s\n", line);
 		printf("-----------------------\n");
 		printf("lexer ouput:\n");
 		lexer = tokenize(line);
 		free(line);
 		lexer_print_list(&lexer);
-//		printf("-----------------------\n");
-//		printf("expander ouput:\n");
+		printf("-----------------------\n");
+		printf("expander ouput:\n");
 		lexer_to_expander(lexer, l_env);
-//		lexer_print_list(&lexer);
-//		printf("-----------------------\n");
-//		printf("simple_cmd ouput:\n");
+		lexer_print_list(&lexer);
+		printf("-----------------------\n");
+		printf("simple_cmd ouput:\n");
 		cmd = create_simple_cmds(lexer);
 		lexer_clear_list(&lexer);
 		print_cmd(cmd);
-//		printf("-----------------------\n");
-//		printf("execution output:\n");
+		printf("-----------------------\n");
+		printf("execution output:\n");
 		executor(cmd, &env, l_env);
-//		printf("-----------------------\n");
+		printf("-----------------------\n");
 		if (cmd)
 			destroy_simple_cmds(cmd);
 	}
-	free_char_env(env);
+	free_char_tab(env);
 	env_free_all_node(l_env);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 12:59:19 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/09 17:47:44 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/10 19:12:26 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	print_in_order(t_env **l_env)
 		ft_putstr_fd("declare -x ", 1);
 		ft_putendl_fd(env[j], 1);
 	}
-	free_char_env(env);
+	free_char_tab(env);
 	free(array);
 	return (0);
 }
