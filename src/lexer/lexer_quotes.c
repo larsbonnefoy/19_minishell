@@ -6,12 +6,13 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 09:39:40 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/08 16:43:21 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 09:21:24 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/lexer.h"
 
+static int is_heredoc_del(int beg_sub_str, char *main_str);
 /*
 	Remove subsequent quotes that are not alone-standing 
 		->if they are empty && direclty next to char != from space or ht
@@ -40,6 +41,7 @@ char	*handle_sub_quotes(char *str)
 			while (str[i] != '\0' && !is_quote(str[i]))
 				i++;
 		clean_str = join_substr(str, clean_str, beg_sub, i - beg_sub);
+		printf("clean_str = %s\n", clean_str);
 		beg_sub = i;
 	}
 	return (clean_str);
@@ -70,7 +72,7 @@ char	*join_substr(char *main_str, char *clean_str, int beg_sub_str, int len)
 
 /*
  * Returns 1 the quotes have to removed
- * Else retunrs 0
+ * Else returns 0
  */
 int	remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
 {
@@ -78,6 +80,8 @@ int	remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
 	char	elem_left;
 	char	elem_right;
 
+	if (is_heredoc_del(beg_sub_str, main_str))
+		return (0);
 	len = ft_strlen(sub_str);
 	if (len != 2 || !(is_quote(sub_str[0]) && is_quote(sub_str[1])))
 		return (0);
@@ -85,17 +89,29 @@ int	remove_quotes(char *main_str, char *sub_str, int beg_sub_str)
 	if (beg_sub_str != 0)
 		elem_left = main_str[beg_sub_str -1];
 	if (beg_sub_str == 0)
-	{
 		if (is_space_or_ht(elem_right) || ft_strlen(main_str) == 2)
 			return (0);
-	}
-	else if (main_str[beg_sub_str + len] == '\0')
-	{
+	 if (main_str[beg_sub_str + len] == '\0')
 		if (is_space_or_ht(elem_left) || elem_left == '$')
 			return (0);
-	}
-	else
-		if (is_space_or_ht(elem_left) && is_space_or_ht(elem_right))
+	if (is_space_or_ht(elem_left) && is_space_or_ht(elem_right))
 			return (0);
 	return (1);
+}
+
+static int is_heredoc_del(int beg_sub_str, char *main_str)
+{
+	int i;
+
+	i = beg_sub_str - 1;
+	while (ft_isalnum(main_str[i]) && i != 0 && main_str[i] != '<')
+		i--;
+	while(is_space_or_ht(main_str[i]) && i != 0)	
+		i--;
+	if (i > 0)
+	{
+		if (main_str[i] == '<' && main_str[i-1] == '<')
+			return (1);
+	}
+	return (0);
 }
