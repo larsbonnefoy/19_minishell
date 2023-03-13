@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 09:45:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/10 19:12:26 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 22:53:48 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ static int	err(int i, char *new_pwd)
 		perror("cd");
 		free(new_pwd);
 		return (errno);
+	}
+	else if (i == 5)
+	{
+		ft_putstr_fd("minishell: cd: error retrieving ", 2);
+		ft_putstr_fd("current directory: getcwd: cannot access parent ", 2);
+		ft_putendl_fd("directories:No such file or directory", 2);
+		return (0);
 	}
 	return (1);
 }
@@ -59,13 +66,16 @@ static char	*format_path(char *str, char *pwd, char *home, t_env **l_env)
 		return (dup_errcheck(old, 3));
 	if (ft_strncmp(str, "--", ft_strlen(str)) == 0)
 		return (dup_errcheck(home, 2));
-	else
+	if (pwd[0] != '\0')
 	{
 		tmp = ft_strjoin(pwd, "/");
 		res = ft_strjoin(tmp, str);
 		free(tmp);
 		return (res);
-	}	
+	}
+	else
+		err(5, NULL);
+	return (NULL);
 }
 
 static void	set_pwds(char *old, t_env **l_env, char ***env)
@@ -100,7 +110,7 @@ int	ft_cd(char **av, char ***env, t_env **l_env)
 
 	home = ft_getenv("HOME", l_env);
 	if (!getcwd(curr_pwd, 1024))
-		exit(EXIT_FAILURE);
+		curr_pwd[0] = '\0';
 	if (!av)
 		exit(EXIT_FAILURE);
 	if (av[1] && av[2])

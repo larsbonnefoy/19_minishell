@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/10 22:05:16 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 21:51:48 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 			access_exec(cmd->av[0], cmd, env);
 		else
 		{
-			path_arr = ft_split(getenv("PATH"), ':');
+			path_arr = ft_split(ft_getenv("PATH", l_env), ':');
 			i = 0;
 			while (path_arr[i] != NULL)
 			{

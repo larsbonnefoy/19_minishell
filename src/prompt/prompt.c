@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:07:34 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/13 17:41:19 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 09:13:06 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ static void	handle_sig(int sig)
 static void	handle_signal(void)
 {
 	struct sigaction	sa;
-//heredoc prompt praent child
+
 	sa.sa_handler = &handle_sig;
 	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
 }
 
 static char	*get_line(void)
@@ -46,8 +45,14 @@ char	*prompt(struct termios *term)
 {
 	char			*line;
 
+	tcgetattr(STDIN_FILENO, term);
+	term->c_cc[VQUIT] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, term);
 	handle_signal();
 	line = get_line();
+	tcgetattr(STDIN_FILENO, term);
+	term->c_cc[VQUIT] = 1;
+	tcsetattr(STDIN_FILENO, TCSANOW, term);
 	if (!line)
 	{
 		write(2, "exit\n", 5);
