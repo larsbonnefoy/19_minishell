@@ -6,19 +6,19 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:57:34 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 14:56:28 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:03:04 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
 
 static	int	is_in_redir(t_lexer *redir);
-static	int	open_redir(t_lexer *redir, int fd);
+static	int	open_redir(t_lexer *redir, int fd, t_env **l_env);
 
 /*
  * opens fd of infile redirection if there is one, else returns fd_in
 */
-int	get_in_fd(t_simple_cmds *cmd, int fd_in)
+int	get_in_fd(t_simple_cmds *cmd, int fd_in, t_env **l_env)
 {
 	t_lexer	*redir;
 	int		fd;
@@ -29,7 +29,7 @@ int	get_in_fd(t_simple_cmds *cmd, int fd_in)
 	while (redir)
 	{
 		if (is_in_redir(redir))
-			fd = open_redir(redir, fd);
+			fd = open_redir(redir, fd, l_env);
 		if (fd == -1)
 			return (-1);
 		redir = redir->next;
@@ -43,7 +43,7 @@ int	get_in_fd(t_simple_cmds *cmd, int fd_in)
 		return (fd_in);
 }
 
-static	int	open_redir(t_lexer *redir, int fd)
+static	int	open_redir(t_lexer *redir, int fd, t_env **l_env)
 {
 	if (fd != -2)
 		close(fd);
@@ -58,7 +58,12 @@ static	int	open_redir(t_lexer *redir, int fd)
 	}
 	else
 	{
-		printf("exec heredoc");
+		fd = ft_heredoc(redir->str, redir->hdoc_exp, l_env);
+		if (fd == -1)
+		{
+			ft_perror(redir->str, NULL);
+			return (-1);
+		}
 	}
 	return (fd);
 }
@@ -75,6 +80,7 @@ int	has_infile(t_lexer *redir)
 	t_lexer	*curr_redir;
 
 	curr_redir = redir;
+	printf("token of redir = %d\n", curr_redir->token);
 	while (curr_redir)
 	{
 		if (is_in_redir(curr_redir) == 1)

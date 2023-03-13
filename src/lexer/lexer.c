@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 13:21:54 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:26:11 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	is_token(char *str_to_add)
 	if (str_to_add[0] == '>' && str_to_add[1] == '>')
 		return (D_GREATER);
 	else if (str_to_add[0] == '<' && str_to_add[1] == '<')
-		return (D_GREATER);
+		return (D_LOWER);
 	else if (str_to_add[0] == '|')
 		return (PIPE);
 	else if (str_to_add[0] == '>')

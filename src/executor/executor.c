@@ -6,14 +6,14 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 15:01:46 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:03:48 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
 #include "../../Includes/minishell.h"
 
-static	int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in);
+static	int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in, t_env **l_env);
 static 	int		process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env);
 
 /*
@@ -50,7 +50,7 @@ void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	self_built_nb = is_self_builtin(curr->av[0], curr->pid);
 	if (curr->next == NULL && self_built_nb != -1)
 	{
-		if (handle_redir(curr, fd_pipe, fd_in) != 0)
+		if (handle_redir(curr, fd_pipe, fd_in, l_env) != 0)
 		{
 			dup2(std_in, STDIN_FILENO);
 			dup2(std_out, STDOUT_FILENO);
@@ -106,7 +106,7 @@ int	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		if (handle_redir(cmd, fd_pipe, fd_in) != 0)
+		if (handle_redir(cmd, fd_pipe, fd_in, l_env) != 0)
 			exit(EXIT_FAILURE);
 		ft_execve(cmd, env, l_env);
 		exit(EXIT_SUCCESS);
@@ -117,7 +117,7 @@ int	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_
 	return (fd_pipe[0]);
 }
 
-int	handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
+int	handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in, t_env **l_env)
 {
 	if (cmd->next != NULL || has_outfile(cmd->redirections))
 	{
@@ -132,7 +132,7 @@ int	handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
 	}
 	if (cmd->n > 0 || has_infile(cmd->redirections))
 	{
-		fd_in = get_in_fd(cmd, fd_in);
+		fd_in = get_in_fd(cmd, fd_in, l_env);
 		if (fd_in == -1)
 			return (-1);
 		if (dup2(fd_in, STDIN_FILENO) == -1)
