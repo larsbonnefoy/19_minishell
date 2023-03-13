@@ -74,3 +74,4 @@ cat | < file1
 > non_existing_file
 > file1 >file2 -> create both files
 echo > file1 > file2 -> create both files and write in lastone
+""<<123

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:32:14 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:46:04 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/10 11:57:14 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,26 @@
  * quote_type is either " or '
  * the function returns the str without the enclosing quotes
  */
-static char	*strdup_in_quotes(char *str, int *i, int quote_type)
+char	*strdup_in_quotes(char *str, int *i, int quote_type)
 {
 	int	tmp;
 
 	if (!str || !i)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	tmp = *i;
 	while (str[++(*i)])
 		if (str[*i] == quote_type)
 			return (ft_strldup(&str[tmp + 1], *i - tmp - 1));
+	exit(EXIT_FAILURE);
 	return (NULL);
 }
 
-static char	*dup_word(char *str, int *i)
+char	*dup_word(char *str, int *i)
 {
 	int		tmp;
 
 	if (!str || !i)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	tmp = *i;
 	while (str[++(*i)])
 	{
@@ -71,19 +72,12 @@ static char	*to_expand(char *str, int *i, int quote_type, t_env **local_env)
 	return (to_join);
 }
 
-/*
- * The cleaner function cleans str of every enclosing quote either " or '
- * and expand the enclosed values if they're in "
- * Cleaner returns the sanitized str
- */
-char	*cleaner(char *str, t_env **local_env)
+char	*while_str(char *str, t_lexer **lexer, t_env **local_env)
 {
+	char	*to_join;
 	int		i;
 	char	*cleaned;
-	char	*to_join;
 
-	if (!str)
-		return (NULL);
 	i = -1;
 	cleaned = ft_calloc_exit(sizeof(char), 1);
 	while (str[++i])
@@ -93,10 +87,35 @@ char	*cleaner(char *str, t_env **local_env)
 		else if (str[i] == S_QUOTE)
 			to_join = strdup_in_quotes(str, &i, S_QUOTE);
 		else
+		{
 			to_join = to_expand(str, &i, -1, local_env);
-		if (!to_join)
-			return (NULL);
+			to_join = no_quotes_handling(to_join, &cleaned, lexer);
+		}
 		cleaned = ft_strjoin_ff(cleaned, to_join);
 	}
 	return (cleaned);
+}
+
+/*
+ * The cleaner function cleans str of every enclosing quote either " or '
+ * and expand the enclosed values if they're in "
+ * Cleaner returns the sanitized str
+ */
+void	cleaner(t_lexer **lexer, t_env **local_env)
+{
+	char	*cleaned;
+	char	*str;
+	t_lexer	*save_next;
+
+	if (!lexer || !*lexer)
+		exit(EXIT_FAILURE);
+	if (!(*lexer)->str)
+		return ;
+	save_next = (*lexer)->next;
+	str = ft_strdup((*lexer)->str);
+	cleaned = while_str(str, lexer, local_env);
+	free(str);
+	(*lexer)->next = save_next;
+	free((*lexer)->str);
+	(*lexer)->str = cleaned;
 }
