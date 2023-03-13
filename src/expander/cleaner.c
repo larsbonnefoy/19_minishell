@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:32:14 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/10 22:51:06 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:26:55 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static char	*to_expand(char *str, int *i, int quote_type, t_env **local_env)
 		tmp = dup_word(str, i);
 	else
 		tmp = strdup_in_quotes(str, i, quote_type);
-	printf(">[%s]\n", tmp);
 	to_join = expander(tmp, quote_type, local_env);
 	free(tmp);
 	return (to_join);

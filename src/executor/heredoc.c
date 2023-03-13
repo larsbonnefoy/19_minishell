@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 11:44:31 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 13:54:13 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:49:16 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_heredoc(char *limiter, int expand, t_env **l_env)
 {
 	int		fd_pipe[2];
 	char	*line;
+	char	*save;
 	char	*tmp;
 	char	*to_write;
 
@@ -41,11 +42,10 @@ int	ft_heredoc(char *limiter, int expand, t_env **l_env)
 		if (line && ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 			break ;
 		if (expand == 1)
-		{
-			tmp = expander(line, - 1, l_env);
-			free(tmp);
-		}
-		tmp = ft_strjoin(line, "\n");
+			save = expander(line, -1, l_env);
+		else
+			save = ft_strdup(line);
+		tmp = ft_strjoin(save, "\n");
 		to_write = ft_strjoin_ff(to_write, tmp);
 		printf("to_write>[%s]\n", to_write);
 	}

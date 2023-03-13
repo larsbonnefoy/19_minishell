@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   out_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
+/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:53:31 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/10 16:39:18 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 14:59:26 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
 
-int	is_out_redir(t_lexer *redirection);
+static	int	is_out_redir(t_lexer *redirection);
+static	int	open_redir(t_lexer *redir, int fd);
 
 int	get_out_fd(t_simple_cmds *cmd, int pipe_write)
 {
@@ -25,15 +26,9 @@ int	get_out_fd(t_simple_cmds *cmd, int pipe_write)
 	{
 		if (is_out_redir(redir))
 		{
-			if (redir->token == D_GREATER)
-				fd = open(redir->str, O_CREAT | O_WRONLY | O_APPEND, 0644);
-			else
-				fd = open(redir->str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			fd = open_redir(redir, fd);
 			if (fd == -1)
-			{	
-				perror("open");
-				exit(EXIT_FAILURE);
-			}
+				return (-1);
 			if (cmd->next != NULL)
 				close(pipe_write);
 		}
@@ -45,11 +40,27 @@ int	get_out_fd(t_simple_cmds *cmd, int pipe_write)
 		return (pipe_write);
 }
 
+static	int	open_redir(t_lexer *redir, int fd)
+{
+	if (fd != -2)
+		close(fd);
+	if (redir->token == D_GREATER)
+		fd = open(redir->str, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else
+		fd = open(redir->str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
+	{	
+		ft_perror(redir->str, NULL);
+		return (-1);
+	}
+	return (fd);
+}
+
 /*
  * Returns 1 if t_lexer node is an out_redir
  * Else returns 0
  */
-int	is_out_redir(t_lexer *redirection)
+static	int	is_out_redir(t_lexer *redirection)
 {
 	if (redirection->token == D_GREATER || redirection->token == GREATER)
 		return (1);

@@ -6,16 +6,15 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/10 22:29:21 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:01:46 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
 #include "../../Includes/minishell.h"
 
-int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in);
-int		process(int *fd_pipe, int fd_in,
-			t_simple_cmds *cmd, char ***env, t_env **l_env);
+static	int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in);
+static 	int		process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env);
 
 /*
  *	We take each node of the cmd table
@@ -51,7 +50,14 @@ void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	self_built_nb = is_self_builtin(curr->av[0], curr->pid);
 	if (curr->next == NULL && self_built_nb != -1)
 	{
-		handle_redir(curr, fd_pipe, fd_in);
+		if (handle_redir(curr, fd_pipe, fd_in) != 0)
+		{
+			dup2(std_in, STDIN_FILENO);
+			dup2(std_out, STDOUT_FILENO);
+			close(std_out);
+			close(std_in);
+			return ;
+		}
 		exec_s_built(cmd->av, env, l_env, self_built_nb);
 	}
 	else
@@ -93,8 +99,7 @@ void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
  * 		c'est pour ça qu'on close a chaque fois pcq avec dup on a 
  * 		ouvert sur une nouvelle entree
  */
-int	process(int *fd_pipe, int fd_in,
-		t_simple_cmds *cmd, char ***env, t_env **l_env)
+int	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
 	int	fd_out;
 
@@ -110,7 +115,6 @@ int	process(int *fd_pipe, int fd_in,
 		close(fd_in);
 	close(fd_pipe[1]);
 	return (fd_pipe[0]);
-//si on a une redirection sur fd_out le fd_in du prochain pipe sera sur STD_IN
 }
 
 int	handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
@@ -118,17 +122,19 @@ int	handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in)
 	if (cmd->next != NULL || has_outfile(cmd->redirections))
 	{
 		fd_pipe[1] = get_out_fd(cmd, fd_pipe[1]);
+		if (fd_pipe[1] == -1)
+			return (-1);
 		if (dup2(fd_pipe[1], STDOUT_FILENO) == -1)
 			return (-1);
 		if (cmd->next != NULL)
 			close(fd_pipe[0]);
 		close(fd_pipe[1]);
 	}
-	if (cmd->n > 0 || is_infile(cmd->redirections)) //OR IN REDIR
+	if (cmd->n > 0 || has_infile(cmd->redirections))
 	{
 		fd_in = get_in_fd(cmd, fd_in);
 		if (fd_in == -1)
-			return (fd_in);
+			return (-1);
 		if (dup2(fd_in, STDIN_FILENO) == -1)
 			return (-1);
 		close(fd_in);

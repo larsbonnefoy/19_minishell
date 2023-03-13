@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/13 09:03:17 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/13 13:17:57 by lbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,7 @@ LEXER_NAME = lexer.a
 
 LEXER_DIR = 	src/lexer
 
-LEXER_FILE = 	lexer.c lexer_list_manager.c lexer_quotes.c lexer_quotes_utils.c\
+LEXER_FILE = 	lexer.c lexer_list_manager.c lexer_quotes.c lexer_quotes_utils.c lexer_errors.c\
 
 LEXER_SRC = $(addprefix $(LEXER_DIR)/, $(LEXER_FILE))
 

@@ -6,9 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/13 14:00:40 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:26:04 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../Includes/minishell.h"
 
 #include "../Includes/minishell.h"
 
@@ -88,15 +90,15 @@ int main(int argc, char **argv, char **env)
 		print_cmd(cmd);
 		printf("-----------------------\n");
 		// int in = dup(STDIN_FILENO);
-		// int fp = ft_heredoc("eof", 0, l_env);
+		// int fp = ft_heredoc("eof", 1, l_env);
 		// // printf("!line>[%s]\n", line);
 		// printf("-----------------------\n");
 		// printf("output heredoc\n");
 		// char buf;
 		// while (read(fp, &buf, 1) > 0)
 		// 	printf("%c\n", buf);
-		// close(fp);
-		// dup2(STDIN_FILENO, in);
+		// // close(fp);
+		// // dup2(STDIN_FILENO, in);
 		printf("-----------------------\n");
 		printf("execution output:\n");
 		executor(cmd, &env, l_env);

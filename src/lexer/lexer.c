@@ -6,17 +6,17 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/08 16:44:33 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:21:54 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/lexer.h"
 #include "../../Includes/executor.h"
 
-void	add_to_lexer(char *str, t_lexer **lexer);
-void	set_lexer(char *str, t_lexer **lexer);
-int		is_token(char *str_to_add);
-int		add_to_pos(char *str, int start_pos);
+static void	add_to_lexer(char *str, t_lexer **lexer);
+static void	set_lexer(char *str, t_lexer **lexer);
+static int	is_token(char *str_to_add);
+static int	add_to_pos(char *str, int start_pos);
 
 /*
 	Split the input string into words and tokens
@@ -37,6 +37,11 @@ t_lexer	*tokenize(char *input_string)
 		return (NULL);
 	}	
 	set_lexer(clean_str, &lexer);
+	if (syntax_error(&lexer))
+	{
+		ft_perror("syntax error", " near unexpected token '|'");
+		return (NULL);
+	}
 	free(clean_str);
 	return (lexer);
 }
