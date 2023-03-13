@@ -6,9 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/13 16:18:42 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:26:04 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../Includes/minishell.h"
 
 #include "../Includes/minishell.h"
 
@@ -62,7 +64,14 @@ int main(int argc, char **argv, char **env)
 	line = "";
 	while (1)
 	{
+		printf("start\n");
+		// tcgetattr(STDIN_FILENO, &term);
+		// term.c_cc[VQUIT] = 0;
+		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		line = prompt(&term);
+		// tcgetattr(STDIN_FILENO, &term);
+		// term.c_cc[VQUIT] = 1;
+		// tcsetattr(STDIN_FILENO, TCSANOW, &term);
 		printf("input line = %s\n", line);
 		printf("-----------------------\n");
 		printf("lexer ouput:\n");
@@ -72,12 +81,24 @@ int main(int argc, char **argv, char **env)
 		printf("-----------------------\n");
 		printf("expander ouput:\n");
 		lexer_to_expander(lexer, l_env);
+		printf("oi\n");
 		lexer_print_list(&lexer);
 		printf("-----------------------\n");
 		printf("simple_cmd ouput:\n");
 		cmd = create_simple_cmds(lexer);
 		lexer_clear_list(&lexer);
 		print_cmd(cmd);
+		printf("-----------------------\n");
+		// int in = dup(STDIN_FILENO);
+		// int fp = ft_heredoc("eof", 1, l_env);
+		// // printf("!line>[%s]\n", line);
+		// printf("-----------------------\n");
+		// printf("output heredoc\n");
+		// char buf;
+		// while (read(fp, &buf, 1) > 0)
+		// 	printf("%c\n", buf);
+		// // close(fp);
+		// // dup2(STDIN_FILENO, in);
 		printf("-----------------------\n");
 		printf("execution output:\n");
 		executor(cmd, &env, l_env);

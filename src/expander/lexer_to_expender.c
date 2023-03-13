@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/13 16:33:28 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:00:13 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	lexer_to_expander(t_lexer *lexer, t_env **env)
 	{
 		if (lexer->str)
 			cleaner(&lexer, env);
-		else if (lexer->token == D_GREATER)
+		else if (lexer->token == D_LOWER)
 		{
 			tmp = lexer->next;
 			if (tmp && tmp->str)
