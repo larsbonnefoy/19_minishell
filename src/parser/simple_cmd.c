@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:37:38 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/13 17:18:41 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/13 17:32:03 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	lexer_to_cmd(t_lexer **lexer, t_simple_cmds *res, int i)
 		res->av[i] = ft_strdup((*lexer)->str);
 		res->av[++i] = NULL;
 	}
-	else if ((*lexer)->str && (*lexer)->token != D_LOWER)
+	else if ((*lexer)->token != D_LOWER)
 	{
 		tmp = lexer_new_node(NULL, (*lexer)->token);
 		lexer_add_back(&res->redirections, tmp);
