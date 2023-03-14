@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:37:38 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/13 22:05:25 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 11:21:14 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_simple_cmds	*create_single_cmd(t_lexer **lexer, int n)
 	res = ft_malloc(sizeof(t_simple_cmds));
 	res->av = NULL;
 	res->redirections = NULL;
+	res->pid = -2;
 	res->next = NULL;
 	res->n = n;
 	while (*lexer && (*lexer)->token != PIPE)

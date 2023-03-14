@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 16:03:48 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/14 14:19:47 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,16 @@ int	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_
 }
 
 int	handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in, t_env **l_env)
-{
+{	
+	if (cmd->n > 0 || has_infile(cmd->redirections))
+	{
+		fd_in = get_in_fd(cmd, fd_in, l_env);
+		if (fd_in == -1)
+			return (-1);
+		if (dup2(fd_in, STDIN_FILENO) == -1)
+			return (-1);
+		close(fd_in);
+	}
 	if (cmd->next != NULL || has_outfile(cmd->redirections))
 	{
 		fd_pipe[1] = get_out_fd(cmd, fd_pipe[1]);
@@ -129,15 +138,6 @@ int	handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in, t_env **l_env)
 		if (cmd->next != NULL)
 			close(fd_pipe[0]);
 		close(fd_pipe[1]);
-	}
-	if (cmd->n > 0 || has_infile(cmd->redirections))
-	{
-		fd_in = get_in_fd(cmd, fd_in, l_env);
-		if (fd_in == -1)
-			return (-1);
-		if (dup2(fd_in, STDIN_FILENO) == -1)
-			return (-1);
-		close(fd_in);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:07:53 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/05 19:24:06 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 10:31:44 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <termios.h>
 # include "../src/libft/libft.h"
 
-char	*prompt(struct termios *term);
+char	*prompt(void);
 
 #endif

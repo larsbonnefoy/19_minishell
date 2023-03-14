@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 21:51:48 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:06:04 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ void	ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 
 	self_builtin_nb = is_self_builtin(cmd->av[0], cmd->pid);
 	if (self_builtin_nb != -1)
-		exec_s_built(cmd->av, env, l_env, self_builtin_nb);
+		global = exec_s_built(cmd->av, env, l_env, self_builtin_nb);
 	else
 	{
 		if (ft_strchr(cmd->av[0], '/') != NULL)
 			access_exec(cmd->av[0], cmd, env);
 		else
 		{
+			//fix no PATH
 			path_arr = ft_split(ft_getenv("PATH", l_env), ':');
 			i = 0;
 			while (path_arr[i] != NULL)
