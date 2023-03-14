@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 11:44:31 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/14 09:35:06 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 10:09:57 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_heredoc(char *limiter, int expand, t_env **l_env)
 		line = readline("\033[0;35mHEREDOC>\033[0m");
 		if (!line)
 			here_err(limiter);
-		if (line && ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		if (line && ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
 			break ;
 		if (expand == 1)
 			save = expander(line, -1, l_env);
