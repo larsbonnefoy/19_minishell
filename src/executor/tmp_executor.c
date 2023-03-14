@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/14 14:55:36 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/14 13:18:40 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,24 @@
 
 static	int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in, t_env **l_env, int std_in);
 static 	int		process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env, int std_in);
+
+typedef	struct	s_filedes
+{
+	int fd_pipe[2];
+	int	fd_in;
+	int std_in;
+	int	std_out;
+
+} t_fildes;
+
+typedef struct s_envs
+{
+	char ***env;
+	t_env **l_env;
+} t_envs;
+
+int	set_structs(t_envs *envs, t_fildes *fildes, char ***env, t_env **l_env);
+int	restore_fildes(t_fildes *fildes);
 
 /*
  *	We take each node of the cmd table
@@ -28,22 +46,22 @@ static 	int		process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t
  */
 void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
-	int				fd_pipe[2];
-	int				fd_in;
 	t_simple_cmds	*curr;
-	int				std_in;
-	int				std_out;
 	int				self_built_nb;
-
-	if (!cmd)
-		return ;
-	fd_in = STDIN_FILENO;
+	t_fildes		*fildes;
+	t_envs			*envs;
+	
+	int fd_pipe[2];
+	int fd_in = STDIN_FILENO;
 	fd_pipe[0] = -1;
 	fd_pipe[1] = -2;
-	std_in = dup(STDIN_FILENO);
-	std_out = dup(STDOUT_FILENO);
+	int std_in = dup(STDIN_FILENO);
+	int std_out = dup(STDOUT_FILENO);
+	if (!cmd)
+		return ;
+	//if (set_structs(envs, fildes, env, l_env) != 0)
+	//	return ;
 	curr = cmd;
-	curr->pid = -2; //could be set when init cmd
 	if (is_local(curr->av[0]))
 		curr->av = make_local(curr->av);
 	print_cmd(curr);
@@ -52,10 +70,7 @@ void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	{
 		if (handle_redir(curr, fd_pipe, fd_in, l_env, std_in) != 0)
 		{
-			dup2(std_in, STDIN_FILENO);
-			dup2(std_out, STDOUT_FILENO);
-			close(std_out);
-			close(std_in);
+			restore_fildes(fildes);
 			return ;
 		}
 		exec_s_built(cmd->av, env, l_env, self_built_nb);
@@ -66,10 +81,10 @@ void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 		{
 			if (curr->next != NULL)
 			{
-				if (pipe(fd_pipe) == -1)
+				if (pipe(fildes->fd_pipe) == -1)
 					return ;
 			}
-			fd_in = process(fd_pipe, fd_in, curr, env, l_env, std_in);
+			fildes->fd_in = process(fd_pipe, fd_in, curr, env, l_env, std_in);
 			curr = curr->next;
 		}
 		curr = cmd;
@@ -79,10 +94,6 @@ void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 			curr = curr->next;
 		}
 	}
-	dup2(std_in, STDIN_FILENO);
-	dup2(std_out, STDOUT_FILENO);
-	close(std_out);
-	close(std_in);
 }
 
 /*
@@ -118,16 +129,7 @@ int	process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_
 }
 
 int	handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in, t_env **l_env, int std_in)
-{	
-	if (cmd->n > 0 || has_infile(cmd->redirections))
-	{
-		fd_in = get_in_fd(cmd, fd_in, l_env, std_in);
-		if (fd_in == -1)
-			return (-1);
-		if (dup2(fd_in, STDIN_FILENO) == -1)
-			return (-1);
-		close(fd_in);
-	}
+{
 	if (cmd->next != NULL || has_outfile(cmd->redirections))
 	{
 		fd_pipe[1] = get_out_fd(cmd, fd_pipe[1]);
@@ -139,6 +141,45 @@ int	handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in, t_env **l_env, int
 			close(fd_pipe[0]);
 		close(fd_pipe[1]);
 	}
+	if (cmd->n > 0 || has_infile(cmd->redirections))
+	{
+		fd_in = get_in_fd(cmd, fd_in, l_env, std_in);
+		if (fd_in == -1)
+			return (-1);
+		if (dup2(fd_in, STDIN_FILENO) == -1)
+			return (-1);
+		close(fd_in);
+	}
+	return (0);
+}
 
+int	set_structs(t_envs *envs, t_fildes *fildes, char ***env, t_env **l_env)
+{
+	fildes->fd_in = STDIN_FILENO;
+	fildes->fd_pipe[0] = -1;
+	fildes->fd_pipe[1] = -2;
+	fildes->std_in = dup(STDIN_FILENO);
+	fildes->std_out = dup(STDOUT_FILENO);
+	if (fildes->std_in == -1 || fildes->std_out == -1)
+		return (-1);
+	envs->env = env;
+	envs->l_env = l_env;
+	return (0);
+}
+
+int	restore_fildes(t_fildes *fildes)
+{
+	if (dup2(fildes->std_in, STDIN_FILENO) == -1)
+	{
+		ft_perror("dup2", NULL);
+		return (-1);
+	}
+	if (dup2(fildes->std_out, STDOUT_FILENO == -1))
+	{
+		ft_perror("dup2", NULL);
+		return (-1);
+	}
+	close(fildes->std_out);
+	close(fildes->std_in);
 	return (0);
 }
