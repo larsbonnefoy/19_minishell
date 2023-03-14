@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:08:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/15 00:11:33 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 00:16:58 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int		ft_echo(char **av, char ***env, t_env **l_env);
 int		ft_exit(char **av, char ***env, t_env **l_env);
 int		ft_export(char **av, char ***env, t_env **l_env);
 int		ft_local(char **av, char ***env, t_env **l_env);
-
-
 
 int		handle_signal(int i);
 

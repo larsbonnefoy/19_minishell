@@ -6,13 +6,12 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:36:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/15 00:09:04 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 00:16:50 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/env.h"
 #include "../../Includes/global.h"
-
 
 static void	assign(t_env *to_add, t_env **l_env)
 {

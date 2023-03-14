@@ -6,14 +6,15 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/14 23:34:28 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 00:44:23 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
+#include "../../Includes/minishell.h"
 
 char	*get_access_path(char **av, char *path);
-int		is_self_builtin(char *func_name, int cmd_pid);
+int		is_s_built(char *func_name, int cmd_pid);
 int		access_exec(char *access_path, t_simple_cmds *cmd, char ***env);
 int		exec_s_built(char **av, char ***env, t_env **l_env, int self_built_nb);
 int		ft_void(char **av, char ***env, t_env **l_env);
@@ -29,16 +30,17 @@ void	ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	int		i;
 	int		self_builtin_nb;
 
-	self_builtin_nb = is_self_builtin(cmd->av[0], cmd->pid);
+	if (is_local(cmd->av[0]))
+		cmd->av = make_local(cmd->av);
+	self_builtin_nb = is_s_built(cmd->av[0], cmd->pid);
 	if (self_builtin_nb != -1)
-		/*global = */exec_s_built(cmd->av, env, l_env, self_builtin_nb);
+		g_ret_val = exec_s_built(cmd->av, env, l_env, self_builtin_nb);
 	else
 	{
 		if (ft_strchr(cmd->av[0], '/') != NULL)
 			access_exec(cmd->av[0], cmd, env);
 		else
 		{
-			//fix no PATH
 			path_arr = ft_split(ft_getenv("PATH", l_env), ':');
 			i = 0;
 			while (path_arr[i] != NULL)
@@ -99,7 +101,7 @@ int	exec_s_built(char **av, char ***env, t_env **l_env, int self_builtin_nb)
 	return (res);
 }
 
-int	is_self_builtin(char *func_name, int cmd_pid)
+int	is_s_built(char *func_name, int cmd_pid)
 {
 	if (ft_strncmp(func_name, "echo", 5) == 0)
 		return (0);
@@ -117,6 +119,8 @@ int	is_self_builtin(char *func_name, int cmd_pid)
 		return (6);
 	else if (ft_strncmp(func_name, "ft_local", 9) == 0)
 		return (is_in_child(7, cmd_pid));
+	else if (is_local(func_name))
+		return (8);
 	return (-1);
 }
 

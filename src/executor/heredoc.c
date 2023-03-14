@@ -5,13 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/08 11:44:31 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 00:00:07 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/03/15 00:15:08 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/15 00:41:19 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
-# include "../../Includes/global.h"
+#include "../../Includes/global.h"
+
 static int	here_err(char *limiter)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -68,7 +69,6 @@ int	ft_heredoc(char *limiter, int expand, t_env **l_env)
 	int		fd_pipe[2];
 	int		pid;
 	int		child_ret;
-	int		ret_val;
 
 	handle_signal(2);
 	if (pipe(fd_pipe) == -1)
@@ -80,12 +80,12 @@ int	ft_heredoc(char *limiter, int expand, t_env **l_env)
 		here_child(fd_pipe, limiter, expand, l_env);
 	close(fd_pipe[1]);
 	waitpid(pid, &child_ret, 0);
-	if (WIFSIGNALED(child_ret))
-		ret_val = WTERMSIG(child_ret);
-	else
-		ret_val = WEXITSTATUS(child_ret);
 	if (g_ret_val == 130)
 		return (-3);
+	if (WIFSIGNALED(child_ret))
+		g_ret_val = WTERMSIG(child_ret);
+	else
+		g_ret_val = WEXITSTATUS(child_ret);
 	return (fd_pipe[0]);
 }
 
