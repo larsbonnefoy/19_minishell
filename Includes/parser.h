@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:20:13 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/13 22:05:49 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:37:12 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ void			destroy_simple_cmds(t_simple_cmds *cmd);
 char			**make_local(char **av);
 int				is_local(char *av);
 int				lexer_to_cmd(t_lexer **lexer, t_simple_cmds *res, int i);
+void			print_cmd(t_simple_cmds *cmd);
 
 #endif

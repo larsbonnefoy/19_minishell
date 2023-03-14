@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 12:01:36 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/09 12:32:11 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 00:07:01 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char	*expander(char *str, int quote_type, t_env **local_env)
 
 	if (!str)
 		exit(EXIT_FAILURE);
+	reassign_global(local_env);
 	i = 0;
 	expanded = ft_calloc_exit(sizeof(char), 1);
 	while (str[i])

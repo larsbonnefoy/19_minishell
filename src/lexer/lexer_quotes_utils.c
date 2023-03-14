@@ -6,11 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 09:41:46 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/05 19:32:20 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:06:38 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/lexer.h"
+#include "../../Includes/minishell.h"
 
 /*
 	returns index of first matching quote found

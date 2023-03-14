@@ -6,11 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 09:39:40 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 13:34:44 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:06:41 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/lexer.h"
+#include "../../Includes/minishell.h"
 
 static	int	is_heredoc_del(int beg_sub, char *main_str);
 static	char	*join_substr(char *main, char *clean, int beg_sub, int len);

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 14:13:19 by hdelmas           #+#    #+#             */
-/*   Updated: 2022/10/14 09:51:50 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 22:38:31 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_itoa(int n)
 		res_size++;
 	}
 	nbr = ((long int)n * sign);
-	res = malloc(sizeof(char) * (res_size + 1));
+	res = ft_malloc(sizeof(char) * (res_size + 1));
 	if (!res)
 		return (NULL);
 	res[res_size] = '\0';
