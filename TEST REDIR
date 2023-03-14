@@ -1,7 +1,0 @@
-bash-3.2$ echo bonjour >| grep bon
-bash-3.2$ echo bonjour > | grep bon
-bash: syntax error near unexpected token `|'
-bash-3.2$ echo bonjour <| grep bon
-bash: syntax error near unexpected token `|'
-bash-3.2$ echo bonjour >| grep bon
-bash-3.2$ echo bonjour >| grep bon
