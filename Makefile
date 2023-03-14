@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/13 13:17:57 by lbonnefo         ###   ########.fr        #
+#    Updated: 2023/03/13 22:06:41 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ PARSER_NAME = parser.a
 
 PARSER_DIR = 	src/parser
 
-PARSER_FILE = 	simple_cmd.c
+PARSER_FILE = 	simple_cmd.c lexer_to_cmd.c
 
 PARSER_SRC = $(addprefix $(PARSER_DIR)/, $(PARSER_FILE))
 
