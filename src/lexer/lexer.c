@@ -6,12 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 16:26:11 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:06:48 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/lexer.h"
-#include "../../Includes/executor.h"
+#include "../../Includes/minishell.h"
 
 static void	add_to_lexer(char *str, t_lexer **lexer);
 static void	set_lexer(char *str, t_lexer **lexer);

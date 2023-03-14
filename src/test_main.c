@@ -6,13 +6,12 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/14 10:27:03 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 00:04:29 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
-
-#include "../Includes/minishell.h"
+#include "../Includes/all.h"
 
 void	print_cmd(t_simple_cmds *cmd)
 {
@@ -54,6 +53,7 @@ int main(int argc, char **argv, char **env)
 	t_simple_cmds	*cmd;
 	t_simple_cmds	*tmp;
 
+	g_ret_val = 0;
 	env = ft_tabdup(env);
 	l_env = env_to_list(env);
 	node2 = env_new(ft_strdup("?"), ft_strdup("0"), 0);

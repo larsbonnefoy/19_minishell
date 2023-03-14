@@ -6,12 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:07:34 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/14 16:06:25 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 00:04:59 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/prompt.h"
-#include "../../Includes/minishell.h"
 
 static void	handle_prompt(int sig)
 {

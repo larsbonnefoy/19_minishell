@@ -6,12 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/14 18:06:04 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:34:28 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
-#include "../../Includes/minishell.h"
 
 char	*get_access_path(char **av, char *path);
 int		is_self_builtin(char *func_name, int cmd_pid);
@@ -32,7 +31,7 @@ void	ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 
 	self_builtin_nb = is_self_builtin(cmd->av[0], cmd->pid);
 	if (self_builtin_nb != -1)
-		global = exec_s_built(cmd->av, env, l_env, self_builtin_nb);
+		/*global = */exec_s_built(cmd->av, env, l_env, self_builtin_nb);
 	else
 	{
 		if (ft_strchr(cmd->av[0], '/') != NULL)

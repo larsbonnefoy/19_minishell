@@ -6,11 +6,13 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:36:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/08 16:43:18 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 00:09:04 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/env.h"
+#include "../../Includes/global.h"
+
 
 static void	assign(t_env *to_add, t_env **l_env)
 {
@@ -61,6 +63,32 @@ void	env_reassign(t_env *to_add, t_env **l_env)
 		*l_env = (*l_env)->next;
 	}
 	*l_env = head;
+	env_addfront(to_add, l_env);
+}
+
+void	reassign_global(t_env **l_env)
+{
+	t_env	*head;
+	int		len;
+	t_env	*to_add;
+
+	if (!l_env)
+		exit(EXIT_FAILURE);
+	head = *l_env;
+	len = ft_strlen("?");
+	while (*l_env)
+	{
+		if (ft_strncmp((*l_env)->name, "?", len) == 0)
+		{
+			free((*l_env)->value);
+			(*l_env)->value = ft_itoa(g_ret_val);
+			*l_env = head;
+			return ;
+		}
+		*l_env = (*l_env)->next;
+	}
+	*l_env = head;
+	to_add = env_new(ft_strdup("?"), ft_itoa(g_ret_val), 0);
 	env_addfront(to_add, l_env);
 }
 

@@ -6,11 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 22:05:16 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/13 22:07:49 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:06:57 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/parser.h"
+#include "../../Includes/minishell.h"
 
 static void	lexer_to_heredoc(t_lexer **lexer, t_simple_cmds *res)
 {

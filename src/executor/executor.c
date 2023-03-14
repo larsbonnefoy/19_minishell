@@ -6,12 +6,12 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/14 14:19:47 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:37:19 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
-#include "../../Includes/minishell.h"
+#include "../../Includes/parser.h"
 
 static	int		handle_redir(t_simple_cmds *cmd, int *fd_pipe, int fd_in, t_env **l_env);
 static 	int		process(int *fd_pipe, int fd_in, t_simple_cmds *cmd, char ***env, t_env **l_env);

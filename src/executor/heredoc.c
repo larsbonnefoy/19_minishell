@@ -6,14 +6,12 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 11:44:31 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/14 18:08:52 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 00:00:07 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
-#include "../../Includes/minishell.h"
-#include "../../Includes/prompt.h"
-
+# include "../../Includes/global.h"
 static int	here_err(char *limiter)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -86,7 +84,8 @@ int	ft_heredoc(char *limiter, int expand, t_env **l_env)
 		ret_val = WTERMSIG(child_ret);
 	else
 		ret_val = WEXITSTATUS(child_ret);
-	//-3
+	if (g_ret_val == 130)
+		return (-3);
 	return (fd_pipe[0]);
 }
 
