@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:07:34 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/15 00:23:07 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 14:10:01 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,38 @@ static void	handle_prompt(int sig)
 static void	handle_heredoc_child(int sig)
 {
 	if (sig == SIGINT)
-	{
-		// ft_putchar_fd('\n', 1);
-		// rl_on_new_line();
-		// rl_replace_line("", 0);
+
 		g_ret_val = 130;
 		exit(130);
-	}
 }
 
 static void	handle_heredoc_parent(int sig)
 {
 	if (sig == SIGINT)
-	{
-		// ft_putchar_fd('\n', 1);
-		// rl_on_new_line();
-		// rl_replace_line("", 0);
 		g_ret_val = 130;
-	}
+}
+
+static void	handle_fork(int sig)
+{
+	if (sig == SIGINT)
+		g_ret_val = 130;
+	else if (sig == SIGQUIT)
+		g_ret_val = 131;
+	exit(g_ret_val);
+}
+
+static void	handle_parent(int sig)
+{
+	if (sig == SIGINT)
+		g_ret_val = 130;
+	else if (sig == SIGQUIT)
+		g_ret_val = 131;
 }
 
 int	handle_signal(int i)
 {
 	struct sigaction	sc;
+
 
 	if (i == 0)
 	{
@@ -68,6 +77,18 @@ int	handle_signal(int i)
 		sc.sa_handler = &handle_heredoc_parent;
 		sigaction(SIGINT, &sc, NULL);
 		signal(SIGQUIT, SIG_IGN);
+	}
+	if (i == 3)
+	{
+		sc.sa_handler = &handle_fork;
+		sigaction(SIGINT, &sc, NULL);
+		sigaction(SIGQUIT, &sc, NULL);
+	}
+	if (i == 4)
+	{
+		sc.sa_handler = &handle_parent;
+		sigaction(SIGINT, &sc, NULL);
+		sigaction(SIGQUIT, &sc, NULL);
 	}
 	return (0);
 }
