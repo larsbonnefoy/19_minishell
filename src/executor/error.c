@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 15:56:45 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/08 16:03:31 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:03:16 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
 
-void	ft_perror(char *cmd_name, char *msg)
+void	ft_perror(char *cmd_name, char *msg, int error)
 {
+	g_ret_val = error;
 	if (!cmd_name)
 		return ;
 	if (msg != NULL)
