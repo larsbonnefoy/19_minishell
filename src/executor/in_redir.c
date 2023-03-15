@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:57:34 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 15:34:19 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 16:02:50 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,13 @@ static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in)
 	int tmp_std_in;
 
 	tmp_std_in = dup(std_in);
-	printf("opening redir %d\n", redir->token);
 	if (fd != -2)
 		close(fd);
 	if (redir->token == LOWER)
+	{
 		fd = open(redir->str, O_RDONLY);
+		close(tmp_std_in);
+	}
 	else
 	{
 		dup2(tmp_std_in, STDIN_FILENO);
