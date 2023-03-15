@@ -46,7 +46,7 @@ int		has_outfile(t_lexer *redirections);
 int		get_in_fd(t_simple_cmds *cmd, int fd_in, t_env **l_env, int std_in);
 int		has_infile(t_lexer *redirection);
 //error.c
-void	ft_perror(char *cmd_name, char *msg);
+void	ft_perror(char *cmd_name, char *msg, int error);
 
 int		ft_heredoc(char *limiter, int expand, t_env **l_env);
 #endif

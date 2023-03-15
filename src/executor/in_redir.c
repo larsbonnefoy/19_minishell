@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:57:34 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/14 10:54:08 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:34:19 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	get_in_fd(t_simple_cmds *cmd, int fd_in, t_env **l_env, int std_in)
 			fd = open_redir(redir, fd, l_env, std_in);
 		if (fd == -1)
 		{
-			ft_perror(redir->str, NULL);
+			ft_perror(redir->str, NULL, 1);
 			return (-1);
 		}
 		redir = redir->next;
