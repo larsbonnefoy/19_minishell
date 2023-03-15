@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 00:46:46 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 14:17:25 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ static	int	exec_pipe_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 	while (curr)
 	{
 		waitpid(curr->pid, &sig_status, 0);
-		if (WIFSIGNALED(sig_status))
-		g_ret_val = WTERMSIG(sig_status);
-		else
-		g_ret_val = WEXITSTATUS(sig_status);
+		if (WIFSIGNALED(sig_status) && (g_ret_val != 130 && g_ret_val != 131))
+			g_ret_val = WTERMSIG(sig_status);
+		else if (WIFEXITED(sig_status) && (g_ret_val != 130 && g_ret_val != 131))
+			g_ret_val = WEXITSTATUS(sig_status);
 		curr = curr->next;
 	}
 	return (0);
@@ -125,15 +125,15 @@ static int	process(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 {
 	int	fd_out;
 
+	handle_signal(4);
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
+		handle_signal(3);
 		if (handle_redir(cmd, fildes, envs->l_env) != 0)
 			exit(EXIT_FAILURE);
 		if (cmd->av)
 		{
-			//if (is_local(cmd->av[0]))
-				//cmd->av = make_local(cmd->av);
 			ft_execve(cmd, envs->env, envs->l_env);
 		}
 		exit(g_ret_val);
