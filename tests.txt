@@ -1,77 +1,75 @@
-cat << l < file
-<< l < file
-| | | |
-var="< file cat"
-var+=bonjour
-var=toi=moi
-cat | cat > file
-cmd < file < file1
-var=salut ; echo $var
-echo -nnnnn ; echo -n-n-n-n-n; echo -nnaaaa ; echo -n -n -n -n -n -n
-cd double args
-export
-echo "<3" >> "<3"
-cd ../../../../../
-cat < a > b
-cd /
-cd -
-cat < "file"
-cat | cat | ls
-$var="ec" ; $var"ho" a
-cat > f1 | cat > f2 | ls
-unsert arg1 arg2
-cd $PWD hi
-echo < Makefile bonjour
+cat << l < file			OK
+<< l < file 			KO leaves fd open -> pb when in file on non forked cmd
+<< l > file1 > file2	OK
+| | | |					OK
+var="< file cat"		KO exec first cmd or redir (if echo $var ; res= < file cat)
+var+=bonjour			KO concat not working (works only if  export before each cmd);
+var=toi=moi				OK
+cat | cat > file		OK (writes output of second cat into file)
+cmd < file < file1		OK
+var=salut ; echo $var	OK
+echo -nnnnn ; echo -n-n-n-n-n; echo -nnaaaa ; echo -n -n -n -n -n -n OK
+cd double args			?
+export					OK
+echo "<3" >> "<3" 		OK
+cd ../../../../../		OK
+cat < a > b				OK
+cd /					OK
+cd -					OK
+cat < "file"			OK
+cat | cat | ls			KO
+$var="ec" ; $var"ho" a	OK
+cat > f1 | cat > f2 | ls OK
+unset arg1 arg2			OK
+cd $PWD hi				NEARLY OK (missing \n after error message)
+echo < Makefile bonjour OK
 $EMPTY (must reset exit code)
-$EMPTY echo hi
-export var ; env | grep var ; export | grep var
-unset HOME ; cd ~
-export HELLO=123 A- WORLD=456 (check exit code)
-echo txt > $var
-export $ARG
-ctl + D in heredoc
-export var="echo world" ; $var
-export var= "      world" ; echo $var
-var="ec" ; $var"ho" a
-<< "<<" cat
-echo bonsoir > file | cat < file
-ls > f | ls > f1
-ls | ls | ls | ls | ls | ls | ls | ls
-export var=salut > file
-var = "echo this" ; var1 = "c'est" ; var2 = 'c"est' ; $var $var $var
-ex"it" (has to exit and print exit);
-exit | exit
-exit | ls
-exit 178036478945602741 (some big overflow nbr)
-echo a > out1| <<out2 >| cat
-echo a > out1| <<out2> | cat
-"'ec'ho" salut
-echo salut "" les "" ami
-grep echo < tests.txt > file2
-cat | cat | ls
-cat | cat |
+$EMPTY echo hi			KO (reads empy str as cmd);
+export var ; env | grep var ; export | grep var 			OK (has to exist with export but not env)
+unset HOME ; cd ~ 		KO (~ is not a relative or absolute path)
+export HELLO=123 A- WORLD=456 OK (check exit code, export both values but prints error msg and sets $? to 1)
+echo txt > $var			OK
+export $ARG				OK
+ctl + D in heredoc		OK
+export var="echo world" ; $var KO (doesnt exec echo)
+export var= "      world" ; echo $var OK
+<< "<<" cat				OK
+echo bonsoir > file | cat < file OK
+ls > f | ls > f1 		OK
+ls | ls | ls | ls | ls | ls | ls | ls OK
+export var=salut > file	OK
+var = "echo this" ; var1 = "c'est" ; var2 = 'c"est' ; $var $var $var KO
+ex"it" (has to exit and print exit); OK
+exit | exit				OK
+exit | ls				OK
+exit 178036478945602741 (some big overflow nbr) OK
+echo a > out1| <<out2 >| cat MOUAIS OK (gere pas le >| sans espace)
+echo a > out1| <<out2> | cat OK
+"'ec'ho" salut			OK
+echo salut "" les "" ami OK
+grep echo < tests.txt > file2 OK
+cat | cat | ls			OK
+cat | cat |				OK
 github ; Lucas Kuhn minishell tester
-> file
-<>
-echo a > file1 <<
-< grep a somefile
-cat > file1  < infile1  >>file2 <infile2
-echo a > file1 | grep a
-grep a
-./minishell
-cat << $HOME
-<< "stop" cat -> dont expand values in the heredoc
-<< stop cat -> expand values in the heredoc
-echo a | pwd > file1
-cat << "st""op"
-cat << "st"op
-echo a >| grep a
-cat |< file1
-cat | < file1
-/bin/ls
-../some_exec
-> existing_file
-> non_existing_file
-> file1 >file2 -> create both files
-echo > file1 > file2 -> create both files and write in lastone
-""<<123
+> file					OK
+<>						KO
+echo a > file1 <<		KO (parse error still there)
+< grep a somefile		OK
+cat > file1  < infile1  >> file2 <infile2 OK
+echo a > file1 | grep a OK
+grep a					MOUAIS OK (enter doesnt work with grep??)
+./minishell				OK
+cat << $HOME			OK
+<< "stop" cat -> dont expand values in the heredoc	OK
+<< stop cat -> expand values in the heredoc			OK
+echo a | pwd > file1	OK
+cat << "st""op"			OK
+cat << "st"op			OK
+cat |< file1			KO (enter dosent work because enter key doesnt work in pipe)
+cat | < file1			KO	same as above
+/bin/ls					OK
+../some_exec			OK
+> existing_file			OK
+> non_existing_file		OK
+""<<123					KO
+..						KO (execve error, bash does command not found)
