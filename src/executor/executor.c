@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 14:17:25 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 22:23:31 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ static int	process(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 	return (fildes->fd_pipe[0]);
 }
 
-static	int		handle_redir(t_simple_cmds *cmd, t_fildes *fildes, t_env **l_env)
+static int	handle_redir(t_simple_cmds *cmd, t_fildes *fildes, t_env **l_env)
 {	
 	if (cmd->n > 0 || has_infile(cmd->redirections))
 	{
@@ -153,6 +153,7 @@ static	int		handle_redir(t_simple_cmds *cmd, t_fildes *fildes, t_env **l_env)
 			return (-1);
 		if (dup2(fildes->fd_in, STDIN_FILENO) == -1)
 			return (-1);
+		printf("closing redir %d\n", fildes->fd_in);
 		close(fildes->fd_in);
 	}
 	if (cmd->next != NULL || has_outfile(cmd->redirections))
@@ -169,7 +170,7 @@ static	int		handle_redir(t_simple_cmds *cmd, t_fildes *fildes, t_env **l_env)
 	return (0);
 }
 
-static	int	create_struct(t_fildes *fildes, t_envs *envs, char ***env, t_env **l_env)
+static int	create_struct(t_fildes *fildes, t_envs *envs, char ***env, t_env **l_env)
 {
 
 	fildes->fd_in = STDIN_FILENO;
