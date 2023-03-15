@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:15:43 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 13:21:38 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:06:27 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/lexer.h"
+#include "../../Includes/minishell.h"
 
 static	int	is_redir(int token);
 

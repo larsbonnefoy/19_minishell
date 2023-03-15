@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:37:01 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/11 13:34:43 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 13:59:40 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*no_quotes_handling(char *to_join, char **cleaned, t_lexer **lexer)
 			free((*lexer)->str);
 			(*lexer)->str = ft_strjoin_ff(*cleaned, to_join);
 			*cleaned = ft_strdup("");
+			lexer_insert(lexer);
 			to_join = tab[j];
 		}
 	}

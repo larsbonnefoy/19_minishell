@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/14 17:50:57 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/15 14:17:25 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,11 @@ static	int	exec_alone_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 
 static	int	exec_pipe_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 {
-	t_simple_cmds *curr;
+	t_simple_cmds	*curr;
+	int				sig_status;	
 
 	curr = cmd;
-	while (curr) 
+	while (curr)
 	{
 		if (curr->next != NULL)
 		{
@@ -96,7 +97,11 @@ static	int	exec_pipe_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 	curr = cmd;
 	while (curr)
 	{
-		waitpid(curr->pid, NULL, 0);
+		waitpid(curr->pid, &sig_status, 0);
+		if (WIFSIGNALED(sig_status) && (g_ret_val != 130 && g_ret_val != 131))
+			g_ret_val = WTERMSIG(sig_status);
+		else if (WIFEXITED(sig_status) && (g_ret_val != 130 && g_ret_val != 131))
+			g_ret_val = WEXITSTATUS(sig_status);
 		curr = curr->next;
 	}
 	return (0);
@@ -116,22 +121,22 @@ static	int	exec_pipe_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
  * 		c'est pour ça qu'on close a chaque fois pcq avec dup on a 
  * 		ouvert sur une nouvelle entree
  */
-static int	process(t_simple_cmds *cmd, t_fildes *fildes , t_envs *envs)
+static int	process(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 {
 	int	fd_out;
 
+	handle_signal(4);
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
+		handle_signal(3);
 		if (handle_redir(cmd, fildes, envs->l_env) != 0)
 			exit(EXIT_FAILURE);
 		if (cmd->av)
 		{
-			//if (is_local(cmd->av[0]))
-				//cmd->av = make_local(cmd->av);
 			ft_execve(cmd, envs->env, envs->l_env);
 		}
-		exit(EXIT_SUCCESS);
+		exit(g_ret_val);
 	}
 	if (cmd->n > 0)
 		close(fildes->fd_in);

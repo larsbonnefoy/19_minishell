@@ -6,11 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:37:38 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/14 11:22:12 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:07:01 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/parser.h"
+#include "../../Includes/minishell.h"
 
 static t_simple_cmds	*create_single_cmd(t_lexer **lexer, int n)
 {

@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/12 12:01:38 by lbonnefo          #+#    #+#              #
-#    Updated: 2023/02/21 11:44:43 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/14 23:53:34 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ CFLAGS = -Wall -Wextra -Werror $(FFLAGS)
 
 FFLAGS = -fsanitize=address -g
 
-CC = @cc
+CC = @gcc
 
 AR = ar -rcs
 

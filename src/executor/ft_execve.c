@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/14 17:45:52 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:33:28 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 		cmd->av = make_local(cmd->av);
 	self_builtin_nb = is_s_built(cmd->av[0], cmd->pid);
 	if (self_builtin_nb != -1)
-		exec_s_built(cmd->av, env, l_env, self_builtin_nb);
+		g_ret_val = exec_s_built(cmd->av, env, l_env, self_builtin_nb);
 	else
 	{
 		if (ft_strchr(cmd->av[0], '/') != NULL)
@@ -52,7 +52,7 @@ void	ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 			}
 		}
 		free(path_arr);
-		ft_perror(cmd->av[0], ": command not found");
+		ft_perror(cmd->av[0], ": command not found", 127);
 		exit(127); //set exit_code to 127
 	}
 }

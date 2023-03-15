@@ -6,12 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/13 16:26:11 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:35:11 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/lexer.h"
-#include "../../Includes/executor.h"
+#include "../../Includes/minishell.h"
 
 static void	add_to_lexer(char *str, t_lexer **lexer);
 static void	set_lexer(char *str, t_lexer **lexer);
@@ -33,13 +32,13 @@ t_lexer	*tokenize(char *input_string)
 	clean_str = handle_sub_quotes(input_string);
 	if (clean_str == NULL)
 	{
-		ft_perror("parser error", ": alone standing quote");
+		ft_perror("parser error", ": alone standing quote", 3);
 		return (NULL);
 	}	
 	set_lexer(clean_str, &lexer);
 	if (syntax_error(&lexer))
 	{
-		ft_perror("syntax error", " near unexpected token '|'");
+		ft_perror("syntax error", " near unexpected token '|'", 3);
 		return (NULL);
 	}
 	free(clean_str);

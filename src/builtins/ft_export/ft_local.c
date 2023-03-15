@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 21:03:46 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/11 13:34:04 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 13:40:10 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ int	is_local(char *str)
 	{
 		if (str[i] == '=')
 			break ;
-		if (str[i] == '+' && str[i + 1] == '=')
-			break ;
+		if (str[i] == '+')
+			if (str[++i] == '=')
+				break ;
 		if ((str[i] == 32) || (str[i] <= 13 && str[i] >= 9)
 			|| !ft_isalnum(str[i]))
 			return (0);

@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/13 22:06:41 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/15 12:07:53 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LDFLAGS = -L$(HOME)/.brew/opt/readline/lib
 
 CPPFLAGS = -I$(HOME)/.brew/opt/readline/include
 
-CFLAGS = -Wall -Wextra -Werror -IIncludes/ $(FFLAGS)
+CFLAGS = -Wall -Wextra -Werror -IIncludes/ $(FFLAGS) 
 
 FFLAGS = -fsanitize=address -g
 
@@ -132,7 +132,6 @@ ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME) $
 $(NAME): $(OBJ)
 		make -C $(LIBFT_DIR)
 		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -g $(LDFLAGS) $(CPPFLAGS) $(RLINE)  -g -o $(NAME)
-
 .c.o:
 		$(CC) $(CLFAGS) $(CPPFLAGS) -c -g $< -g -o $(<:.c=.o)
 

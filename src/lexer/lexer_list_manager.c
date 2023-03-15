@@ -6,11 +6,11 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:12:23 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/10 13:08:11 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:06:34 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/lexer.h"
+#include "../../Includes/minishell.h"
 
 t_lexer	*lexer_new_node(char *str, t_token token)
 {
