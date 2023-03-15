@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:57:34 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 15:34:19 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 22:26:35 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in)
 	int tmp_std_in;
 
 	tmp_std_in = dup(std_in);
-	printf("opening redir %d\n", redir->token);
+	printf(">opening redir %d\n", tmp_std_in);
 	if (fd != -2)
 		close(fd);
 	if (redir->token == LOWER)
@@ -56,9 +56,11 @@ static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in)
 	else
 	{
 		dup2(tmp_std_in, STDIN_FILENO);
-		close(tmp_std_in);
+		printf(">closing redir %d\n", tmp_std_in);
 		fd = ft_heredoc(redir->str, redir->hdoc_exp, l_env);
 	}
+	close(tmp_std_in);
+	printf(">closing redir %d\n", tmp_std_in);
 	if (fd == -1)
 		return (-1);
 	return (fd);
