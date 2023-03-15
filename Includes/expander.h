@@ -6,12 +6,12 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:51:12 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/11 01:12:35 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 12:03:23 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDER_H
-# define EXPANDER_H
+# define EXPANDER_H 
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
