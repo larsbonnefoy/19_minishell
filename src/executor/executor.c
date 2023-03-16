@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 16:36:13 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/16 08:44:51 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static	int		create_struct(t_fildes *fildes, t_envs *envs, char ***env, t_env **l
 static	int		restore_fildes(t_fildes *fildes);
 static	int	exec_pipe_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs);
 static	int	exec_alone_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs);
-static	void set_exit_code(t_simple_cmds *cmd);
 
 /*
  *	We take each node of the cmd table
@@ -61,15 +60,9 @@ void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	else
 	{
 		if ((curr->next == NULL && is_s_built(curr->av[0], curr->pid) != -1))
-		{
-			if (exec_alone_cmds(cmd, &fildes, &envs) == -1)
-				return ;
-		}
+			exec_alone_cmds(cmd, &fildes, &envs);
 		else
-		{
-			if (exec_pipe_cmds(curr, &fildes, &envs) == -1)
-				return ;
-		}
+			exec_pipe_cmds(curr, &fildes, &envs);
 	}
 	restore_fildes(&fildes);
 }
@@ -96,26 +89,12 @@ static	int	exec_pipe_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 		if (curr->next != NULL)
 		{
 			if (pipe(fildes->fd_pipe) == -1)
-			{
-				ft_perror("pipe", NULL, 1);
 				return (-1);
-			}
 		}
 		fildes->fd_in = process(curr, fildes, envs);
-		if (fildes->fd_in == -1)
-			return (-1);
 		curr = curr->next;
 	}
-	set_exit_code(cmd);
-	return (0);
-}
-
-static	void set_exit_code(t_simple_cmds *cmd)
-{
-	t_simple_cmds	*curr;
-	int				sig_status;
-	
-	curr= cmd;
+	curr = cmd;
 	while (curr)
 	{
 		waitpid(curr->pid, &sig_status, 0);
@@ -125,6 +104,7 @@ static	void set_exit_code(t_simple_cmds *cmd)
 			g_ret_val = WEXITSTATUS(sig_status);
 		curr = curr->next;
 	}
+	return (0);
 }
 
 /*
@@ -147,11 +127,6 @@ static int	process(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 
 	handle_signal(4);
 	cmd->pid = fork();
-	if (cmd->pid == -1)
-	{
-		ft_perror("fork", NULL, 1);
-		return (-1);
-	}
 	if (cmd->pid == 0)
 	{
 		handle_signal(3);
@@ -169,7 +144,7 @@ static int	process(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 	return (fildes->fd_pipe[0]);
 }
 
-static	int		handle_redir(t_simple_cmds *cmd, t_fildes *fildes, t_env **l_env)
+static int	handle_redir(t_simple_cmds *cmd, t_fildes *fildes, t_env **l_env)
 {	
 	if (cmd->n > 0 || has_infile(cmd->redirections))
 	{
@@ -194,8 +169,7 @@ static	int		handle_redir(t_simple_cmds *cmd, t_fildes *fildes, t_env **l_env)
 	return (0);
 }
 
-
-static	int	create_struct(t_fildes *fildes, t_envs *envs, char ***env, t_env **l_env)
+static int	create_struct(t_fildes *fildes, t_envs *envs, char ***env, t_env **l_env)
 {
 
 	fildes->fd_in = STDIN_FILENO;

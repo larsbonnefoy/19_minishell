@@ -1,4 +1,6 @@
 cat << l < file			OK
+echo a << EOF (and then ctrl C in heredoc, check if the heredoc is forked or if minishell exists)
+<< EOF | << EOF | ls
 << l < file 			KO leaves fd open -> pb when in file on non forked cmd
 << l > file1 > file2	OK
 | | | |					OK

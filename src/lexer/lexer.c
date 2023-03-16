@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 15:35:11 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/15 19:56:45 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ t_lexer	*tokenize(char *input_string)
 		return (NULL);
 	}	
 	set_lexer(clean_str, &lexer);
+	free(clean_str);
 	if (syntax_error(&lexer))
 	{
+		lexer_clear_list(&lexer);
 		ft_perror("syntax error", " near unexpected token '|'", 3);
 		return (NULL);
 	}
-	free(clean_str);
 	return (lexer);
 }
 
