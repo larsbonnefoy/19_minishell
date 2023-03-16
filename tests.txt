@@ -1,5 +1,6 @@
 cat << l < file			OK
 echo a << EOF (and then ctrl C in heredoc, check if the heredoc is forked or if minishell exists)
+cat << a << b (and then ctrl C, Check for open fildescriptors with "lsof -c minishell")
 << EOF | << EOF | ls
 export var=1 echo a OK
 << l < file 			KO leaves fd open -> pb when in file on non forked cmd

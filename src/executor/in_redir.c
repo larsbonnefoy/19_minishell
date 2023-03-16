@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:57:34 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 22:26:35 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 09:34:08 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ int	get_in_fd(t_simple_cmds *cmd, int fd_in, t_env **l_env, int std_in)
 	while (redir)
 	{
 		if (is_in_redir(redir))
+		{
 			fd = open_redir(redir, fd, l_env, std_in);
+			if (fd == -3)
+				return (-3);
+		}
 		if (fd == -1)
 		{
 			ft_perror(redir->str, NULL, 1);
@@ -48,21 +52,23 @@ static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in)
 	int tmp_std_in;
 
 	tmp_std_in = dup(std_in);
-	printf(">opening redir %d\n", tmp_std_in);
+	if (tmp_std_in == -1)
+	{
+		if (fd != -2)
+			close(fd);
+		return (-1);
+	}
 	if (fd != -2)
 		close(fd);
 	if (redir->token == LOWER)
 		fd = open(redir->str, O_RDONLY);
 	else
 	{
-		dup2(tmp_std_in, STDIN_FILENO);
-		printf(">closing redir %d\n", tmp_std_in);
+		if (dup2(tmp_std_in, STDIN_FILENO) == -1)
+			return (-1);
 		fd = ft_heredoc(redir->str, redir->hdoc_exp, l_env);
 	}
 	close(tmp_std_in);
-	printf(">closing redir %d\n", tmp_std_in);
-	if (fd == -1)
-		return (-1);
 	return (fd);
 }
 
