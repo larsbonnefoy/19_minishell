@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:09:38 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 19:56:45 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 09:47:04 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_lexer	*tokenize(char *input_string)
 	if (syntax_error(&lexer))
 	{
 		lexer_clear_list(&lexer);
-		ft_perror("syntax error", " near unexpected token '|'", 3);
+		ft_perror("minishell: syntax error", ", unexpected token", 3);
 		return (NULL);
 	}
 	return (lexer);

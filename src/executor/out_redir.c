@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:53:31 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 15:34:17 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 10:04:32 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ static	int	open_redir(t_lexer *redir, int fd)
 	else
 		fd = open(redir->str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
-	{	
 		ft_perror(redir->str, NULL, 1);
-		return (-1);
-	}
 	return (fd);
 }
 

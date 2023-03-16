@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 00:15:08 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/15 00:41:19 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 09:35:29 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int	ft_heredoc(char *limiter, int expand, t_env **l_env)
 	close(fd_pipe[1]);
 	waitpid(pid, &child_ret, 0);
 	if (g_ret_val == 130)
+	{
+		close(fd_pipe[0]);
 		return (-3);
+	}
 	if (WIFSIGNALED(child_ret))
 		g_ret_val = WTERMSIG(child_ret);
 	else

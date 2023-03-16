@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 22:23:31 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 10:03:45 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ typedef struct s_envs
 static	int		handle_redir(t_simple_cmds *cmd, t_fildes *fildes, t_env **l_env);
 static int		process(t_simple_cmds *cmd, t_fildes *fildes ,t_envs *envs);
 static	int		create_struct(t_fildes *fildes, t_envs *envs, char ***env, t_env **l_env);
-static	int		restore_fildes(t_fildes *fildes);
-static	int	exec_pipe_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs);
-static	int	exec_alone_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs);
+static void		restore_fildes(t_fildes *fildes);
+static	int		exec_pipe_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs);
+static	int		exec_alone_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs);
 
 /*
  *	We take each node of the cmd table
@@ -127,15 +127,18 @@ static int	process(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 
 	handle_signal(4);
 	cmd->pid = fork();
+	if (cmd->pid == -1)
+	{
+		ft_perror("fork", NULL, 1);
+		return (-1);
+	}
 	if (cmd->pid == 0)
 	{
 		handle_signal(3);
 		if (handle_redir(cmd, fildes, envs->l_env) != 0)
 			exit(EXIT_FAILURE);
 		if (cmd->av)
-		{
 			ft_execve(cmd, envs->env, envs->l_env);
-		}
 		exit(g_ret_val);
 	}
 	if (cmd->n > 0)
@@ -149,11 +152,10 @@ static int	handle_redir(t_simple_cmds *cmd, t_fildes *fildes, t_env **l_env)
 	if (cmd->n > 0 || has_infile(cmd->redirections))
 	{
 		fildes->fd_in = get_in_fd(cmd, fildes->fd_in, l_env, fildes->std_in);
-		if (fildes->fd_in == -1)
+		if (fildes->fd_in == -1 || fildes->fd_in == -3)
 			return (-1);
 		if (dup2(fildes->fd_in, STDIN_FILENO) == -1)
 			return (-1);
-		printf("closing redir %d\n", fildes->fd_in);
 		close(fildes->fd_in);
 	}
 	if (cmd->next != NULL || has_outfile(cmd->redirections))
@@ -178,18 +180,22 @@ static int	create_struct(t_fildes *fildes, t_envs *envs, char ***env, t_env **l_
 	fildes->fd_pipe[1] = -2;
 	fildes->std_in = dup(STDIN_FILENO);
 	fildes->std_out = dup(STDOUT_FILENO);
+	if (fildes->std_in == -1 || fildes->std_out  == -1)
+	{
+		ft_perror("dup", NULL, 1);
+		exit(EXIT_FAILURE);
+	}
 	envs->env = env;
 	envs->l_env = l_env;
 	return (0);
 }
 
-static int restore_fildes(t_fildes *fildes)
+static void	restore_fildes(t_fildes *fildes)
 {
 	if (dup2(fildes->std_in, STDIN_FILENO) == -1)
-		return (-1);
+		return (exit(EXIT_FAILURE));
 	if (dup2(fildes->std_out, STDOUT_FILENO) == -1)
-		return (-1);
+		return (exit(EXIT_FAILURE));
 	close(fildes->std_out);
 	close(fildes->std_in);
-	return (0);
 }
