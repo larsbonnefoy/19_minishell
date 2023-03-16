@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/16 10:03:45 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:55:12 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,41 @@ static	int		create_struct(t_fildes *fildes, t_envs *envs, char ***env, t_env **l
 static void		restore_fildes(t_fildes *fildes);
 static	int		exec_pipe_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs);
 static	int		exec_alone_cmds(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs);
+static	int		handle_heredoc(t_simple_cmds *cmd, int std_in, t_env **l_env);
+
+
+static int	handle_heredoc(t_simple_cmds *cmd, int std_in, t_env **l_env)
+{
+	t_simple_cmds	*curr;
+	t_lexer			*redir;
+	int				tmp_std_in;
+
+	curr = cmd;
+	while (curr)
+	{
+		redir = curr->redirections;
+		while (has_infile(redir))
+		{
+			if (redir->token == D_LOWER)	
+			{
+				tmp_std_in = dup(std_in);
+				if (tmp_std_in == -1)
+					return (-1);
+				if (curr->hdoc_fd != -2)
+					close(curr->hdoc_fd);
+				if (dup2(tmp_std_in, STDIN_FILENO) == -1)	
+					return (-1);
+				curr->hdoc_fd = ft_heredoc(redir->str, redir->hdoc_exp, l_env);
+				close(tmp_std_in);
+				if (curr->hdoc_fd == -3)
+					return (-1);
+			}	
+			redir=redir->next;	
+		}
+		curr=curr->next;
+	}
+	return (0);
+}
 
 /*
  *	We take each node of the cmd table
@@ -55,6 +90,11 @@ void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 		return ;
 	create_struct(&fildes, &envs, env, l_env);
 	curr = cmd;
+	if (handle_heredoc(cmd, fildes.std_in, l_env) == -1)
+	{
+		restore_fildes(&fildes);
+		return ;
+	}
 	if (curr->next == NULL && !curr->av)
 		handle_redir(curr, &fildes, l_env);
 	else
@@ -144,6 +184,7 @@ static int	process(t_simple_cmds *cmd, t_fildes *fildes, t_envs *envs)
 	if (cmd->n > 0)
 		close(fildes->fd_in);
 	close(fildes->fd_pipe[1]);
+	close(cmd->hdoc_fd);
 	return (fildes->fd_pipe[0]);
 }
 
@@ -152,11 +193,12 @@ static int	handle_redir(t_simple_cmds *cmd, t_fildes *fildes, t_env **l_env)
 	if (cmd->n > 0 || has_infile(cmd->redirections))
 	{
 		fildes->fd_in = get_in_fd(cmd, fildes->fd_in, l_env, fildes->std_in);
-		if (fildes->fd_in == -1 || fildes->fd_in == -3)
+		if (fildes->fd_in == -1)
 			return (-1);
 		if (dup2(fildes->fd_in, STDIN_FILENO) == -1)
 			return (-1);
-		close(fildes->fd_in);
+		if (close(fildes->fd_in) == -1)
+			ft_perror("close", NULL, 1);
 	}
 	if (cmd->next != NULL || has_outfile(cmd->redirections))
 	{

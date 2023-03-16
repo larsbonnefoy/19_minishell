@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 09:39:40 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/14 23:06:41 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:34:54 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*handle_sub_quotes(char *str)
 			while (str[i] != '\0' && !is_quote(str[i]))
 				i++;
 		clean_str = join_substr(str, clean_str, beg_sub, i - beg_sub);
-		printf("clean_str = %s\n", clean_str);
 		beg_sub = i;
 	}
 	return (clean_str);

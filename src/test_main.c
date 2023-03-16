@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/16 08:41:20 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/16 14:34:26 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int main(int argc, char **argv, char **env)
 	//	printf("lexer ouput:\n");
 		lexer = tokenize(line);
 		free(line);
-		lexer_print_list(&lexer);
+//		lexer_print_list(&lexer);
 	//	printf("-----------------------\n");
 	//	printf("expander ouput:\n");
 		lexer_to_expander(lexer, l_env);
@@ -81,7 +81,7 @@ int main(int argc, char **argv, char **env)
 		cmd = create_simple_cmds(lexer);
 		lexer_clear_list(&lexer);
 	//	print_cmd(cmd);
-		printf("-----------------------\n");
+	//	printf("-----------------------\n");
 		// int in = dup(STDIN_FILENO);
 		// int fp = ft_heredoc("eof", 1, l_env);
 		// // printf("!line>[%s]\n", line);
@@ -96,7 +96,6 @@ int main(int argc, char **argv, char **env)
 	//	printf("execution output:\n");
 		executor(cmd, &env, l_env);
 	//	printf("-----------------------\n");
-		system("lsof -c minishell");
 		if (cmd)
 			destroy_simple_cmds(cmd);
 	}

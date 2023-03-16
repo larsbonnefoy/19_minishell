@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 00:15:08 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/16 09:35:29 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/16 18:19:57 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	here_err(char *limiter)
 	ft_putstr_fd("warning: here-document by end-of-file (wanted `", 2);
 	ft_putstr_fd(limiter, 2);
 	ft_putendl_fd("')", 2);
-	return (-2);
+	exit(EXIT_SUCCESS);
 }
 
 static char	*joinback_n(char *to_write, char *save)
@@ -51,7 +51,7 @@ static int	here_child(int fd_pipe[2], char *limiter, int expand, t_env **l_env)
 		handle_signal(1);
 		line = readline("\033[0;35mHEREDOC>\033[0m");
 		if (!line)
-			here_err(limiter);
+			here_err(limiter); // set global
 		if (line && ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
 			break ;
 		if (expand == 1)
@@ -61,7 +61,7 @@ static int	here_child(int fd_pipe[2], char *limiter, int expand, t_env **l_env)
 		to_write = joinback_n(to_write, save);
 	}
 	write_to_pipe(to_write, fd_pipe[1]);
-	return (0);
+	exit(EXIT_SUCCESS);
 }
 
 int	ft_heredoc(char *limiter, int expand, t_env **l_env)
