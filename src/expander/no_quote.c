@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:37:01 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/16 17:25:47 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 23:31:59 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	lexer_insert(t_lexer **lexer)
 }
 
 char	*no_quotes_handling(char *to_join, char **cleaned,
-		t_lexer **lexer, t_lexer **head, t_lexer **previous)
+		t_lexer **lexer, t_prevhead *ph)
 {
 	char	**tab;
 	int		j;
@@ -31,23 +31,25 @@ char	*no_quotes_handling(char *to_join, char **cleaned,
 	if (*to_join == '\0')
 	{
 		tmp = *lexer;
-		if (!*previous)
-			*head = (*lexer)->next;
-		else 
-			(*previous)->next = (*lexer)->next;
-		*lexer = (*lexer)->next;
-		free(tmp->str);
-		tmp->str = NULL;
-		free(tmp);
+		if (!ph->prev)
+			ph->head = (*lexer)->next;
+		else
+		{
+			(ph->prev)->next = (*lexer)->next;
+		printf("hmmm>%s>\n",ph->prev->str);
+		}
+		ph->check = 1;
+		// *lexer = (*lexer)->next;
+		// free(tmp->str);
+		// tmp->str = NULL;
+		// free(tmp);
 		return (to_join);
 	}
 	tab = ft_split(to_join, ' ');
 	free(to_join);
-	printf(">tab[%d] : [%s]\n", 0, tab[0]);
 	j = -1;
 	while (tab[++j])
 	{
-		printf(">tab[%d] : [%s]\n", j, tab[j]);
 		if (j == 0)
 			to_join = tab[j];
 		else

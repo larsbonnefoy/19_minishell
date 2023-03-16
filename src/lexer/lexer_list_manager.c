@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:12:23 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/16 16:18:43 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 23:24:18 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	lexer_print_list(t_lexer **lexer_list)
 	while (tmp)
 	{
 		if (tmp->str)
-			printf("[%p] [%d] [%d]\n", tmp->str, tmp->token, tmp->hdoc_exp);
+			printf("[%s] [%d] [%d]\n", tmp->str, tmp->token, tmp->hdoc_exp);
 		else
 			printf("[null] [%d] [%d]\n", tmp->token, tmp->hdoc_exp);
 		tmp = tmp->next;

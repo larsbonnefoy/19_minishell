@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/16 17:09:03 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 23:32:55 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,18 @@ static void	handle_doc(t_lexer *lexer, t_lexer *next)
 
 void	lexer_to_expander(t_lexer **lexer, t_env **env)
 {
-	char	*clean;
-	t_lexer	*head;
-	t_lexer	*tmp;
-	t_lexer	*prev;
+	char		*clean;
+	t_lexer		*tmp;
+	t_prevhead	ph;
 
-	head = (*lexer);
-	prev = NULL;
+	ph.head = (*lexer);
+	ph.prev = NULL;
 	while ((*lexer))
 	{
+		ph.check = 0;
+		printf(">>>>[%s] \n", (*lexer)->str);
 		if ((*lexer)->str)
-			cleaner(lexer, env, &head, &prev);
+			cleaner(lexer, env, &ph);
 		else if ((*lexer)->token == D_LOWER)
 		{
 			tmp = (*lexer)->next;
@@ -70,9 +71,22 @@ void	lexer_to_expander(t_lexer **lexer, t_env **env)
 				exit(1);
 			}
 		}
-		prev = (*lexer);
+		tmp = (*lexer);
+		// printf("1>>>>[%p] [%p] [%s] \n", ph.prev, (*lexer), ph.prev->str);
+	
+		if (ph.check)
+		{
+			free(tmp->str);
+			tmp->str = NULL;
+			free(tmp);
+		}
+		else
+			ph.prev = (*lexer);
 		if ((*lexer))
 			(*lexer) = (*lexer)->next;
+		// printf(">>>>[%s] [%p]  \n", ph.prev->str, *lexer);
 	}
-	(*lexer) = head;
+	(*lexer) = ph.head;
+	printf(">>>>[%p]  \n", lexer);
+
 }

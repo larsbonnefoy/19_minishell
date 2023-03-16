@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:32:14 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/16 17:36:17 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 23:29:47 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static char	*to_expand(char *str, int *i, int quote_type, t_env **local_env)
 	return (to_join);
 }
 
-char	*while_str(char *str, t_lexer **lexer, t_env **local_env, t_lexer **head, t_lexer **previous)
+char	*while_str(char *str, t_lexer **lexer,
+		t_env **local_env, t_prevhead *ph)
 {
 	char	*to_join;
 	int		i;
@@ -89,11 +90,14 @@ char	*while_str(char *str, t_lexer **lexer, t_env **local_env, t_lexer **head, t
 			to_join = strdup_in_quotes(str, &i, S_QUOTE);
 		else
 		{
+			printf("str [%s]\n", str);
 			to_join = to_expand(str, &i, -1, local_env);
 			printf("to_join [%s]\n", to_join);
-			to_join = no_quotes_handling(to_join, &cleaned, lexer, head, previous);
+			to_join = no_quotes_handling(to_join, &cleaned, lexer, ph);
+			printf("to_join [%s]\n", to_join);
 		}
 		cleaned = ft_strjoin_ff(cleaned, to_join);
+		printf("cleaned [%s]\n", cleaned);
 	}
 	return (cleaned);
 }
@@ -103,8 +107,7 @@ char	*while_str(char *str, t_lexer **lexer, t_env **local_env, t_lexer **head, t
  * and expand the enclosed values if they're in "
  * Cleaner returns the sanitized str
  */
-void	cleaner(t_lexer **lexer, t_env **local_env,
-		t_lexer **head, t_lexer **prev)
+void	cleaner(t_lexer **lexer, t_env **local_env, t_prevhead *ph)
 {
 	char	*cleaned;
 	char	*str;
@@ -116,15 +119,15 @@ void	cleaner(t_lexer **lexer, t_env **local_env,
 	if (!(*lexer)->str)
 		return ;
 	save_next = (*lexer)->next;
-	save_head = *head;
+	save_head = ph->head;
 	str = ft_strdup((*lexer)->str);
-	cleaned = while_str(str, lexer, local_env, head, prev);
-	if (save_head != *head)
-		return ;
-	else
-		return ;
+	cleaned = while_str(str, lexer, local_env, ph);
 	free(str);
+	printf("check %d\n", ph->check);
 	(*lexer)->next = save_next;
+	if (ph->check)
+		return (free(cleaned));
 	free((*lexer)->str);
 	(*lexer)->str = cleaned;
+	return ;
 }
