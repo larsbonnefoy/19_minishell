@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:37:01 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 10:13:28 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 11:28:42 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ static void	lexer_insert(t_lexer **lexer)
 	*lexer = tmp;
 }
 
+static char	*set_check(char *to_join, t_prevhead *ph)
+{
+	ph->check = 1;
+	return (to_join);
+}
+
 char	*no_quotes_handling(char *to_join, char **cleaned,
 		t_lexer **lexer, t_prevhead *ph)
 {
@@ -29,10 +35,7 @@ char	*no_quotes_handling(char *to_join, char **cleaned,
 	t_lexer	*tmp;
 
 	if (*to_join == '\0')
-	{
-		ph->check = 1;
-		return (to_join);
-	}
+		return (set_check(to_join, ph));
 	tab = ft_split(to_join, ' ');
 	free(to_join);
 	j = -1;
