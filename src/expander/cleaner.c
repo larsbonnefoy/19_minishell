@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:32:14 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 10:13:09 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 11:21:41 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,10 @@ char	*while_str(char *str, t_lexer **lexer,
 		else
 		{
 			ph->check = 0;
-			// printf("str [%s]\n", str);
 			to_join = to_expand(str, &i, -1, local_env);
-			// printf("to_join [%s]\n", to_join);
 			to_join = no_quotes_handling(to_join, &cleaned, lexer, ph);
-			// printf("to_join [%s]\n", to_join);
 		}
 		cleaned = ft_strjoin_ff(cleaned, to_join);
-		// printf("cleaned [%s]\n", cleaned);
 	}
 	return (cleaned);
 }
@@ -124,8 +120,6 @@ void	cleaner(t_lexer **lexer, t_env **local_env, t_prevhead *ph)
 	str = ft_strdup((*lexer)->str);
 	cleaned = while_str(str, lexer, local_env, ph);
 	free(str);
-	// printf("check %d\n", ph->check);
-	// printf("cleaned[%s]\n",  cleaned);
 	(*lexer)->next = save_next;
 	free((*lexer)->str);
 	(*lexer)->str = cleaned;

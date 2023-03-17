@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 10:14:00 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 14:11:15 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,33 @@ static void	handle_doc(t_lexer *lexer, t_lexer *next)
 	lexer->str = clean_doc(lexer);
 }
 
+static void	del_check(t_prevhead *ph, t_lexer **lexer)
+{
+	t_lexer		*tmp;
+
+	tmp = (*lexer);
+	if (ph->check && (*lexer)->str[0] == '\0')
+	{
+		if (!ph->prev)
+			ph->head = (*lexer)->next;
+		else
+		{
+			(ph->prev)->next = (*lexer)->next;
+		}
+		free(tmp->str);
+		tmp->str = NULL;
+		free(tmp);
+	}
+	else
+		ph->prev = (*lexer);
+}
+
+static void	parse_error(void)
+{
+	ft_putstr_fd("parse error", 2);
+	exit(1);
+}
+
 void	lexer_to_expander(t_lexer **lexer, t_env **env)
 {
 	char		*clean;
@@ -57,7 +84,6 @@ void	lexer_to_expander(t_lexer **lexer, t_env **env)
 	while ((*lexer))
 	{
 		ph.check = 0;
-		printf(">>>>[%s] \n", (*lexer)->str);
 		if ((*lexer)->str)
 			cleaner(lexer, env, &ph);
 		else if ((*lexer)->token == D_LOWER)
@@ -66,28 +92,11 @@ void	lexer_to_expander(t_lexer **lexer, t_env **env)
 			if (tmp && tmp->str)
 				handle_doc((*lexer), tmp);
 			else
-			{
-				ft_putstr_fd("parse error", 2);
-				exit(1);
-			}
+				parse_error();
 		}
-		tmp = (*lexer);
-		if (ph.check && (*lexer)->str[0] == '\0')
-		{
-			if (!ph.prev)
-				ph.head = (*lexer)->next;
-			else
-			{
-				(ph.prev)->next = (*lexer)->next;
-			}
-			free(tmp->str);
-			tmp->str = NULL;
-			free(tmp);
-		}
-		else
-			ph.prev = (*lexer);
+		del_check(&ph, lexer);
 		if ((*lexer))
 			(*lexer) = (*lexer)->next;
 	}
-	(*lexer) = ph.head; 
+	(*lexer) = ph.head;
 }

@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/15 12:07:53 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/17 11:13:20 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,7 @@ PROMPT_NAME = prompt.a
 
 PROMPT_DIR = src/prompt
 
-PROMPT_SRC = src/prompt/prompt.c
+PROMPT_SRC = src/prompt/prompt.c src/prompt/signals.c
 
 PROMPT_OBJ = $(PROMPT_SRC:.c=.o)
 

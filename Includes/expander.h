@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:51:12 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/16 22:29:23 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 14:12:26 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef struct s_prevhead
 void	cleaner(t_lexer **lexer, t_env **local_env, t_prevhead *ph);
 char	*expander(char *str, int quote_type, t_env **local_env);
 void	lexer_to_expander(t_lexer **lexer, t_env **env);
-char	*no_quotes_handling(char *to_join, char **cleaned, t_lexer **lexer, t_prevhead *ph);
+char	*no_quotes_handling(char *to_join, char **cleaned, t_lexer **lexer,
+			t_prevhead *ph);
 char	*dup_word(char *str, int *i);
 char	*strdup_in_quotes(char *str, int *i, int quote_type);
 

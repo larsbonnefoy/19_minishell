@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 22:05:16 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/16 23:15:03 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 10:50:33 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	lexer_to_cmd(t_lexer **lexer, t_simple_cmds *res, int i)
 	{
 		res->av = (char **)ft_realloc_tab((void *)res->av,
 				(sizeof(char *)), i + 1);
-		// printf("%p| %p\n", (*lexer)->str, *lexer);
 		res->av[i] = ft_strdup((*lexer)->str);
 		res->av[++i] = NULL;
 	}
