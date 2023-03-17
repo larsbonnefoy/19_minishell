@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 15:12:23 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/16 23:24:18 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:06:34 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ void	lexer_print_list(t_lexer **lexer_list)
 {
 	t_lexer	*tmp;
 
-	if (!lexer_list || !*lexer_list)
-		return ;
 	tmp = *lexer_list;
 	while (tmp)
 	{

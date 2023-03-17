@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:20:13 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/16 22:06:14 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 11:31:57 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_simple_cmds
 	t_lexer					*redirections;
 	int						n;
 	int						pid;
+	int						hdoc_fd;
 	struct s_simple_cmds	*next;
 }	t_simple_cmds;
 

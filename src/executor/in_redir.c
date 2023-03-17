@@ -6,14 +6,15 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:57:34 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/16 09:34:08 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:54:14 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
 
 static	int	is_in_redir(t_lexer *redir);
-static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in);
+static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in, t_simple_cmds *cmd);
+static int	is_last_infile(t_lexer *redir);
 
 /*
  * opens fd of infile redirection if there is one, else returns fd_in
@@ -29,11 +30,7 @@ int	get_in_fd(t_simple_cmds *cmd, int fd_in, t_env **l_env, int std_in)
 	while (redir)
 	{
 		if (is_in_redir(redir))
-		{
-			fd = open_redir(redir, fd, l_env, std_in);
-			if (fd == -3)
-				return (-3);
-		}
+			fd = open_redir(redir, fd, l_env, std_in, cmd);
 		if (fd == -1)
 		{
 			ft_perror(redir->str, NULL, 1);
@@ -47,29 +44,38 @@ int	get_in_fd(t_simple_cmds *cmd, int fd_in, t_env **l_env, int std_in)
 		return (fd_in);
 }
 
-static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in)
-{
-	int tmp_std_in;
 
-	tmp_std_in = dup(std_in);
-	if (tmp_std_in == -1)
-	{
-		if (fd != -2)
-			close(fd);
-		return (-1);
-	}
+/*
+ * PB si la dernier cmd n'est pas un in file
+ */
+static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in, t_simple_cmds *cmd)
+{
 	if (fd != -2)
 		close(fd);
 	if (redir->token == LOWER)
 		fd = open(redir->str, O_RDONLY);
-	else
-	{
-		if (dup2(tmp_std_in, STDIN_FILENO) == -1)
-			return (-1);
-		fd = ft_heredoc(redir->str, redir->hdoc_exp, l_env);
-	}
-	close(tmp_std_in);
+	if (is_last_infile(redir) && redir->token == D_LOWER)
+		fd = cmd->hdoc_fd;
+	if (is_last_infile(redir) && redir->token == LOWER && cmd->hdoc_fd != -2)
+		close(cmd->hdoc_fd);
 	return (fd);
+}
+
+static int	is_last_infile(t_lexer *redir)
+{
+	t_lexer *tmp_redir;
+
+	tmp_redir = redir;
+	while (tmp_redir)
+	{
+		if (tmp_redir->next)
+		{
+			if (is_in_redir(tmp_redir->next))
+				return (0);
+		}
+		tmp_redir = tmp_redir->next;
+	}
+	return (1);
 }
 
 static	int	is_in_redir(t_lexer *redir)
