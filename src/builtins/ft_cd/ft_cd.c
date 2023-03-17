@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 09:45:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 15:15:49 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/17 15:23:21 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ static char	*format_path(char *str, char *pwd, char *home, t_env **l_env)
 		return (ft_strdup(str));
 	if (str[0] == '\0')
 		return (ft_strdup("/"));
-	if (ft_strncmp(str, "-", ft_strlen(str)) == 0)
+	if (ft_strncmp(str, "-", ft_strlen(str) + 1) == 0)
 		return (dup_errcheck(old, 3));
-	if (ft_strncmp(str, "--", ft_strlen(str)) == 0)
+	if (ft_strncmp(str, "--", ft_strlen(str) + 1) == 0)
 		return (dup_errcheck(home, 2));
 	if (pwd[0] != '\0')
 	{

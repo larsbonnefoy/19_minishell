@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:23:08 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 14:31:09 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:24:26 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_in_lenv(char *name, t_env **l_env, t_env **head, t_env **last)
 {
-	if (ft_strncmp(name, (*l_env)->name, ft_strlen(name)) == 0)
+	if (ft_strncmp(name, (*l_env)->name, ft_strlen(name) + 1) == 0)
 	{
 		if (*l_env != *head)
 			(*last)->next = (*l_env)->next;
