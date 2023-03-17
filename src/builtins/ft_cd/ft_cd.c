@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 09:45:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 15:23:21 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:50:06 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ static int	err(int i, char *new_pwd)
 		ft_putstr_fd("current directory: getcwd: cannot access parent ", 2);
 		ft_putendl_fd("directories:No such file or directory", 2);
 		return (0);
+	}
+	else if (i == 6)
+	{
+		if (new_pwd && *new_pwd == '\0')
+			return (0);
 	}
 	return (1);
 }
@@ -61,7 +66,7 @@ static char	*format_path(char *str, char *pwd, char *home, t_env **l_env)
 	if (str[0] == '/')
 		return (ft_strdup(str));
 	if (str[0] == '\0')
-		return (ft_strdup("/"));
+		return ("");
 	if (ft_strncmp(str, "-", ft_strlen(str) + 1) == 0)
 		return (dup_errcheck(old, 3));
 	if (ft_strncmp(str, "--", ft_strlen(str) + 1) == 0)
@@ -122,7 +127,7 @@ int	ft_cd(char **av, char ***env, t_env **l_env)
 	else
 		new_pwd = format_path(av[1], curr_pwd, home, l_env);
 	if (!new_pwd || *new_pwd == '\0')
-		return (1);
+		return (err(6, new_pwd));
 	if (chdir(new_pwd) == -1)
 		return (err(4, new_pwd));
 	set_pwds(curr_pwd, l_env, env);
