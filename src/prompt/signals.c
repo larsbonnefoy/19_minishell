@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 11:02:45 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 11:19:11 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 16:23:05 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,14 @@ void	handle_fork(int sig)
 void	handle_parent(int sig)
 {
 	if (sig == SIGINT)
+	{	
+		ft_putchar_fd('\n', 1);
 		g_ret_val = 130;
+	}
 	else if (sig == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: 3", 1);
+		ft_putchar_fd('\n', 1);
 		g_ret_val = 131;
+	}
 }
