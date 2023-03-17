@@ -6,13 +6,13 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/17 11:13:20 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/17 14:33:10 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FILES =  test_main.c 
+FILES =  main.c 
 
 SRC = $(addprefix src/, $(FILES))
 

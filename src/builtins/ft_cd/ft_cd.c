@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 09:45:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/14 23:11:59 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 14:31:45 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,16 +129,3 @@ int	ft_cd(char **av, char ***env, t_env **l_env)
 	free(new_pwd);
 	return (0);
 }
-
-// int	main(int ac,  char **av, char **env)
-// {
-// 	t_env	**l_env;
-// 	env = ft_tabdup(env);
-// 	l_env = env_to_list(env);
-// 	ft_cd(av, &env, l_env);
-// 	ft_pwd(av, &env, l_env);
-// 	printf("pwd > [%s]\n", ft_getenv("PWD", l_env));
-// 	printf("old_pwd > [%s]\n", ft_getenv("OLDPWD", l_env));
-// 	free_char_tab(env);
-// 	env_free_all_node(l_env);	
-// }

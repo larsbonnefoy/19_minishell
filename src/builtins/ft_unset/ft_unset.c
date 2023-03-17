@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 15:23:08 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/14 23:15:48 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 14:31:09 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,32 +54,3 @@ int	ft_unset(char **av, char ***env, t_env **l_env)
 	*env = list_to_env(l_env);
 	return (0);
 }
-
-// int main(int ac, char **av, char **env)
-// {
-// 	t_env	**l_env;
-// 	char	*boop[2];
-// 	char	**un;
-
-// 	un = ft_malloc(sizeof(char *) * 4);
-// 	un[0] = ft_strdup("ft_unset");
-// 	un[1] = ft_strdup("TERM_SESSION_ID");
-// 	un[2] = ft_strdup("ARG");
-// 	un[3] = NULL;
-// 	l_env = env_to_list(env);
-// 	boop[0] = "ft_env";
-// 	boop[1] = NULL;
-// 	env = ft_tabdup(env);
-// 	ft_env(boop, env);
-// 	printf("___________________________________\n");
-// 	ft_export(av, l_env, &env);
-// 	printf("___________________________________\n");
-// 	ft_env(boop, env);
-// 	printf("___________________________________\n");
-// 	ft_unset(un, l_env, &env);
-// 	ft_env(boop, env);
-// 	printf("___________________________________\n");
-// 	env_free_all_node(l_env);
-// 	free_char_tab(env);
-// 	return (0);
-// }
