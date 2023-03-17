@@ -6,20 +6,17 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:57:34 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/16 17:54:14 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/17 14:36:41 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
 
-static	int	is_in_redir(t_lexer *redir);
-static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in, t_simple_cmds *cmd);
-static int	is_last_infile(t_lexer *redir);
+int	is_in_redir(t_lexer *redir);
+int	open_redir(t_lexer *redir, int fd, t_env **l_env, t_simple_cmds *cmd);
+int	is_last_infile(t_lexer *redir);
 
-/*
- * opens fd of infile redirection if there is one, else returns fd_in
-*/
-int	get_in_fd(t_simple_cmds *cmd, int fd_in, t_env **l_env, int std_in)
+int	get_in_fd(t_simple_cmds *cmd, int fd_in, t_env **l_env)
 {
 	t_lexer	*redir;
 	int		fd;
@@ -30,7 +27,7 @@ int	get_in_fd(t_simple_cmds *cmd, int fd_in, t_env **l_env, int std_in)
 	while (redir)
 	{
 		if (is_in_redir(redir))
-			fd = open_redir(redir, fd, l_env, std_in, cmd);
+			fd = open_redir(redir, fd, l_env, cmd);
 		if (fd == -1)
 		{
 			ft_perror(redir->str, NULL, 1);
@@ -44,11 +41,7 @@ int	get_in_fd(t_simple_cmds *cmd, int fd_in, t_env **l_env, int std_in)
 		return (fd_in);
 }
 
-
-/*
- * PB si la dernier cmd n'est pas un in file
- */
-static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in, t_simple_cmds *cmd)
+int	open_redir(t_lexer *redir, int fd, t_env **l_env, t_simple_cmds *cmd)
 {
 	if (fd != -2)
 		close(fd);
@@ -61,9 +54,9 @@ static	int	open_redir(t_lexer *redir, int fd, t_env **l_env, int std_in, t_simpl
 	return (fd);
 }
 
-static int	is_last_infile(t_lexer *redir)
+int	is_last_infile(t_lexer *redir)
 {
-	t_lexer *tmp_redir;
+	t_lexer	*tmp_redir;
 
 	tmp_redir = redir;
 	while (tmp_redir)
@@ -78,7 +71,7 @@ static int	is_last_infile(t_lexer *redir)
 	return (1);
 }
 
-static	int	is_in_redir(t_lexer *redir)
+int	is_in_redir(t_lexer *redir)
 {
 	if (redir->token == D_LOWER || redir->token == LOWER)
 		return (1);
