@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_main.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 15:00:00 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 15:06:47 by hdelmas          ###   ########.fr       */
+/*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
+/*   Updated: 2023/03/17 14:59:49 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,13 @@ static void	set_shell_lvl(t_env **l_env, char ***env)
 {
 	char	*value;
 	int		tmp;
-	char	**av;
+	char	*av[2];
 
-	av = ft_malloc(sizeof(char *) * (2 + 1));
-	av[2] = NULL;
-	av[0] = ft_strdup("ft_export");
+	av[0] = "ft_export";
 	value = ft_getenv("SHLVL", l_env);
 	tmp = ft_atoi(value);
-	av[1] = ft_strjoin("SHLVL=", ft_itoa(tmp + 1));
+	av[1] = ft_itoa(tmp + 1);
 	ft_export(av, env, l_env);
-	free(av[0]);
-	free(av);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -41,7 +37,6 @@ int	main(int argc, char **argv, char **env)
 	g_ret_val = 0;
 	env = ft_tabdup(env);
 	l_env = env_to_list(env);
-	set_shell_lvl(l_env, &env);
 	while (1)
 	{
 		line = prompt();
