@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:07:34 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/15 14:10:01 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 11:01:57 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ static void	handle_prompt(int sig)
 static void	handle_heredoc_child(int sig)
 {
 	if (sig == SIGINT)
-
+	{
 		g_ret_val = 130;
 		exit(130);
+	}
 }
 
 static void	handle_heredoc_parent(int sig)

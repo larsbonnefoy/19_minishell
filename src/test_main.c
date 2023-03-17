@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/15 00:04:29 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 22:33:58 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,17 @@ int main(int argc, char **argv, char **env)
 	line = "";
 	while (1)
 	{
-		printf("start\n");
+	//	printf("start\n");
 		line = prompt();
-		printf("input line = %s\n", line);
-		printf("-----------------------\n");
-		printf("lexer ouput:\n");
+	//	printf("input line = %s\n", line);
+	//	printf("-----------------------\n");
+	//	printf("lexer ouput:\n");
 		lexer = tokenize(line);
 		free(line);
 		lexer_print_list(&lexer);
 		printf("-----------------------\n");
 		printf("expander ouput:\n");
-		lexer_to_expander(lexer, l_env);
+		lexer_to_expander(&lexer, l_env);
 		printf("oi\n");
 		lexer_print_list(&lexer);
 		printf("-----------------------\n");
@@ -92,10 +92,11 @@ int main(int argc, char **argv, char **env)
 		// 	printf("%c\n", buf);
 		// // close(fp);
 		// // dup2(STDIN_FILENO, in);
-		printf("-----------------------\n");
-		printf("execution output:\n");
+	//	printf("-----------------------\n");
+	//	printf("execution output:\n");
 		executor(cmd, &env, l_env);
-		printf("-----------------------\n");
+	//	printf("-----------------------\n");
+		// system("lsof -c minishell");
 		if (cmd)
 			destroy_simple_cmds(cmd);
 	}

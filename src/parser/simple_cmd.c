@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 08:37:38 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/14 23:07:01 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/16 13:49:03 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static t_simple_cmds	*create_single_cmd(t_lexer **lexer, int n)
 	res->pid = -2;
 	res->next = NULL;
 	res->n = n;
+	res->hdoc_fd = -2;
 	while (*lexer && (*lexer)->token != PIPE)
 	{
 		i = lexer_to_cmd(lexer, res, i);
