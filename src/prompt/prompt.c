@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:07:34 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 11:19:32 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 16:15:12 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static char	*get_line(void)
 {
 	char				*line;
 
-	line = readline("\033[0;36mSea-Shell>\033[0m");
+	line = readline("\033[0;36mSea-Shell> \033[0m");
 	if (ft_strlen(line) > 0)
 		add_history(line);
 	return (line);
