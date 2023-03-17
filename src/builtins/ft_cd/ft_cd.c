@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 09:45:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 14:31:45 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:15:49 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	err(int i, char *new_pwd)
 {
 	if (i == 1)
-		ft_putstr_fd("minishell: cd: too many arguments", 2);
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
 	else if (i == 2)
 		ft_putendl_fd("minishell: cd: HOME not set", 2);
 	else if (i == 3)
