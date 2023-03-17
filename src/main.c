@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 15:08:32 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:11:49 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv, char **env)
 	g_ret_val = 0;
 	env = ft_tabdup(env);
 	l_env = env_to_list(env);
+	set_shell_lvl(l_env, &env);
 	while (1)
 	{
 		line = prompt();
