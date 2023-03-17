@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 15:11:49 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:36:12 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ static void	set_shell_lvl(t_env **l_env, char ***env)
 	av[2] = NULL;
 	av[0] = ft_strdup("ft_export");
 	value = ft_getenv("SHLVL", l_env);
+	if (!value)
+		value = "1";
 	tmp = ft_atoi(value);
+	if (tmp < 0)
+		tmp = -1;
 	av[1] = ft_strjoin("SHLVL=", ft_itoa(tmp + 1));
 	ft_export(av, env, l_env);
 	free(av[0]);
