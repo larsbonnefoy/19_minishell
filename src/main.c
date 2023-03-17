@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 15:48:10 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 16:01:56 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	set_shell_lvl(t_env **l_env, char ***env)
 {
 	char	*value;
 	int		tmp;
+	char	*to_free;
 	char	**av;
 
 	av = ft_malloc(sizeof(char *) * (2 + 1));
@@ -28,8 +29,10 @@ static void	set_shell_lvl(t_env **l_env, char ***env)
 	tmp = ft_atoi(value);
 	if (tmp < 0)
 		tmp = -1;
-	av[1] = ft_strjoin("SHLVL=", ft_itoa(tmp + 1));
+	to_free = ft_itoa(tmp + 1);
+	av[1] = ft_strjoin("SHLVL=", to_free);
 	ft_export(av, env, l_env);
+	free(to_free);
 	free(av[0]);
 	free(av);
 }
