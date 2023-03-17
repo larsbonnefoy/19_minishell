@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/16 23:32:55 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 10:14:00 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,14 @@ void	lexer_to_expander(t_lexer **lexer, t_env **env)
 			}
 		}
 		tmp = (*lexer);
-		// printf("1>>>>[%p] [%p] [%s] \n", ph.prev, (*lexer), ph.prev->str);
-	
-		if (ph.check)
+		if (ph.check && (*lexer)->str[0] == '\0')
 		{
+			if (!ph.prev)
+				ph.head = (*lexer)->next;
+			else
+			{
+				(ph.prev)->next = (*lexer)->next;
+			}
 			free(tmp->str);
 			tmp->str = NULL;
 			free(tmp);
@@ -84,9 +88,6 @@ void	lexer_to_expander(t_lexer **lexer, t_env **env)
 			ph.prev = (*lexer);
 		if ((*lexer))
 			(*lexer) = (*lexer)->next;
-		// printf(">>>>[%s] [%p]  \n", ph.prev->str, *lexer);
 	}
-	(*lexer) = ph.head;
-	printf(">>>>[%p]  \n", lexer);
-
+	(*lexer) = ph.head; 
 }
