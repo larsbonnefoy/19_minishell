@@ -1,17 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_main.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 14:29:01 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:08:32 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 #include "../Includes/all.h"
+
+static void	set_shell_lvl(t_env **l_env, char ***env)
+{
+	char	*value;
+	int		tmp;
+	char	**av;
+
+	av = ft_malloc(sizeof(char *) * (2 + 1));
+	av[2] = NULL;
+	av[0] = ft_strdup("ft_export");
+	value = ft_getenv("SHLVL", l_env);
+	tmp = ft_atoi(value);
+	av[1] = ft_strjoin("SHLVL=", ft_itoa(tmp + 1));
+	ft_export(av, env, l_env);
+	free(av[0]);
+	free(av);
+}
 
 int	main(int argc, char **argv, char **env)
 {
