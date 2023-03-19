@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:36:25 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 15:24:51 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/19 23:28:39 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ static void	assign(t_env *to_add, t_env **l_env)
 		(*l_env)->value = to_add->value;
 		to_add->value = tmp;
 		env_free_node(to_add);
-	}	
+	}
+	else
+		env_free_node(to_add);
 }
 
 static void	join(t_env *to_add, t_env **l_env)
