@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 00:15:08 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 14:28:00 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/19 22:30:27 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	ft_heredoc(char *limiter, int expand, t_env **l_env)
 	int		pid;
 	int		child_ret;
 
+	g_ret_val = 0;
 	handle_signal(2);
 	if (pipe(fd_pipe) == -1)
 		return (1);
