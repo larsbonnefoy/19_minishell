@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/17 16:01:56 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/19 17:56:34 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	set_shell_lvl(t_env **l_env, char ***env)
 	ft_export(av, env, l_env);
 	free(to_free);
 	free(av[0]);
+	free(av[1]);
 	free(av);
 }
 
