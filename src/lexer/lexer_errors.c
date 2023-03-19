@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:15:43 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/16 09:44:56 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:08:59 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	syntax_error(t_lexer **lexer)
 	{
 		if (curr->next)
 		{
-			if (is_redir(curr->token) && curr->next->token == PIPE)
+			if ((is_redir(curr->token) || curr->token == PIPE)
+				&& curr->next->token == PIPE)
 				return (1);
 			if (is_redir(curr->token) && is_redir(curr->next->token))
 				return (1);
@@ -39,7 +40,7 @@ int	syntax_error(t_lexer **lexer)
 			if (curr->token == PIPE)
 				return (1);
 		if (curr->next == NULL)
-			if (curr->token == PIPE)
+			if (curr->token == PIPE || is_redir(curr->token))
 				return (1);
 		i++;
 		curr = curr->next;

@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 09:45:24 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/14 23:11:59 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:50:06 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	err(int i, char *new_pwd)
 {
 	if (i == 1)
-		ft_putstr_fd("minishell: cd: too many arguments", 2);
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
 	else if (i == 2)
 		ft_putendl_fd("minishell: cd: HOME not set", 2);
 	else if (i == 3)
@@ -32,6 +32,11 @@ static int	err(int i, char *new_pwd)
 		ft_putstr_fd("current directory: getcwd: cannot access parent ", 2);
 		ft_putendl_fd("directories:No such file or directory", 2);
 		return (0);
+	}
+	else if (i == 6)
+	{
+		if (new_pwd && *new_pwd == '\0')
+			return (0);
 	}
 	return (1);
 }
@@ -61,10 +66,10 @@ static char	*format_path(char *str, char *pwd, char *home, t_env **l_env)
 	if (str[0] == '/')
 		return (ft_strdup(str));
 	if (str[0] == '\0')
-		return (ft_strdup("/"));
-	if (ft_strncmp(str, "-", ft_strlen(str)) == 0)
+		return ("");
+	if (ft_strncmp(str, "-", ft_strlen(str) + 1) == 0)
 		return (dup_errcheck(old, 3));
-	if (ft_strncmp(str, "--", ft_strlen(str)) == 0)
+	if (ft_strncmp(str, "--", ft_strlen(str) + 1) == 0)
 		return (dup_errcheck(home, 2));
 	if (pwd[0] != '\0')
 	{
@@ -122,23 +127,10 @@ int	ft_cd(char **av, char ***env, t_env **l_env)
 	else
 		new_pwd = format_path(av[1], curr_pwd, home, l_env);
 	if (!new_pwd || *new_pwd == '\0')
-		return (1);
+		return (err(6, new_pwd));
 	if (chdir(new_pwd) == -1)
 		return (err(4, new_pwd));
 	set_pwds(curr_pwd, l_env, env);
 	free(new_pwd);
 	return (0);
 }
-
-// int	main(int ac,  char **av, char **env)
-// {
-// 	t_env	**l_env;
-// 	env = ft_tabdup(env);
-// 	l_env = env_to_list(env);
-// 	ft_cd(av, &env, l_env);
-// 	ft_pwd(av, &env, l_env);
-// 	printf("pwd > [%s]\n", ft_getenv("PWD", l_env));
-// 	printf("old_pwd > [%s]\n", ft_getenv("OLDPWD", l_env));
-// 	free_char_tab(env);
-// 	env_free_all_node(l_env);	
-// }

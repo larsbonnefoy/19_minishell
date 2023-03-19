@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 12:59:19 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/14 23:15:31 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:28:04 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	*create_order(char **env, int size)
 		{
 			name = getname(env[j]);
 			if ((ft_strncmp(last_name,
-						name, ft_strlen(last_name))) > 0)
+						name, ft_strlen(name) + 1)) > 0)
 				array[i] += 1;
 			free(name);
 		}

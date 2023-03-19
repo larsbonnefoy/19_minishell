@@ -6,13 +6,13 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/15 12:07:53 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/17 14:57:40 by lbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-FILES =  test_main.c 
+FILES =  main.c 
 
 SRC = $(addprefix src/, $(FILES))
 
@@ -22,15 +22,21 @@ OBJ = $(SRCS:.c=.o)
 
 AR = ar -rcs
 
-LDFLAGS = -L$(HOME)/.brew/opt/readline/lib
+LDFLAGS = -L/opt/homebrew/opt/readline/lib
 
-CPPFLAGS = -I$(HOME)/.brew/opt/readline/include
+LD_PERF = -L/opt/homebrew/opt/gperftools/lib
 
-CFLAGS = -Wall -Wextra -Werror -IIncludes/ $(FFLAGS) 
+CPPFLAGS = -I/opt/homebrew/opt/readline/include
+
+C_PERF = -I/opt/homebrew/opt/gperftools/include
+
+CFLAGS = -Wall -Wextra -Werror -IIncludes/ 
 
 FFLAGS = -fsanitize=address -g
 
 RLINE = -lreadline
+
+PERF = -lprofiler
 
 CC = cc
 
@@ -95,7 +101,7 @@ PROMPT_NAME = prompt.a
 
 PROMPT_DIR = src/prompt
 
-PROMPT_SRC = src/prompt/prompt.c
+PROMPT_SRC = src/prompt/prompt.c src/prompt/signals.c
 
 PROMPT_OBJ = $(PROMPT_SRC:.c=.o)
 
@@ -115,7 +121,7 @@ EXEC_NAME = executor.a
 
 EXEC_DIR = src/executor
 
-EXEC_FILE = executor.c ft_execve.c in_redir.c out_redir.c error.c heredoc.c
+EXEC_FILE = executor.c exec_cmd.c ft_execve.c ft_execve_utils.c in_redir.c out_redir.c error.c heredoc.c heredoc_handeling.c
 
 EXEC_SRC = $(addprefix  $(EXEC_DIR)/, $(EXEC_FILE))
 
@@ -131,9 +137,9 @@ ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME) $
 
 $(NAME): $(OBJ)
 		make -C $(LIBFT_DIR)
-		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -g $(LDFLAGS) $(CPPFLAGS) $(RLINE)  -g -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJ) $(LIBFT)  -g $(LDFLAGS) $(CPPFLAGS) $(RLINE) $(LD_PERF) $(C_PERF) $(PERF) -g -o $(NAME)
 .c.o:
-		$(CC) $(CLFAGS) $(CPPFLAGS) -c -g $< -g -o $(<:.c=.o)
+		$(CC) $(CLFAGS) $(CPPFLAGS) $(LD_PERF) $(C_PERF) -c -g $< -g -o $(<:.c=.o)
 
 all: $(NAME)
 	

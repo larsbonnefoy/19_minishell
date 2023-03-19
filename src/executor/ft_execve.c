@@ -6,28 +6,19 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/15 20:02:16 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 14:57:18 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/executor.h"
-#include "../../Includes/minishell.h"
 
 char	*get_access_path(char **av, char *path);
-int		is_s_built(char *func_name, int cmd_pid);
 int		access_exec(char *access_path, t_simple_cmds *cmd, char ***env);
 int		exec_s_built(char **av, char ***env, t_env **l_env, int self_built_nb);
-int		ft_void(char **av, char ***env, t_env **l_env);
-int		is_in_child(int ret_value, int cmd_pid);
+void	exec_n_built(t_simple_cmds *cmd, char ***env, t_env **l_env);
 
-/*
- * Check if function is a self coded func or not and execute it
-*/
 void	ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
-	char	**path_arr;
-	char	*access_path;
-	int		i;
 	int		self_builtin_nb;
 
 	if (is_local(cmd->av[0]))
@@ -36,25 +27,34 @@ void	ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 	if (self_builtin_nb != -1)
 		g_ret_val = exec_s_built(cmd->av, env, l_env, self_builtin_nb);
 	else
+		exec_n_built(cmd, env, l_env);
+}
+
+void	exec_n_built(t_simple_cmds *cmd, char ***env, t_env **l_env)
+{
+	char	**path_arr;
+	char	*access_path;
+	int		i;
+
+	if (ft_strchr(cmd->av[0], '/') != NULL)
+		access_exec(cmd->av[0], cmd, env);
+	else
 	{
-		if (ft_strchr(cmd->av[0], '/') != NULL)
-			access_exec(cmd->av[0], cmd, env);
-		else
+		if (!ft_getenv("PATH", l_env))
+			exit(ft_perror(cmd->av[0], ": command not found", 127));
+		path_arr = ft_split(ft_getenv("PATH", l_env), ':');
+		i = 0;
+		while (path_arr[i] != NULL)
 		{
-			path_arr = ft_split(ft_getenv("PATH", l_env), ':');
-			i = 0;
-			while (path_arr[i] != NULL)
-			{
-				access_path = get_access_path(cmd->av, path_arr[i]);
-				if (access_exec(access_path, cmd, env) == -1)
-					free(access_path);
-				i++;
-			}
+			access_path = get_access_path(cmd->av, path_arr[i]);
+			if (access_exec(access_path, cmd, env) == -1)
+				free(access_path);
+			i++;
 		}
-		free(path_arr);
-		ft_perror(cmd->av[0], ": command not found", 127);
-		exit(127);
 	}
+	free(path_arr);
+	ft_putstr_fd("minishell: ", 2);
+	exit(ft_perror(cmd->av[0], ": command not found", 127));
 }
 
 int	access_exec(char *access_path, t_simple_cmds *cmd, char ***env)
@@ -78,7 +78,10 @@ char	*get_access_path(char **av, char *path)
 	char	*access_path;
 	char	*mod_cmd;	
 
-	mod_cmd = ft_strjoin("/", av[0]);
+	if (av[0][0] == '\0')
+		mod_cmd = ft_strjoin("/", "\\");
+	else
+		mod_cmd = ft_strjoin("/", av[0]);
 	access_path = ft_strjoin_ff(path, mod_cmd);
 	return (access_path);
 }
@@ -99,43 +102,4 @@ int	exec_s_built(char **av, char ***env, t_env **l_env, int self_builtin_nb)
 	func[8] = &ft_void;
 	res = func[self_builtin_nb](av, env, l_env);
 	return (res);
-}
-
-int	is_s_built(char *func_name, int cmd_pid)
-{
-	if (ft_strncmp(func_name, "echo", 5) == 0)
-		return (0);
-	else if (ft_strncmp(func_name, "pwd", 4) == 0)
-		return (1);
-	else if (ft_strncmp(func_name, "exit", 5) == 0)
-		return (is_in_child(2, cmd_pid));
-	else if (ft_strncmp(func_name, "env", 4) == 0)
-		return (3);
-	else if (ft_strncmp(func_name, "cd", 3) == 0)
-		return (4);
-	else if (ft_strncmp(func_name, "export", 7) == 0)
-		return (5);
-	else if (ft_strncmp(func_name, "unset", 6) == 0)
-		return (6);
-	else if (ft_strncmp(func_name, "ft_local", 9) == 0)
-		return (is_in_child(7, cmd_pid));
-	else if (is_local(func_name))
-		return (8);
-	return (-1);
-}
-
-int	ft_void(char **av, char ***env, t_env **l_env)
-{
-	(void) av;
-	(void) env;
-	(void) l_env;
-	return (0);
-}
-
-int	is_in_child(int ret_value, int cmd_pid)
-{
-	if (cmd_pid == 0)
-		return (8);
-	else
-		return (ret_value);
 }

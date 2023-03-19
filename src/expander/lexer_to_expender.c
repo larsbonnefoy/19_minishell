@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:33:52 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/14 23:27:44 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 14:11:15 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,57 @@ static void	handle_doc(t_lexer *lexer, t_lexer *next)
 	lexer->str = clean_doc(lexer);
 }
 
-void	lexer_to_expander(t_lexer *lexer, t_env **env)
+static void	del_check(t_prevhead *ph, t_lexer **lexer)
 {
-	char	*clean;
-	t_lexer	*head;
-	t_lexer	*tmp;
+	t_lexer		*tmp;
 
-	head = lexer;
-	while (lexer)
+	tmp = (*lexer);
+	if (ph->check && (*lexer)->str[0] == '\0')
 	{
-		if (lexer->str)
-			cleaner(&lexer, env);
-		else if (lexer->token == D_LOWER)
+		if (!ph->prev)
+			ph->head = (*lexer)->next;
+		else
 		{
-			tmp = lexer->next;
-			if (tmp && tmp->str)
-				handle_doc(lexer, tmp);
-			else
-			{
-				ft_putstr_fd("parse error", 2);
-				exit(1);
-			}
+			(ph->prev)->next = (*lexer)->next;
 		}
-		lexer = lexer->next;
+		free(tmp->str);
+		tmp->str = NULL;
+		free(tmp);
 	}
-	lexer = head;
+	else
+		ph->prev = (*lexer);
+}
+
+static void	parse_error(void)
+{
+	ft_putstr_fd("parse error", 2);
+	exit(1);
+}
+
+void	lexer_to_expander(t_lexer **lexer, t_env **env)
+{
+	char		*clean;
+	t_lexer		*tmp;
+	t_prevhead	ph;
+
+	ph.head = (*lexer);
+	ph.prev = NULL;
+	while ((*lexer))
+	{
+		ph.check = 0;
+		if ((*lexer)->str)
+			cleaner(lexer, env, &ph);
+		else if ((*lexer)->token == D_LOWER)
+		{
+			tmp = (*lexer)->next;
+			if (tmp && tmp->str)
+				handle_doc((*lexer), tmp);
+			else
+				parse_error();
+		}
+		del_check(&ph, lexer);
+		if ((*lexer))
+			(*lexer) = (*lexer)->next;
+	}
+	(*lexer) = ph.head;
 }

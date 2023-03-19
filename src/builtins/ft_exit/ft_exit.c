@@ -6,11 +6,13 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:51:34 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/14 23:15:17 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:53:46 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Includes/ft_exit.h"
+#include "../../../Includes/global.h"
+#include <gperftools/profiler.h>
 
 static void	print_err(char *str)
 {
@@ -31,7 +33,12 @@ int	ft_exit(char **av, char ***env, t_env **l_env)
 		exit(EXIT_FAILURE);
 	ft_putendl_fd("exit", 1);
 	if (!av[1])
-		exit(EXIT_SUCCESS);
+	{
+		printf("ptdr flemme");
+		ProfilerFlush();
+		ProfilerStop();
+		exit(g_ret_val);
+	}
 	over = 0;
 	x = ft_atol(av[1], &over);
 	if (over)

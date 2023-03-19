@@ -28,7 +28,7 @@ char	*ft_getenv(char *var_name, t_env **l_env)
 	while (*l_env)
 	{
 		if (ft_strncmp((*l_env)->name, var_name,
-				ft_strlen((*l_env)->name)) == 0)
+				ft_strlen(var_name) + 1) == 0)
 		{
 			value = (*l_env)->value;
 			*l_env = head;

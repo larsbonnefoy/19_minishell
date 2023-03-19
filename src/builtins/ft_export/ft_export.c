@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:50:39 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/15 14:07:58 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/17 14:31:01 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,3 @@ int	ft_export(char **av, char ***env, t_env **l_env)
 	*env = list_to_env(l_env);
 	return (ret_val);
 }
-// 
-// int main(int ac, char **av, char **env)
-// {
-// 	t_env	**l_env;
-// 	char	*boop[2];
-
-// 	l_env = env_to_list(env);
-// 	env = ft_tabdup(env);
-// 	ft_env(boop, env);
-// 	printf("___________________________________\n");
-// 	ft_export(av, l_env, &env);
-// 	printf("___________________________________\n");
-// 	ft_env(boop, env);
-// 	env_free_all_node(l_env);
-// 	free_char_env(env);
-// 	return (0);
-// }
