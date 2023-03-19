@@ -22,9 +22,9 @@ OBJ = $(SRCS:.c=.o)
 
 AR = ar -rcs
 
-LDFLAGS = -L$(HOME)/.brew/opt/readline/lib
+LDFLAGS = -L/opt/homebrew/opt/readline/lib
 
-CPPFLAGS = -I$(HOME)/.brew/opt/readline/include
+CPPFLAGS = -I/opt/homebrew/opt/readline/include
 
 CFLAGS = -Wall -Wextra -Werror -IIncludes/ $(FFLAGS) 
 

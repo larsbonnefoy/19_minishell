@@ -53,6 +53,7 @@ void	exec_n_built(t_simple_cmds *cmd, char ***env, t_env **l_env)
 		}
 	}
 	free(path_arr);
+	ft_putstr_fd("minishell: ", 2);
 	exit(ft_perror(cmd->av[0], ": command not found", 127));
 }
 
@@ -77,7 +78,10 @@ char	*get_access_path(char **av, char *path)
 	char	*access_path;
 	char	*mod_cmd;	
 
-	mod_cmd = ft_strjoin("/", av[0]);
+	if (av[0][0] == '\0')
+		mod_cmd = ft_strjoin("/", "\\");
+	else
+		mod_cmd = ft_strjoin("/", av[0]);
 	access_path = ft_strjoin_ff(path, mod_cmd);
 	return (access_path);
 }
