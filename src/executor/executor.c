@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:09:41 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/17 14:53:52 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/20 08:25:37 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	executor(t_simple_cmds *cmd, char ***env, t_env **l_env)
 		handle_redir(curr, &fildes, l_env);
 	else
 	{
+		if (is_local(cmd->av[0]))
+			cmd->av = make_local(cmd->av);
 		if ((curr->next == NULL && is_s_built(curr->av[0], curr->pid) != -1))
 			exec_alone_cmds(cmd, &fildes, &envs);
 		else

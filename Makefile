@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/17 14:57:40 by lbonnefo         ###   ########.fr        #
+#    Updated: 2023/03/20 08:11:34 by hdelmas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,9 @@ OBJ = $(SRCS:.c=.o)
 
 AR = ar -rcs
 
-LDFLAGS = -L/opt/homebrew/opt/readline/lib
+LDFLAGS = -L$(HOME)/.brew/opt/readline/lib
 
-CPPFLAGS = -I/opt/homebrew/opt/readline/include
+CPPFLAGS = -I$(HOME)/.brew/opt/readline/include
 
 CFLAGS = -Wall -Wextra -Werror -IIncludes/ $(FFLAGS) 
 

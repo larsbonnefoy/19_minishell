@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/17 14:57:18 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/20 08:26:27 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	ft_execve(t_simple_cmds *cmd, char ***env, t_env **l_env)
 {
 	int		self_builtin_nb;
 
-	if (is_local(cmd->av[0]))
-		cmd->av = make_local(cmd->av);
 	self_builtin_nb = is_s_built(cmd->av[0], cmd->pid);
 	if (self_builtin_nb != -1)
 		g_ret_val = exec_s_built(cmd->av, env, l_env, self_builtin_nb);
