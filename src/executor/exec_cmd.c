@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbonnefo <lbonnefo@student.s19.be>         +#+  +:+       +#+        */
+/*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 13:43:08 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/17 14:53:45 by lbonnefo         ###   ########.fr       */
+/*   Updated: 2023/03/20 09:24:48 by hdelmas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	set_exit_code(t_simple_cmds *cmd)
 		waitpid(curr->pid, &sig, 0);
 		if (WIFSIGNALED(sig) && (g_ret_val != 130 && g_ret_val != 131))
 			g_ret_val = WTERMSIG(sig);
-		else if (WIFEXITED(sig) && (g_ret_val != 130 && g_ret_val != 131))
+		else if (WIFEXITED(sig))
 			g_ret_val = WEXITSTATUS(sig);
 		curr = curr->next;
 	}
