@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/23 10:34:10 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/20 08:11:34 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/20 10:45:01 by lbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LDFLAGS = -L$(HOME)/.brew/opt/readline/lib
 
 CPPFLAGS = -I$(HOME)/.brew/opt/readline/include
 
-CFLAGS = -Wall -Wextra -Werror -IIncludes/ $(FFLAGS) 
+CFLAGS = -Wall -Wextra -Werror -IIncludes/ #$(FFLAGS) 
 
 FFLAGS = -fsanitize=address -g
 
@@ -126,9 +126,6 @@ ALL = $(ENV_SRC) $(EXP_SRC) $(LEXER_SRC) $(PARSER_SRC) $(PROMPT_SRC) $(BUILTINS_
 
 ALL_NAME = $(ENV_NAME) $(EXP_NAME) $(LEXER_NAME) $(PARSER_NAME) $(PROMPT_NAME) $(BUILTINS_NAME) $(EXEC_NAME)
 
-
-
-
 $(NAME): $(OBJ)
 		make -C $(LIBFT_DIR)
 		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -g $(LDFLAGS) $(CPPFLAGS) $(RLINE)  -g -o $(NAME)
@@ -148,26 +145,4 @@ fclean: clean
 
 re :	fclean $(NAME)
 
-env : $(ENV_OBJ)
-		make -C $(LIBFT_DIR)
-		$(AR) $(ENV_NAME) $(ENV_OBJ)
-
-parser : $(PARSER_OBJ) $(LEXER_OBJ)
-		make -C $(LIBFT_DIR)
-		$(AR) $(PARSER_NAME) $(LEXER_OBJ) $(PARSER_OBJ)
-
-lexer : $(LEXER_OBJ)
-		make -C $(LIBFT_DIR)
-		$(AR) $(LEXER_NAME) $(LEXER_OBJ)
-
-expander : $(EXP_OBJ) $(ENV_OBJ)
-		make -C $(LIBFT_DIR)
-		$(AR) $(EXP_NAME) $(ENV_OBJ) $(EXP_OBJ)
-
-prompt : $(PROMPT_OBJ) 
-		make -C $(LIBFT_DIR)
-		$(AR) $(PROMPT_NAME) $(PROMPT_OBJ)
-
 .PHONY: all clean fclean re env lexer expander parser
-
-# endif

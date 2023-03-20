@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:16:04 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/20 09:32:11 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/20 10:39:36 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ static void	set_shell_lvl(t_env **l_env, char ***env)
 	free(av);
 }
 
+static void	check_arg(int argc)
+{
+	if (argc > 1)
+	{
+		ft_putendl_fd("Too many arguments", 2);
+		exit(EXIT_FAILURE);
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char			*line;
@@ -46,6 +55,7 @@ int	main(int argc, char **argv, char **env)
 	t_lexer			*lexer;
 	t_simple_cmds	*cmd;
 
+	check_arg(argc);
 	g_ret_val = 0;
 	env = ft_tabdup(env);
 	l_env = env_to_list(env);

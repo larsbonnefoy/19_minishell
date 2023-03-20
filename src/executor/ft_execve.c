@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:27:03 by lbonnefo          #+#    #+#             */
-/*   Updated: 2023/03/20 08:26:27 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/20 10:35:08 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	exec_n_built(t_simple_cmds *cmd, char ***env, t_env **l_env)
 				free(access_path);
 			i++;
 		}
+		free(path_arr);
 	}
-	free(path_arr);
 	ft_putstr_fd("minishell: ", 2);
 	exit(ft_perror(cmd->av[0], ": command not found", 127));
 }
@@ -65,7 +65,7 @@ int	access_exec(char *access_path, t_simple_cmds *cmd, char ***env)
 		if (execve(access_path, cmd->av, *env) == -1)
 		{
 			perror("execve");
-			exit(EXIT_FAILURE);
+			exit(errno);
 		}
 	}
 	return (return_access);

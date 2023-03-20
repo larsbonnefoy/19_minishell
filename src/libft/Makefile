@@ -6,7 +6,7 @@
 #    By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/07 08:14:24 by hdelmas           #+#    #+#              #
-#    Updated: 2023/03/07 08:14:50 by hdelmas          ###   ########.fr        #
+#    Updated: 2023/03/20 10:45:25 by lbonnefo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ BONUSOBJ = $(BONUS:.c=.o)
 
 AR = ar -rcs
 
-CFLAGS = -Wall -Wextra -Werror $(FFLAGS)
+CFLAGS = -Wall -Wextra -Werror #$(FFLAGS)
 
 FFLAGS = -fsanitize=address -g
 
