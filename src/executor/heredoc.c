@@ -6,7 +6,7 @@
 /*   By: hdelmas <hdelmas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 00:15:08 by hdelmas           #+#    #+#             */
-/*   Updated: 2023/03/19 22:30:27 by hdelmas          ###   ########.fr       */
+/*   Updated: 2023/03/20 16:45:02 by lbonnefo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*joinback_n(char *to_write, char *save)
 {
 	char	*tmp;
 
-	tmp = ft_strjoin(save, "\n");
+	tmp = ft_strjoinf(save, "\n");
 	to_write = ft_strjoin_ff(to_write, tmp);
 	return (to_write);
 }
